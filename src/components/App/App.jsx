@@ -1,15 +1,17 @@
 import React from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import stylesApp from './App';
-import './App.css';
+import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+ 
+import StylesApp from './App.module.css';
 
 function App() {
   return (
-    <div className={stylesApp.page}>
+    <div className={StylesApp.page}>
       <AppHeader />
-      <main className={stylesApp.main}>
+      <main className={StylesApp.main}>
         <BurgerIngredients />
+        <BurgerConstructor />
       </main>
     </div>
   );
