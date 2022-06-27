@@ -11,7 +11,6 @@ import stylesHeader from './AppHeader.module.css';
 
 const AppHeader = () => {
   return (
-
     <header className={stylesHeader.header}>
       <nav>
         <ul className={`${stylesHeader.list} pt-4 pb-4`}>
