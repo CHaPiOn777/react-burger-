@@ -1,15 +1,15 @@
 import React from 'react';
 
 import {
-  Tab,
-  Counter
+  Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from '../CardIngredients/CardIngredients';
+import PropTypes from 'prop-types';
 
-import {arr} from '../utils/data'
 
-const BurgerIngredients = () => {
+
+const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
   return (
     <section className={stylesIngredients.section}>
@@ -37,26 +37,25 @@ const BurgerIngredients = () => {
       <div className={stylesIngredients.cards}>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`}>
-          {arr.map((card, index) => {
+          {props.data.map((card) => {
             if (card.type === 'bun') {
-              return <CardIngredients props={card} key={index} />
+              return <CardIngredients props={card} key={card._id} />
             }
           })}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-          {arr.map((card, index) => {
+          {props.data.map((card) => {
             if (card.type === 'sauce') {
-              return <CardIngredients props={card} key={index} />
+              return <CardIngredients props={card} key={card._id} />
             }
           })}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-
-          {arr.map((card, index) => {
+          {props.data.map((card) => {
             if (card.type === 'main') {
-              return <CardIngredients props={card} key={index} />
+              return <CardIngredients props={card} key={card._id} />
             }
           })}
         </div>
@@ -65,5 +64,7 @@ const BurgerIngredients = () => {
   )
 }
 
-
+BurgerIngredients.propTypes ={
+  data: PropTypes.array.isRequired
+}
 export default BurgerIngredients;

@@ -20,10 +20,6 @@ const CardIngredients = ({ props }) => {
 }
 
 CardIngredients.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
+  props: PropTypes.object.isRequired
 }
 export default CardIngredients;

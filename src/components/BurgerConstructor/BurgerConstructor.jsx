@@ -8,9 +8,9 @@ import {
 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
-import { arrConstructor } from '../utils/data';
+
 let summa = 0;
-const BurgerConstructor = () => {
+const BurgerConstructor = (props) => {
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -23,13 +23,12 @@ const BurgerConstructor = () => {
         />
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {arrConstructor.map((el, index) => {
+        {props.data.map((el) => {
           summa = summa + el.price;
           return (
-            <div className={`${stylesConstructor.ingredient}`}>
+            <div className={`${stylesConstructor.ingredient}`} key={el._id}>
               <DragIcon type="primary" />
               <ConstructorElement
-                key={index}
                 text={el.name}
                 price={el.price}
                 thumbnail={el.image}
@@ -59,12 +58,6 @@ const BurgerConstructor = () => {
   )
 }
 BurgerConstructor.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    key: PropTypes.number.isRequired,
-    type: PropTypes.bool.isRequired,
-    text: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-  }),
+  data: PropTypes.array.isRequired
 }
 export default BurgerConstructor;
