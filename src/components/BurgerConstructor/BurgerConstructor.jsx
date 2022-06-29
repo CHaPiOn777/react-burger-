@@ -11,6 +11,19 @@ import stylesConstructor from './BurgerConstructor.module.css';
 
 let summa = 0;
 const BurgerConstructor = (props) => {
+  const [state, setState] = React.useState({
+    data: []
+  });
+  React.useEffect(() => {
+    getElement()
+  }, []);
+  const getElement = () => {
+    setState({ ...state });
+    fetch(props.data)
+      .then(res => res.json())
+      .then(result => setState(result))
+      .catch(e => console.error(e))
+  }
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -23,17 +36,19 @@ const BurgerConstructor = (props) => {
         />
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {props.data.map((el) => {
-          summa = summa + el.price;
-          return (
-            <div className={`${stylesConstructor.ingredient}`} key={el._id}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={el.name}
-                price={el.price}
-                thumbnail={el.image}
-              />
-            </div>)
+        {state.data.map((el) => {
+          if (el.type === "main" || el.type === "sauce") {
+            summa = summa + el.price;
+            return (
+              <div className={`${stylesConstructor.ingredient}`} key={el._id}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  text={el.name}
+                  price={el.price}
+                  thumbnail={el.image}
+                />
+              </div>)
+          }
         })}
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -58,6 +73,6 @@ const BurgerConstructor = (props) => {
   )
 }
 BurgerConstructor.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.string.isRequired
 }
 export default BurgerConstructor;
