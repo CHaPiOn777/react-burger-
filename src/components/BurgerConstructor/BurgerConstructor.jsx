@@ -10,7 +10,8 @@ import {
 import stylesConstructor from './BurgerConstructor.module.css';
 
 let summa = 0;
-const BurgerConstructor = (props) => {
+const BurgerConstructor = ({active, setActive}, props) => {
+
   const [state, setState] = React.useState({
     data: []
   });
@@ -65,7 +66,7 @@ const BurgerConstructor = (props) => {
           {`${summa / 2 + 400}`}
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={() => {setActive(true)}}>
           Оформить заказ
         </Button>
       </div>
