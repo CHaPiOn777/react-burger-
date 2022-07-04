@@ -5,18 +5,19 @@ import {
   DragIcon,
   Button,
   CurrencyIcon
-
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
 
-let summa = 0;
-const BurgerConstructor = ({active, setActive}, props) => {
 
+
+
+const BurgerConstructor  = (props) => {
+  let summa = 0;
   const [state, setState] = React.useState({
     data: []
   });
   React.useEffect(() => {
-    getElement()
+    getElement();
   }, []);
   const getElement = () => {
     setState({ ...state });
@@ -66,7 +67,7 @@ const BurgerConstructor = ({active, setActive}, props) => {
           {`${summa / 2 + 400}`}
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
-        <Button type="primary" size="large" onClick={() => {setActive(true)}}>
+        <Button type="primary" size="large" onClick={() => {props.setActive(true)}}>
           Оформить заказ
         </Button>
       </div>
@@ -74,6 +75,9 @@ const BurgerConstructor = ({active, setActive}, props) => {
   )
 }
 BurgerConstructor.propTypes = {
-  data: PropTypes.string.isRequired
+  optionalObjectWithShape: PropTypes.shape({
+    data: PropTypes.string.isRequired,
+    setActive: PropTypes.func,
+  }),
 }
 export default BurgerConstructor;
