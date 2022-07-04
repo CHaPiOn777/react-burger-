@@ -27,6 +27,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 32px 24px;
+  cursor: pointer;
 }
 
 .cardsItem:ntg {

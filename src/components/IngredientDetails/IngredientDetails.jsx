@@ -16,7 +16,7 @@ const IngredientDetails = (props) => {
         </button>
 
         <h2 className={`${stylesIngredientDetails.title} mt-10 mb-0 ml-10 mr-10 text_type_main-large`}>Детали ингредиента</h2>
-        <img src={props.card.image} alt="" className={`${stylesIngredientDetails.img} mr-4 ml-4`} />
+        <img src={props.card.image} alt={props.card.name} className={`${stylesIngredientDetails.img} mr-4 ml-4`} />
         <h3 className={`mt-4 text text_type_main-medium`}>{props.card.name}</h3>
         <ul className={`${stylesIngredientDetails.list} mt-8 mb-15`}>
           <li className={`${stylesIngredientDetails.listItem}`}>
