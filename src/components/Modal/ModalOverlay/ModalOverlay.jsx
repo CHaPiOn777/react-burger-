@@ -13,18 +13,14 @@ const ModalOverlay = (props) => {
     return () => window.removeEventListener('keydown', close);
   }, [])
   return (
-    <div className={
-      props.active ? `${stylesModalOverlay.popup} ${stylesModalOverlay.active}` : `${stylesModalOverlay.popup}`}
-      onClick={() => props.setActive(false)
-      } >
-        {props.children}
+    <div className={props.active ? `${stylesModalOverlay.popup} ${stylesModalOverlay.active}` : `${stylesModalOverlay.popup}`}
+    onClick={() => props.setActive(false)}>
+      {props.children}
     </div>)
 }
 
 ModalOverlay.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    active: PropTypes.bool,
-    setActive: PropTypes.func
-  }),
+  active: PropTypes.bool,
+  setActive: PropTypes.func
 }
 export default ModalOverlay;

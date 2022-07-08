@@ -7,28 +7,9 @@ import CardIngredients from '../CardIngredients/CardIngredients';
 import PropTypes from 'prop-types';
 
 
-
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
-  const [state, setState] = React.useState({
-    data: []
-  });
-  React.useEffect(() => {
-    getElement()
-  }, []);
 
-  function getElement() {
-    setState({ ...state })
-    fetch(props.data)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setState(result);
-        })
-      .catch(e => {
-        console.error(e)
-      })
-  }
   return (
     <section className={stylesIngredients.section}>
       <h1 className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</h1>
@@ -55,7 +36,7 @@ const BurgerIngredients = (props) => {
       <div className={stylesIngredients.cards}>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`}>
-          {state.data.map((card) => {
+          {props.state.data.map((card) => {
             if (card.type === 'bun') {
               return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
             }
@@ -63,7 +44,7 @@ const BurgerIngredients = (props) => {
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`} >
-          {state.data.map((card) => {
+          {props.state.data.map((card) => {
             if (card.type === 'sauce') {
               return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
             }
@@ -71,7 +52,7 @@ const BurgerIngredients = (props) => {
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-          {state.data.map((card) => {
+          {props.state.data.map((card) => {
             if (card.type === 'main') {
               return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
             }
@@ -83,12 +64,10 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    data: PropTypes.string.isRequired,
+    state: PropTypes.object,
     active: PropTypes.bool,
     setActive: PropTypes.func,
     setData: PropTypes.func,
     key: PropTypes.string
-  }),
 }
 export default BurgerIngredients;

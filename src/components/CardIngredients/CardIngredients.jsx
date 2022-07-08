@@ -1,4 +1,4 @@
-import React from 'react';
+
 import stylesCardIngredients from './CardIngredients.module.css';
 import PropTypes from 'prop-types';
 import {
@@ -20,9 +20,7 @@ const CardIngredients = (props) => {
 }
 
 CardIngredients.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
     active: PropTypes.bool,
     setActive: PropTypes.func
-  }),
 }
 export default CardIngredients;

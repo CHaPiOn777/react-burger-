@@ -4,22 +4,40 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-
+import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
-import { URL_API } from '../utils/data';
+import { getIngredients } from '../utils/burger-api';
+
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
   const [card, setCard] = React.useState({});
+  const [state, setState] = React.useState({
+    data: []
+  });
+  React.useEffect(() => {
+    getElement();
+  }, []);
+
+  const getElement = () => {
+    getIngredients()
+      .then(result => setState(result))
+      .catch(e => console.error(e))
+  }
 
   return (
     <div className={StylesApp.page}>
       <AppHeader />
-      <IngredientDetails card={card} active={popupCard} setActive={setPopupCard} />
-      <OrderDetails active={popupIngredients} setActive={setPopupIngredients} />
+      <Modal active={popupCard} setActive={setPopupCard}>
+        <IngredientDetails card={card} />
+      </Modal>
+      <Modal active={popupIngredients} setActive={setPopupIngredients}>
+        <OrderDetails />
+      </Modal>
+
       <main className={`${StylesApp.main} pl-5 `}>
-        <BurgerIngredients setCard={setCard} data={URL_API} active={popupCard} setActive={setPopupCard}/>
-        <BurgerConstructor data={URL_API} active={popupIngredients} setActive={setPopupIngredients}/>
+        <BurgerIngredients state={state} setCard={setCard} active={popupCard} setActive={setPopupCard} />
+        <BurgerConstructor state={state} active={popupIngredients} setActive={setPopupIngredients} />
       </main>
     </div>
   );

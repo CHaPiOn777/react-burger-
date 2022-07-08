@@ -1,4 +1,4 @@
-import React from 'react';
+
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -13,19 +13,7 @@ import stylesConstructor from './BurgerConstructor.module.css';
 
 const BurgerConstructor  = (props) => {
   let summa = 0;
-  const [state, setState] = React.useState({
-    data: []
-  });
-  React.useEffect(() => {
-    getElement();
-  }, []);
-  const getElement = () => {
-    setState({ ...state });
-    fetch(props.data)
-      .then(res => res.json())
-      .then(result => setState(result))
-      .catch(e => console.error(e))
-  }
+
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -38,7 +26,7 @@ const BurgerConstructor  = (props) => {
         />
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {state.data.map((el) => {
+        {props.state.data.map((el) => {
           if (el.type === "main" || el.type === "sauce") {
             summa = summa + el.price;
             return (
@@ -75,9 +63,7 @@ const BurgerConstructor  = (props) => {
   )
 }
 BurgerConstructor.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    data: PropTypes.string.isRequired,
-    setActive: PropTypes.func,
-  }),
+    state: PropTypes.object,
+    setActive: PropTypes.func
 }
 export default BurgerConstructor;
