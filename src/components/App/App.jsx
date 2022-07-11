@@ -28,12 +28,16 @@ function App() {
   return (
     <div className={StylesApp.page}>
       <AppHeader />
-      <Modal active={popupCard} setActive={setPopupCard}>
-        <IngredientDetails card={card} />
-      </Modal>
-      <Modal active={popupIngredients} setActive={setPopupIngredients}>
-        <OrderDetails />
-      </Modal>
+      {popupCard &&
+        <Modal active={popupCard} setActive={setPopupCard}>
+          <IngredientDetails card={card} />
+        </Modal>
+      }
+      {popupIngredients &&
+        <Modal active={popupIngredients} setActive={setPopupIngredients}>
+          <OrderDetails />
+        </Modal>
+      }
 
       <main className={`${StylesApp.main} pl-5 `}>
         <BurgerIngredients state={state} setCard={setCard} active={popupCard} setActive={setPopupCard} />

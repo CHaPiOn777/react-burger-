@@ -21,13 +21,13 @@ const Modal = (props) => {
   return ReactDOM.createPortal(
     <>
       <div className={props.active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}
-        onClick={() => props.setActive(false)}>
+        >
         <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => props.setActive(false)}>
           <CloseIcon type="primary" />
         </button>
         {props.children}
       </div>
-      <ModalOverlay active={props.active} setActive={props.setActive}></ModalOverlay>
+      <ModalOverlay active={props.active} setActive={props.setActive} onClick={() => props.setActive(false)}></ModalOverlay>
     </>
     , modalRoot)
 }
