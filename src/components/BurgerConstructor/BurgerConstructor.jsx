@@ -1,4 +1,4 @@
-
+import { useEffect, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -7,28 +7,48 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
+import { IngredientsContext } from '../utils/IngredientsContext';
+
+function reducer(data, action) {
+  console.log(data)
+  switch (action.type) {
+    case'price': 
+      return console.log(data)
+    default:
+      return data
+  }
+
+}
 
 
+const BurgerConstructor = (props) => {
+  const { state } = useContext(IngredientsContext);
+  const [total, setTotal] = useState(0);
+  let burgerId = useMemo(() => state.data.map((item) => item._id), [state.data]);
 
+  const filling = useMemo(() => state.data.filter((item) => item.type !=='bun'), [state.data]);
+  const bunFilter = useMemo(
+    () => state.data.find((item) => item.type === 'bun')
+  );
 
-const BurgerConstructor  = (props) => {
-  let summa = 0;
-
+  useEffect(() => {
+    const totalPrice = filling.reduce((sum, item) => sum + item.price, bunFilter ? (bunFilter.price * 2) : 0)
+    setTotal(totalPrice)
+  }, [bunFilter, filling])
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        <ConstructorElement
+        {bunFilter && <ConstructorElement
           type="top"
           isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-        />
+          text={`${bunFilter.name} (вверх)`}
+          price={bunFilter.price}
+          thumbnail={bunFilter.image}
+        />}
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {props.state.data.map((el) => {
+        {state.data.map((el) => {
           if (el.type === "main" || el.type === "sauce") {
-            summa = summa + el.price;
             return (
               <div className={`${stylesConstructor.ingredient}`} key={el._id}>
                 <DragIcon type="primary" />
@@ -42,20 +62,23 @@ const BurgerConstructor  = (props) => {
         })}
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        <ConstructorElement
+        {bunFilter && <ConstructorElement
           type="bottom"
           isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-        />
+          text={`${bunFilter.name} (низ)`}
+          price={bunFilter.price}
+          thumbnail={bunFilter.image}
+        />}
       </div>
       <div className={`${stylesConstructor.order} mt-6`}>
         <p className={`text text_type_digits-medium`}>
-          {`${summa / 2 + 400}`}
+          {total}
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
-        <Button type="primary" size="large" onClick={() => {props.setActive(true)}}>
+        <Button type="primary" size="large" onClick={() => {
+          props.setActive(true);
+          props.getOrder(burgerId)
+        }}>
           Оформить заказ
         </Button>
       </div>
@@ -63,7 +86,8 @@ const BurgerConstructor  = (props) => {
   )
 }
 BurgerConstructor.propTypes = {
-    state: PropTypes.object,
-    setActive: PropTypes.func
+  total: PropTypes.number,
+  state: PropTypes.object,
+  setActive: PropTypes.func
 }
 export default BurgerConstructor;
