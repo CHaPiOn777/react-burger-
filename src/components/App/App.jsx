@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -8,6 +8,8 @@ import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
 import { getIngredients, getOrders } from '../utils/burger-api';
 import { IngredientsContext } from '../utils/IngredientsContext';
+import { getElement } from '../../services/action/listIgredientsAction';
+import { useDispatch } from 'react-redux';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
@@ -30,14 +32,12 @@ function App() {
       .catch(e => console.error(e))
   };
 
-  const getElement = () => {
-    getIngredients()
-      .then(result => setState(result))
-      .catch(e => console.error(e))
-  }
-  React.useEffect(() => {
-    getElement();
-  }, []);
+  //получили ингредиенты с сервера
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getElement())
+  }, [dispatch]);
+
 
   return (
     <div className={StylesApp.page}>
@@ -52,12 +52,12 @@ function App() {
           <OrderDetails props={orderNumber}/>
         </Modal>
       }
-      <IngredientsContext.Provider value={ {state, setState} }>
+
         <main className={`${StylesApp.main} pl-5 `}>
           <BurgerIngredients setCard={setCard} active={popupCard} setActive={setPopupCard} />
           <BurgerConstructor active={popupIngredients} setActive={setPopupIngredients} getOrder={getOrdersElem} />
         </main>
-      </IngredientsContext.Provider>
+
     </div>
   );
 }

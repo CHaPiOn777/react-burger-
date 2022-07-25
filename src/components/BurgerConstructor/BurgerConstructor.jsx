@@ -8,33 +8,24 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
 import { IngredientsContext } from '../utils/IngredientsContext';
-
-function reducer(data, action) {
-  console.log(data)
-  switch (action.type) {
-    case'price': 
-      return console.log(data)
-    default:
-      return data
-  }
-
-}
+import { useSelector } from 'react-redux';
 
 
 const BurgerConstructor = (props) => {
-  const { state } = useContext(IngredientsContext);
+  const state = useSelector(store => store.listIgredients.feed);
   const [total, setTotal] = useState(0);
-  let burgerId = useMemo(() => state.data.map((item) => item._id), [state.data]);
 
-  const filling = useMemo(() => state.data.filter((item) => item.type !=='bun'), [state.data]);
+  let burgerId = useMemo(() => state.map((item) => item._id), [state]);
+  const filling = useMemo(() => state.filter((item) => item.type !=='bun'), [state]);
   const bunFilter = useMemo(
-    () => state.data.find((item) => item.type === 'bun')
+    () => state.find((item) => item.type === 'bun')
   );
 
   useEffect(() => {
     const totalPrice = filling.reduce((sum, item) => sum + item.price, bunFilter ? (bunFilter.price * 2) : 0)
     setTotal(totalPrice)
   }, [bunFilter, filling])
+
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -47,7 +38,7 @@ const BurgerConstructor = (props) => {
         />}
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {state.data.map((el) => {
+        {state.map((el) => {
           if (el.type === "main" || el.type === "sauce") {
             return (
               <div className={`${stylesConstructor.ingredient}`} key={el._id}>

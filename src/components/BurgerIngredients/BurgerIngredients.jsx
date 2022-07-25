@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo, useEffect } from 'react';
 import {
   Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,10 +6,19 @@ import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from '../CardIngredients/CardIngredients';
 import PropTypes from 'prop-types';
 import { IngredientsContext } from '../utils/IngredientsContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { listIgredientsReducer } from '../../services/reducers/listIgredientsReducer';
+import { getIngredients } from '../utils/burger-api';
+import { getElement} from '../../services/action/listIgredientsAction';
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
-  const {state} = useContext(IngredientsContext);
+  const state = useSelector(store => store.listIgredients.feed);
+
+
+  const bun = useMemo(() => state.filter((item) => item.type === 'bun'), [state]);
+  const sauce = useMemo(() => state.filter((item) => item.type === 'sauce'), [state]);
+  const main = useMemo(() => state.filter((item) => item.type === 'main'), [state]);
 
   return (
     <section className={stylesIngredients.section}>
@@ -37,26 +46,36 @@ const BurgerIngredients = (props) => {
       <div className={stylesIngredients.cards}>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`}>
-          {state.data.map((card) => {
-            if (card.type === 'bun') {
-              return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
-            }
+          {bun.map((card) => {
+            return <CardIngredients
+              card={card}
+              key={card._id}
+              active={props.active}
+              setActive={props.setActive}
+              setData={props.setCard} />
           })}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`} >
-          {state.data.map((card) => {
-            if (card.type === 'sauce') {
-              return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
-            }
-          })}
+          {sauce.map((card) => {
+            return <CardIngredients
+              card={card}
+              key={card._id}
+              active={props.active}
+              setActive={props.setActive}
+              setData={props.setCard} />
+          }
+          )}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-          {state.data.map((card) => {
-            if (card.type === 'main') {
-              return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
-            }
+          {main.map((card) => {
+            return <CardIngredients
+              card={card}
+              key={card._id}
+              active={props.active}
+              setActive={props.setActive}
+              setData={props.setCard} />
           })}
         </div>
       </div>
@@ -65,10 +84,10 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    state: PropTypes.object,
-    active: PropTypes.bool,
-    setActive: PropTypes.func,
-    setState: PropTypes.func,
-    key: PropTypes.string
+  state: PropTypes.object,
+  active: PropTypes.bool,
+  setActive: PropTypes.func,
+  setState: PropTypes.func,
+  key: PropTypes.string
 }
 export default BurgerIngredients;
