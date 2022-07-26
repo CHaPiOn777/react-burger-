@@ -17,9 +17,7 @@ const BurgerConstructor = (props) => {
 
   let burgerId = useMemo(() => state.map((item) => item._id), [state]);
   const filling = useMemo(() => state.filter((item) => item.type !=='bun'), [state]);
-  const bunFilter = useMemo(
-    () => state.find((item) => item.type === 'bun')
-  );
+  const bunFilter = useMemo(() => state.find((item) => item.type === 'bun'), [state]);
 
   useEffect(() => {
     const totalPrice = filling.reduce((sum, item) => sum + item.price, bunFilter ? (bunFilter.price * 2) : 0)
