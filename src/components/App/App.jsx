@@ -15,9 +15,6 @@ function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
   const [card, setCard] = React.useState({});
-  const [state, setState] = React.useState({
-    data: []
-  });
   const [orderNumber, setOrderNumber] = React.useState({
     name: '',
     order: {
