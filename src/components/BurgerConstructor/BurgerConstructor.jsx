@@ -8,15 +8,31 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
 import { IngredientsContext } from '../utils/IngredientsContext';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { UPDATE_TYPE } from '../../services/action/dropAction';
 
 
 const BurgerConstructor = (props) => {
+  const dispatch = useDispatch();
   const state = useSelector(store => store.listIgredients.feed);
+  const ingredients = useSelector(store => store.dropReducer.feed);
+
+
   const [total, setTotal] = useState(0);
 
+  const [{ isCount }, dropTarget] = useDrop({
+
+    accept: 'ingredients',
+    drop(item) {
+      dispatch({
+        type: UPDATE_TYPE,
+        ...item,
+      })
+    },
+  })
   let burgerId = useMemo(() => state.map((item) => item._id), [state]);
-  const filling = useMemo(() => state.filter((item) => item.type !=='bun'), [state]);
+  const filling = useMemo(() => state.filter((item) => item.type !== 'bun'), [state]);
   const bunFilter = useMemo(() => state.find((item) => item.type === 'bun'), [state]);
 
   useEffect(() => {
@@ -25,7 +41,7 @@ const BurgerConstructor = (props) => {
   }, [bunFilter, filling])
 
   return (
-    <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
+    <section className={`${stylesConstructor.constructor} mt-25 ml-10`} ref={dropTarget}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
         {bunFilter && <ConstructorElement
           type="top"
@@ -35,20 +51,21 @@ const BurgerConstructor = (props) => {
           thumbnail={bunFilter.image}
         />}
       </div>
-      <div className={`${stylesConstructor.topings}`}>
-        {state.map((el) => {
-          if (el.type === "main" || el.type === "sauce") {
-            return (
-              <div className={`${stylesConstructor.ingredient}`} key={el._id}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={el.name}
-                  price={el.price}
-                  thumbnail={el.image}
-                />
-              </div>)
-          }
-        })}
+      <div className={`${stylesConstructor.topings}`} >
+        {ingredients.map(item => {
+          return (
+            <div className={`${stylesConstructor.ingredient}`} key={item._id}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                type={item.type}
+                isLocked={false}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+            )})}
+
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
         {bunFilter && <ConstructorElement
