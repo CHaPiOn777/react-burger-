@@ -1,7 +1,7 @@
 import React from 'react';
 import stylesOrderDetails from './OrderDetails.module.css';
 import PropTypes from 'prop-types';
-import successImg from '../../image/done.jpg'
+import successImg from '../../../image/done.jpg'
 
 
 const OrderDetails = ({props}) => {
