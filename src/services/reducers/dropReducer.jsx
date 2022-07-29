@@ -7,7 +7,6 @@ const initialState = {
 };
 
 export const dropReducer = (state = initialState, action) => {
-  console.log(state.feed)
   switch (action.type) {
 
     case UPDATE_TYPE: {

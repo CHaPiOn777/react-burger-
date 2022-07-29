@@ -11,13 +11,13 @@ import { IngredientsContext } from '../utils/IngredientsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { UPDATE_TYPE } from '../../services/action/dropAction';
+import { COUNT } from '../../services/action/listIgredientsAction';
 
 
 const BurgerConstructor = (props) => {
   const dispatch = useDispatch();
   const state = useSelector(store => store.listIgredients.feed);
   const ingredients = useSelector(store => store.dropReducer.feed);
-
 
   const [total, setTotal] = useState(0);
 

@@ -30,7 +30,7 @@ function App() {
       .then(res => setOrderNumber(res))
       .catch(e => console.error(e))
   };
-  console.log(orderNumber)
+  
   //получили ингредиенты с сервера
   const dispatch = useDispatch();
   useEffect(() => {
