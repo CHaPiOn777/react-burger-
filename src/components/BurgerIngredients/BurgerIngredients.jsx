@@ -73,7 +73,6 @@ const BurgerIngredients = (props) => {
             return <CardIngredients
               count={count}
               card={card}
-              item={card._id}
               key={card._id}
               active={props.active}
               setActive={props.setActive}

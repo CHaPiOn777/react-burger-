@@ -10,7 +10,7 @@ import stylesConstructor from './BurgerConstructor.module.css';
 import { IngredientsContext } from '../utils/IngredientsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { UPDATE_TYPE } from '../../services/action/dropAction';
+import { DELETE_ITEM, UPDATE_TYPE } from '../../services/action/dropAction';
 import { COUNT } from '../../services/action/listIgredientsAction';
 
 
@@ -18,7 +18,8 @@ const BurgerConstructor = (props) => {
   const dispatch = useDispatch();
   const state = useSelector(store => store.listIgredients.feed);
   const ingredients = useSelector(store => store.dropReducer.feed);
-
+  console.log(ingredients)
+  let timeId = new Date().toLocaleTimeString();
   const [total, setTotal] = useState(0);
 
   const [{ isCount }, dropTarget] = useDrop({
@@ -27,14 +28,20 @@ const BurgerConstructor = (props) => {
     drop(item) {
       dispatch({
         type: UPDATE_TYPE,
-        ...item,
+        data: {...item, id: Date.now()}
       })
     },
   })
   let burgerId = useMemo(() => state.map((item) => item._id), [state]);
   const filling = useMemo(() => state.filter((item) => item.type !== 'bun'), [state]);
   const bunFilter = useMemo(() => state.find((item) => item.type === 'bun'), [state]);
+  const deleteItem = (id) => {
+    dispatch({
+      type: DELETE_ITEM,
+      id: id
 
+    })
+  }
   useEffect(() => {
     const totalPrice = filling.reduce((sum, item) => sum + item.price, bunFilter ? (bunFilter.price * 2) : 0)
     setTotal(totalPrice)
@@ -54,21 +61,25 @@ const BurgerConstructor = (props) => {
       <div className={`${stylesConstructor.topings}`} >
         {ingredients.map(item => {
           return (
-            <div className={`${stylesConstructor.ingredient}`} key={item._id}>
+            <div className={`${stylesConstructor.ingredient}`} key={item.id}>
               <DragIcon type="primary" />
               <ConstructorElement
-                type={item.type}
+                type={item.card.type}
                 isLocked={false}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
+                text={item.card.name}
+                price={item.card.price}
+                thumbnail={item.card.image}
+                handleClose={() => deleteItem(item.id)}
               />
             </div>
-            )})}
+          )
+        })}
 
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
         {bunFilter && <ConstructorElement
+
+          
           type="bottom"
           isLocked={true}
           text={`${bunFilter.name} (низ)`}
