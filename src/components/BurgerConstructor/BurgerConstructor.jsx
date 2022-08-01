@@ -28,7 +28,7 @@ const BurgerConstructor = (props) => {
     drop(item) {
       dispatch({
         type: UPDATE_TYPE,
-        data: {...item, id: Date.now()}
+        data: { ...item, id: Date.now() }
       })
     },
   })
@@ -39,7 +39,6 @@ const BurgerConstructor = (props) => {
     dispatch({
       type: DELETE_ITEM,
       id: id
-
     })
   }
   useEffect(() => {
@@ -78,8 +77,6 @@ const BurgerConstructor = (props) => {
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
         {bunFilter && <ConstructorElement
-
-          
           type="bottom"
           isLocked={true}
           text={`${bunFilter.name} (низ)`}

@@ -9,6 +9,7 @@ import { useDrag } from 'react-dnd';
 import { stringify as uuidStringify } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
+
 const CardIngredients = (props) => {
   const { count, card, active, setActive, setData } = props
   const ingredients = useSelector(store => store.dropReducer.feed);
@@ -26,7 +27,8 @@ const CardIngredients = (props) => {
     () =>
       (count = 0) => {
         for (let item of ingredients) {
-          if (item._id === card._id) count++;
+          console.log(item, card)
+          if (item.card._id === card._id) count++;
         }
         return count
         // if (bun && bun._id === _id) return 2;
