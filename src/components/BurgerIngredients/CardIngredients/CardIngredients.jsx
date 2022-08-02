@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
 
 const CardIngredients = (props) => {
-  const { count, card, active, setActive, setData } = props
+  const { card, setActive, setData } = props
   const ingredients = useSelector(store => store.dropReducer.feed);
+  const bun = useSelector(store => store.dropReducer.bun);
   const dispatch = useDispatch();
 
   const [{ opacity }, dragRef] = useDrag({
@@ -27,14 +28,14 @@ const CardIngredients = (props) => {
     () =>
       (count = 0) => {
         for (let item of ingredients) {
-          console.log(item, card)
           if (item.card._id === card._id) count++;
         }
+        if ((bun.length !== 0) && (bun.card._id === card._id)) count = count + 2;
         return count
         // if (bun && bun._id === _id) return 2;
         // return count;
       },
-    [ingredients]
+    [ingredients, bun]
   );
   return (
     <div className={`${stylesCardIngredients.card} `}

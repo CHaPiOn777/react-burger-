@@ -1,4 +1,4 @@
-import { ADD_COUNT, DELETE_ITEM, UPDATE_TYPE } from "../action/dropAction"
+import { ADD_COUNT, DELETE_ITEM, ADD_INGREDIENTS } from "../action/dropAction"
 import { GET_FEED_SUCCESS } from "../action/listIgredientsAction";
 const initialState = {
   feed: [],
@@ -7,10 +7,11 @@ const initialState = {
 
 export const dropReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_TYPE: {
+    case ADD_INGREDIENTS: {
       return {
         ...state,
-        feed: [...state.feed, action.data]
+        bun: action.data.card.type === 'bun' ? action.data : {...state.bun},
+        feed: action.data.card.type !== 'bun' ? [...state.feed, action.data] : [...state.feed]
       }
     }
 

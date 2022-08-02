@@ -10,7 +10,7 @@ import stylesConstructor from './BurgerConstructor.module.css';
 import { IngredientsContext } from '../utils/IngredientsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { DELETE_ITEM, UPDATE_TYPE } from '../../services/action/dropAction';
+import { DELETE_ITEM, ADD_INGREDIENTS } from '../../services/action/dropAction';
 import { COUNT } from '../../services/action/listIgredientsAction';
 
 
@@ -18,8 +18,7 @@ const BurgerConstructor = (props) => {
   const dispatch = useDispatch();
   const state = useSelector(store => store.listIgredients.feed);
   const ingredients = useSelector(store => store.dropReducer.feed);
-  console.log(ingredients)
-  let timeId = new Date().toLocaleTimeString();
+  const bun = useSelector(store => store.dropReducer.bun);
   const [total, setTotal] = useState(0);
 
   const [{ isCount }, dropTarget] = useDrop({
@@ -27,7 +26,7 @@ const BurgerConstructor = (props) => {
     accept: 'ingredients',
     drop(item) {
       dispatch({
-        type: UPDATE_TYPE,
+        type: ADD_INGREDIENTS,
         data: { ...item, id: Date.now() }
       })
     },
@@ -49,18 +48,20 @@ const BurgerConstructor = (props) => {
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`} ref={dropTarget}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        {bunFilter && <ConstructorElement
+        {bun.length !== 0 
+        ? <ConstructorElement
           type="top"
           isLocked={true}
-          text={`${bunFilter.name} (вверх)`}
-          price={bunFilter.price}
-          thumbnail={bunFilter.image}
-        />}
+          text={`${bun.card.name} (вверх)`}
+          price={bun.card.price}
+          thumbnail={bun.card.image}
+        />
+      : <p className={`${stylesConstructor.bun}`}>Выберите булочку для бургера</p>}
       </div>
       <div className={`${stylesConstructor.topings}`} >
         {ingredients.map(item => {
           return (
-            <div className={`${stylesConstructor.ingredient}`} key={item.id}>
+            <div className={`${stylesConstructor.ingredient} mr-2`} key={item.id}>
               <DragIcon type="primary" />
               <ConstructorElement
                 type={item.card.type}
@@ -76,12 +77,12 @@ const BurgerConstructor = (props) => {
 
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        {bunFilter && <ConstructorElement
+      {bun.length !== 0 && <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={`${bunFilter.name} (низ)`}
-          price={bunFilter.price}
-          thumbnail={bunFilter.image}
+          text={`${bun.card.name} (низ)`}
+          price={bun.card.price}
+          thumbnail={bun.card.image}
         />}
       </div>
       <div className={`${stylesConstructor.order} mt-6`}>

@@ -71,10 +71,8 @@ const BurgerIngredients = (props) => {
           {bun.map((card) => {
 
             return <CardIngredients
-              count={count}
               card={card}
               key={card._id}
-              active={props.active}
               setActive={props.setActive}
               setData={props.setCard} />
           })}
@@ -83,10 +81,8 @@ const BurgerIngredients = (props) => {
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
           {sauce.map((card) => {
             return <CardIngredients
-              count={count}
               card={card}
               key={card._id}
-              active={props.active}
               setActive={props.setActive}
               setData={props.setCard} />
           }
@@ -96,10 +92,8 @@ const BurgerIngredients = (props) => {
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
           {main.map((card) => {
             return <CardIngredients
-              count={count}
               card={card}
               key={card._id}
-              active={props.active}
               setActive={props.setActive}
               setData={props.setCard} />
           })}
@@ -111,7 +105,6 @@ const BurgerIngredients = (props) => {
 
 BurgerIngredients.propTypes = {
   state: PropTypes.object,
-  active: PropTypes.bool,
   setActive: PropTypes.func,
   setState: PropTypes.func,
   key: PropTypes.string
