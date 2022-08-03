@@ -30,10 +30,8 @@ const CardIngredients = (props) => {
         for (let item of ingredients) {
           if (item.card._id === card._id) count++;
         }
-        if ((bun.length !== 0) && (bun.card._id === card._id)) count = count + 2;
+        if ((bun.length !== 0) && (bun[0].card._id === card._id)) count = count + 2;
         return count
-        // if (bun && bun._id === _id) return 2;
-        // return count;
       },
     [ingredients, bun]
   );

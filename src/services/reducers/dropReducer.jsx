@@ -7,10 +7,12 @@ const initialState = {
 
 export const dropReducer = (state = initialState, action) => {
   switch (action.type) {
+    
     case ADD_INGREDIENTS: {
+    
       return {
         ...state,
-        bun: action.data.card.type === 'bun' ? action.data : {...state.bun},
+        bun: action.data.card.type === 'bun' ? [action.data] : [...state.bun],
         feed: action.data.card.type !== 'bun' ? [...state.feed, action.data] : [...state.feed]
       }
     }
