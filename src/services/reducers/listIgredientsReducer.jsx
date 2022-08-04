@@ -1,4 +1,4 @@
-import { ADD_INGREDIENTS } from "../action/dropAction";
+import { ADD_INGREDIENT } from "../action/dropAction";
 import { COUNT, GET_FEED, GET_FEED_FAILED, GET_FEED_SUCCESS } from "../action/listIgredientsAction";
 
 const initialState = {

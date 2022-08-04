@@ -10,8 +10,7 @@ import { stringify as uuidStringify } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
 
-const CardIngredients = (props) => {
-  const { card, setActive, setData } = props
+const CardIngredients = ({ card, setActive, setData }) => {
   const ingredients = useSelector(store => store.dropReducer.feed);
   const bun = useSelector(store => store.dropReducer.bun);
   const dispatch = useDispatch();
@@ -36,7 +35,7 @@ const CardIngredients = (props) => {
     [ingredients, bun]
   );
   return (
-    <div className={`${stylesCardIngredients.card} `}
+    <li className={`${stylesCardIngredients.card} `}
       ref={dragRef}
       style={{ opacity }}
       onClick={
@@ -55,7 +54,7 @@ const CardIngredients = (props) => {
         <span className='ml-2'><CurrencyIcon type="primary" /></span>
       </p>
       <p className={`${stylesCardIngredients.name} text text_type_main-default`}>{card.name}</p>
-    </div>
+    </li>
   )
 }
 
