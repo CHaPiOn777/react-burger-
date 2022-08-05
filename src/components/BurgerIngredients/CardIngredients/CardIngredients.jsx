@@ -1,4 +1,4 @@
-
+import React from 'react';
 import stylesCardIngredients from './CardIngredients.module.css';
 import PropTypes from 'prop-types';
 import {
@@ -6,13 +6,14 @@ import {
   Counter
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { stringify as uuidStringify } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 
-const CardIngredients = ({ card, setActive, setData }) => {
-  const ingredients = useSelector(store => store.dropReducer.feed);
-  const bun = useSelector(store => store.dropReducer.bun);
+const CardIngredients = ({ card, setActive }) => {
+  const ingredients = useSelector(store => store.constructorReducer.feed);
+  const bun = useSelector(store => store.constructorReducer.bun);
+
   const dispatch = useDispatch();
 
   const [{ opacity }, dragRef] = useDrag({
@@ -22,7 +23,12 @@ const CardIngredients = ({ card, setActive, setData }) => {
       opacity: monitor.isDragging() ? 0.5 : 1
     })
   })
-
+  const getItemInfo = (item) => {
+    dispatch ({
+      type: POPUP_ITEM,
+      item: item
+    })
+  }
   const counter = useMemo(
     () =>
       (count = 0) => {
@@ -39,7 +45,7 @@ const CardIngredients = ({ card, setActive, setData }) => {
       ref={dragRef}
       style={{ opacity }}
       onClick={
-        () => { setActive(true); setData(card) }
+        () => { setActive(true); getItemInfo(card) }
       }
     >
       <img src={card.image}
@@ -59,7 +65,7 @@ const CardIngredients = ({ card, setActive, setData }) => {
 }
 
 CardIngredients.propTypes = {
-  active: PropTypes.bool,
+  card: PropTypes.object,
   setActive: PropTypes.func
 }
-export default CardIngredients;
+export default React.memo (CardIngredients);

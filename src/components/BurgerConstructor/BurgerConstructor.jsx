@@ -1,28 +1,26 @@
-import { useEffect, useContext, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
-  DragIcon,
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
-import { IngredientsContext } from '../utils/IngredientsContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDrag, useDrop } from 'react-dnd';
-import { DELETE_ITEM, ADD_INGREDIENT, CHANGE_ITEM } from '../../services/action/dropAction';
-import { COUNT } from '../../services/action/listIgredientsAction';
-import { BurgerConstructorItem } from './BurgerConstrucntorItem/BurgerConstructorItem';
-import { isTemplateMiddle } from 'typescript';
+import { useDrop } from 'react-dnd';
+import { ADD_INGREDIENT } from '../../services/action/constructorAction';
+import BurgerConstructorItem from './BurgerConstrucntorItem/BurgerConstructorItem';
+import { getOrderAction } from '../../services/action/orderDetailsAction';
 
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = ({ setActive }) => {
   const dispatch = useDispatch();
-  const state = useSelector(store => store.listIgredients.feed);
-  const ingredients = useSelector(store => store.dropReducer.feed);
-  const bun = useSelector(store => store.dropReducer.bun);
+  const ingredients = useSelector(store => store.constructorReducer.feed);
+  const allIngredients = useSelector(store => store.constructorReducer.ingredients);
+  const bun = useSelector(store => store.constructorReducer.bun);
   const [total, setTotal] = useState(0);
-  const [{ isCount }, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
 
     accept: 'ingredients',
     drop(item) {
@@ -34,14 +32,18 @@ const BurgerConstructor = (props) => {
   })
 
 
-  let burgerId = useMemo(() => state.map((item) => item._id), [state]);
-  const filling = useMemo(() => state.filter((item) => item.type !== 'bun'), [state]);
-  const bunFilter = useMemo(() => state.find((item) => item.type === 'bun'), [state]);
+  let burgerId = useMemo(() => allIngredients.map((item) => item.card._id), [allIngredients]);
+  const orderDispatch = (id) => {
+    dispatch(getOrderAction(id))
+  }
 
   useEffect(() => {
-    const totalPrice = filling.reduce((sum, item) => sum + item.price, bunFilter ? (bunFilter.price * 2) : 0)
+    
+    const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
+    const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
+    const totalPrice = bunPrice + ingredientsPrice;
     setTotal(totalPrice)
-  }, [bunFilter, filling])
+  }, [ingredients, bun])
 
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`} ref={dropTarget}>
@@ -84,8 +86,8 @@ const BurgerConstructor = (props) => {
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
         <Button type="primary" size="large" onClick={() => {
-          props.setActive(true);
-          props.getOrder(burgerId)
+          setActive(true);
+          orderDispatch(burgerId)
         }}>
           Оформить заказ
         </Button>
@@ -94,8 +96,6 @@ const BurgerConstructor = (props) => {
   )
 }
 BurgerConstructor.propTypes = {
-  total: PropTypes.number,
-  state: PropTypes.object,
   setActive: PropTypes.func
 }
-export default BurgerConstructor;
+export default React.memo (BurgerConstructor);

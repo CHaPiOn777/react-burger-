@@ -1,27 +1,28 @@
-import { GET_FEED, GET_FEED_FAILED, GET_FEED_SUCCESS } from "../action/listIgredientsAction";
+import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS } from "../action/orderDetailsAction"
 
 const initialState = {
   feedRequest: true,
   feedFailed: false,
-  feed: [],
-};
-export const listIgredientsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GET_FEED: {
+  order: []
+}
+
+export const orderDetailsReduser = ( state = initialState, action ) => {
+  switch(action.type) {
+    case GET_ORDER: {
       return {
         ...state,
         feedRequest: true,
         feedFailed: false
       }
     }
-    case GET_FEED_SUCCESS: {
+    case GET_ORDER_SUCCESS: {
       return {
         ...state,
-        feed: action.feed,
+        order: action.order,
         feedRequest: false
       }
     }
-    case GET_FEED_FAILED: {
+    case GET_ORDER_FAILED: {
       return {
         ...state,
         feedFailed: true,

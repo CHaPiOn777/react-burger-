@@ -8,11 +8,11 @@ import ModalOverlay from './ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
 const modalRoot = document.querySelector('#modal');
 
-const Modal = (props) => {
+const Modal = ({active, setActive, children}) => {
   React.useEffect(() => {
     const close = (e) => {
       if (e.keyCode === 27) {
-        props.setActive(false)
+        setActive(false)
       }
     }
     window.addEventListener('keydown', close);
@@ -20,14 +20,14 @@ const Modal = (props) => {
   }, [])
   return ReactDOM.createPortal(
     <>
-      <div className={props.active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}
+      <div className={active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}
         >
-        <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => props.setActive(false)}>
+        <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => setActive(false)}>
           <CloseIcon type="primary" />
         </button>
-        {props.children}
+        {children}
       </div>
-      <ModalOverlay active={props.active} setActive={props.setActive} onClick={() => props.setActive(false)}></ModalOverlay>
+      <ModalOverlay active={active} setActive={setActive} onClick={() => setActive(false)}></ModalOverlay>
     </>
     , modalRoot)
 }

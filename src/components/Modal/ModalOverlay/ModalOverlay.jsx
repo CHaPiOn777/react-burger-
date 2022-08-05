@@ -1,10 +1,10 @@
 import stylesModalOverlay from './ModalOverlay.module.css';
 import PropTypes from 'prop-types';
 
-const ModalOverlay = (props) => {
+const ModalOverlay = ({ active, setActive }) => {
   return (
-    <div className={props.active ? `${stylesModalOverlay.popup} ${stylesModalOverlay.active}` : `${stylesModalOverlay.popup}`}
-    onClick={() => props.setActive(false)}>
+    <div className={active ? `${stylesModalOverlay.popup} ${stylesModalOverlay.active}` : `${stylesModalOverlay.popup}`}
+    onClick={() => setActive(false)}>
     </div>)
 }
 

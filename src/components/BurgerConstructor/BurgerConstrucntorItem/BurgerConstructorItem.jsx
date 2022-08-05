@@ -1,17 +1,18 @@
 import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import stylesConstructor from './BurgerConstructorItem.module.css';
 import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CHANGE_ITEM, DELETE_ITEM } from '../../../services/action/dropAction';
+import { CHANGE_ITEM, DELETE_ITEM } from '../../../services/action/constructorAction';
 
 
-export const BurgerConstructorItem = ({type, id, image, price, name, index}) => {
+const BurgerConstructorItem = ({type, id, image, price, name, index}) => {
   const dispatch = useDispatch();
-  const ingredients = useSelector(store => store.dropReducer.feed);
+  const ingredients = useSelector(store => store.constructorReducer.feed);
   const ref = useRef(null);
 
   const [{ opacity }, dragRef] = useDrag({
@@ -57,3 +58,12 @@ export const BurgerConstructorItem = ({type, id, image, price, name, index}) => 
     </>
   );
 };
+BurgerConstructorItem.propTypes = {
+  type: PropTypes.string,
+  id: PropTypes.number,
+  image: PropTypes.string,
+  price: PropTypes.number,
+  name: PropTypes.string,
+  index: PropTypes.number
+}
+export default React.memo (BurgerConstructorItem)

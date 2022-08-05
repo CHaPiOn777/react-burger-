@@ -1,11 +1,12 @@
 import { combineReducers } from "redux";
-import { dropReducer } from "./dropReducer";
+import { constructorReducer } from "./constructorReducer";
+import { IngredientDetailsReducer } from "./IngredientDetailsReducer";
 import { listIgredientsReducer } from "./listIgredientsReducer";
+import { orderDetailsReduser } from "./orderDetailsReduser";
 
 export const rootReducer = combineReducers({
   listIgredients: listIgredientsReducer,
-  dropReducer: dropReducer
-  // listCurrentIgredients: listCurrentIgredientsReducer,
-  // objCurrentIngredients: objCurrentIngredientsReducer,
-  // objNewOrder: objNewOrderReducer
+  constructorReducer: constructorReducer,
+  IngredientDetailsReducer: IngredientDetailsReducer,
+  orderDetailsReduser: orderDetailsReduser
 })

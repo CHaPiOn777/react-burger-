@@ -1,20 +1,17 @@
-import React, { useContext, useMemo, useEffect, useRef } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import {
   Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from './CardIngredients/CardIngredients';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { useDrag } from 'react-dnd';
-
-import { stringify as uuidStringify } from 'uuid';
+import { useSelector } from 'react-redux';
 
 
-const BurgerIngredients = (props) => {
+
+const BurgerIngredients = ({ setActive }) => {
   const [current, setCurrent] = React.useState('one');
   const state = useSelector(store => store.listIgredients.feed);
-  const count = Number;
 
   const bun = useMemo(() => state.filter((item) => item.type === 'bun'), [state]);
   const sauce = useMemo(() => state.filter((item) => item.type === 'sauce'), [state]);
@@ -69,12 +66,10 @@ const BurgerIngredients = (props) => {
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={bunRef}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`} >
           {bun.map((card) => {
-
             return <CardIngredients
               card={card}
               key={card._id}
-              setActive={props.setActive}
-              setData={props.setCard} />
+              setActive={setActive} />
           })}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={sauceRef}>Соусы</h2>
@@ -83,8 +78,7 @@ const BurgerIngredients = (props) => {
             return <CardIngredients
               card={card}
               key={card._id}
-              setActive={props.setActive}
-              setData={props.setCard} />
+              setActive={setActive} />
           }
           )}
         </div>
@@ -94,8 +88,7 @@ const BurgerIngredients = (props) => {
             return <CardIngredients
               card={card}
               key={card._id}
-              setActive={props.setActive}
-              setData={props.setCard} />
+              setActive={setActive} />
           })}
         </div>
       </div>
@@ -104,9 +97,6 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-  state: PropTypes.object,
-  setActive: PropTypes.func,
-  setState: PropTypes.func,
-  key: PropTypes.string
+  setActive: PropTypes.func
 }
-export default BurgerIngredients;
+export default React.memo(BurgerIngredients);

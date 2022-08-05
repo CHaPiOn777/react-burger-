@@ -1,15 +1,16 @@
-import { ADD_COUNT, DELETE_ITEM, ADD_INGREDIENT, CHANGE_ITEM } from "../action/dropAction"
-import { GET_FEED_SUCCESS } from "../action/listIgredientsAction";
+import { DELETE_ITEM, ADD_INGREDIENT, CHANGE_ITEM } from "../action/constructorAction"
 const initialState = {
+  ingredients:[],
   feed: [],
   bun: []
 };
 
-export const dropReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
         ...state,
+        ingredients: [...state.ingredients, action.data],
         bun: action.data.card.type === 'bun' ? [action.data] : [...state.bun],
         feed: action.data.card.type !== 'bun' ? [...state.feed, action.data] : [...state.feed]
       }
