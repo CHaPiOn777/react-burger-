@@ -6,24 +6,16 @@ import {
 import stylesModalDetails from './Modal.module.css';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RESET_ITEMS } from '../../services/action/constructorAction';
+import { useSelector } from 'react-redux';
 const modalRoot = document.querySelector('#modal');
 
 const Modal = ({ active, setActive, children }) => {
   const load = useSelector(store => store.orderDetailsReduser.loader)
-  const dispatch = useDispatch();
-  const resetConstructor = () => {
-    dispatch({
-      type: RESET_ITEMS
-    })
-  };
 
   React.useEffect(() => {
     const close = (e) => {
       if (e.key === 'Escape') {
         setActive(false);
-        resetConstructor();
       }
     }
     window.addEventListener('keydown', close);
@@ -36,18 +28,18 @@ const Modal = ({ active, setActive, children }) => {
       {load ?
         (<>
           <div className={`${stylesModalDetails.loader}`}></div>
-          <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false); resetConstructor() }}></ModalOverlay>
+          <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false)}}></ModalOverlay>
           </>
         )
         : (
           <>
             <div className={active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}>
-              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => { setActive(false); resetConstructor() }}>
+              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => { setActive(false)}}>
                 <CloseIcon type="primary" />
               </button>
               {children}
             </div>
-            <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false); resetConstructor() }}></ModalOverlay>
+            <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false)}}></ModalOverlay>
           </>)}
     </>
     , modalRoot

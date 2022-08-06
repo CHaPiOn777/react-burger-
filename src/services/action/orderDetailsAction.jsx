@@ -23,6 +23,9 @@ export const getOrderAction = (id) => {
         dispatch({
           type: GET_ORDER_SUCCESS,
           order: res.order.number
+        });
+        dispatch({
+          type: RESET_ITEMS
         })
       } else {
         // Если произошла ошибка, отправляем соответствующий экшен
