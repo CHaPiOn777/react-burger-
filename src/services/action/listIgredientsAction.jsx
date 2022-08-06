@@ -6,7 +6,7 @@ export const GET_FEED_FAILED = 'GET_FEED_FAILED';
 
 export const COUNT = 'COUNT';
 
-export const getElement = () => {
+export const getElements = () => {
   return function (dispatch) {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоадер или заблокировать 

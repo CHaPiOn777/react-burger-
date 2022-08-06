@@ -1,8 +1,9 @@
-import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS } from "../action/orderDetailsAction"
+import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, LOADER } from "../action/orderDetailsAction"
 
 const initialState = {
   feedRequest: true,
   feedFailed: false,
+  loader: false,
   order: []
 }
 
@@ -18,6 +19,7 @@ export const orderDetailsReduser = ( state = initialState, action ) => {
     case GET_ORDER_SUCCESS: {
       return {
         ...state,
+        loader: false,
         order: action.order,
         feedRequest: false
       }
@@ -25,8 +27,14 @@ export const orderDetailsReduser = ( state = initialState, action ) => {
     case GET_ORDER_FAILED: {
       return {
         ...state,
-        feedFailed: true,
+        feedFailed: false,
+        loader: true,
         feedRequest: false
+      }
+    }
+    case LOADER: {
+      return {
+        loader: true
       }
     }
     default: {

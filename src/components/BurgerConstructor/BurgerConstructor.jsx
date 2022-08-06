@@ -26,7 +26,7 @@ const BurgerConstructor = ({ setActive }) => {
     drop(item) {
       dispatch({
         type: ADD_INGREDIENT,
-        data: { ...item, id: Date.now()}
+        data: { ...item, id: Date.now() }
       })
     },
   })
@@ -38,7 +38,7 @@ const BurgerConstructor = ({ setActive }) => {
   }
 
   useEffect(() => {
-    
+
     const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
     const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
     const totalPrice = bunPrice + ingredientsPrice;
@@ -49,46 +49,58 @@ const BurgerConstructor = ({ setActive }) => {
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`} ref={dropTarget}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
         {bun.length !== 0
-          ? <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={`${bun[0].card.name} (вверх)`}
-            price={bun[0].card.price}
-            thumbnail={bun[0].card.image}
-          />
-          : <p className={`${stylesConstructor.bun}`}>Выберите булочку для бургера</p>}
+          ? (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${bun[0].card.name} (вверх)`}
+              price={bun[0].card.price}
+              thumbnail={bun[0].card.image}
+            />
+          )
+          : (
+            <p className={`${stylesConstructor.bun}`}>Выберите булочку для бургера</p>
+          )}
       </div>
       <div className={`${stylesConstructor.topings}`}>
         {ingredients.map((item, index) => {
-          return <BurgerConstructorItem
-            key={item.id}
-            id={item.id}
-            type={item.card.type}
-            name={item.card.name}
-            price={item.card.price}
-            image={item.card.image}
-            index={index} />
+          return (
+            <BurgerConstructorItem
+              key={item.id}
+              id={item.id}
+              type={item.card.type}
+              name={item.card.name}
+              price={item.card.price}
+              image={item.card.image}
+              index={index} />
+          )
         })}
 
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        {bun.length !== 0 && <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${bun[0].card.name} (низ)`}
-          price={bun[0].card.price}
-          thumbnail={bun[0].card.image}
-        />}
+        {bun.length !== 0 && (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${bun[0].card.name} (низ)`}
+            price={bun[0].card.price}
+            thumbnail={bun[0].card.image}
+          />
+        )}
       </div>
       <div className={`${stylesConstructor.order} mt-6`}>
         <p className={`text text_type_digits-medium`}>
           {total}
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
-        <Button type="primary" size="large" onClick={() => {
-          setActive(true);
-          orderDispatch(burgerId)
-        }}>
+        <Button
+          type="primary"
+          size="large"
+          disabled={bun.length === 0}
+          onClick={() => {
+            setActive(true);
+            orderDispatch(burgerId)
+          }}>
           Оформить заказ
         </Button>
       </div>
@@ -98,4 +110,4 @@ const BurgerConstructor = ({ setActive }) => {
 BurgerConstructor.propTypes = {
   setActive: PropTypes.func
 }
-export default React.memo (BurgerConstructor);
+export default React.memo(BurgerConstructor);

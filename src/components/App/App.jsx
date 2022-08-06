@@ -6,7 +6,7 @@ import OrderDetails from '../Modal/OrderDetails/OrderDetails';
 import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
-import { getElement } from '../../services/action/listIgredientsAction';
+import { getElements } from '../../services/action/listIgredientsAction';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -18,7 +18,7 @@ function App() {
   //получили ингредиенты с сервера
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getElement())
+    dispatch(getElements())
   }, [dispatch]);
 
 

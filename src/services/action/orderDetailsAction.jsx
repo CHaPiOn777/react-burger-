@@ -1,8 +1,10 @@
 import { getOrder } from "../../components/utils/burger-api";
+import { RESET_ITEMS } from "./constructorAction";
 
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 export const GET_ORDER = 'GET_ORDER';
+export const LOADER = 'LOADER';
 
 export const getOrderAction = (id) => {
   return function (dispatch) {
@@ -10,7 +12,7 @@ export const getOrderAction = (id) => {
     // Это нужно, чтоб отрисовать в интерфейсе лоадер или заблокировать 
     // ввод на время выполнения запроса
     dispatch({
-      type: GET_ORDER
+      type: LOADER
     })
     // Запрашиваем данные у сервера
     getOrder(id)

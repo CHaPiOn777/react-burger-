@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
   const order = useSelector(store => store.orderDetailsReduser.order);
+  const load = useSelector(store => store.orderDetailsReduser.loader)
   return (
     <>
       <h2 className={`${stylesOrderDetails.number} mt-30 mb-0 text text_type_digits-large`}>{order}</h2>

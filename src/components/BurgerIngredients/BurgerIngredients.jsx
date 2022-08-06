@@ -66,29 +66,35 @@ const BurgerIngredients = ({ setActive }) => {
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={bunRef}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`} >
           {bun.map((card) => {
-            return <CardIngredients
-              card={card}
-              key={card._id}
-              setActive={setActive} />
+            return (
+              <CardIngredients
+                card={card}
+                key={card._id}
+                setActive={setActive} />
+            )
           })}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={sauceRef}>Соусы</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
           {sauce.map((card) => {
-            return <CardIngredients
-              card={card}
-              key={card._id}
-              setActive={setActive} />
+            return (
+              <CardIngredients
+                card={card}
+                key={card._id}
+                setActive={setActive} />
+            )
           }
           )}
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={mainRef}>Начинки</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
           {main.map((card) => {
-            return <CardIngredients
-              card={card}
-              key={card._id}
-              setActive={setActive} />
+            return (
+              <CardIngredients
+                card={card}
+                key={card._id}
+                setActive={setActive} />
+            )
           })}
         </div>
       </div>

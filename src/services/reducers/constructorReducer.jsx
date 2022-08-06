@@ -1,4 +1,4 @@
-import { DELETE_ITEM, ADD_INGREDIENT, CHANGE_ITEM } from "../action/constructorAction"
+import { DELETE_ITEM, ADD_INGREDIENT, CHANGE_ITEM, RESET_ITEMS } from "../action/constructorAction"
 const initialState = {
   ingredients:[],
   feed: [],
@@ -14,7 +14,7 @@ export const constructorReducer = (state = initialState, action) => {
         bun: action.data.card.type === 'bun' ? [action.data] : [...state.bun],
         feed: action.data.card.type !== 'bun' ? [...state.feed, action.data] : [...state.feed]
       }
-    }
+    };
 
     case DELETE_ITEM: {
       return {
@@ -24,7 +24,14 @@ export const constructorReducer = (state = initialState, action) => {
             return item.id !== action.id
           })
       }
-    }
+    };
+    case RESET_ITEMS: {
+      return {
+        ingredients:[],
+        feed: [],
+        bun: []
+      }
+    };
 
     case CHANGE_ITEM: {
       const constructorItems = [...state.feed];
@@ -34,7 +41,7 @@ export const constructorReducer = (state = initialState, action) => {
         ...state,
         feed: constructorItems
       }
-    }
+    };
 
     default: {
       return state
