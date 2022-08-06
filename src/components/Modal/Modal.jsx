@@ -7,6 +7,7 @@ import stylesModalDetails from './Modal.module.css';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import Loader from '../utils/Loader/Loader';
 const modalRoot = document.querySelector('#modal');
 
 const Modal = ({ active, setActive, children }) => {
@@ -27,8 +28,8 @@ const Modal = ({ active, setActive, children }) => {
     <>
       {load ?
         (<>
-          <div className={`${stylesModalDetails.loader}`}></div>
-          <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false)}}></ModalOverlay>
+          <Loader/>
+          <ModalOverlay active={active} setActive={setActive} closePopup={() => {}}></ModalOverlay>
           </>
         )
         : (
