@@ -24,7 +24,6 @@ const Modal = ({ active, setActive, children }) => {
   }, []);
 
   return ReactDOM.createPortal(
-
     <>
       {load ?
         (<>

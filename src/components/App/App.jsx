@@ -6,26 +6,43 @@ import OrderDetails from '../Modal/OrderDetails/OrderDetails';
 import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
-import { fetchIngredients  } from '../../services/action/listIgredientsAction';
+import { fetchIngredients } from '../../services/action/listIgredientsAction';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import SignIn from '../../pages/sign-in/signIn';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Registration from '../../pages/registration/Registration';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
-  
+
   //получили ингредиенты с сервера
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchIngredients ())
+    dispatch(fetchIngredients())
   }, [dispatch]);
 
 
   return (
-    <div className={StylesApp.page}>
-      <AppHeader />
-      {popupCard &&
+    <React.StrictMode >
+      <BrowserRouter>
+        <div className={StylesApp.page}>
+          <AppHeader />
+          <Switch>
+            <Route path="/" exact={true}>
+              <SignIn />
+            </Route>
+            <Route path="/register" exact={true}>
+              <Registration />
+            </Route>
+          </Switch>
+        </div>
+      </BrowserRouter>
+    </React.StrictMode>
+  )
+  {/* {popupCard &&
         <Modal active={popupCard} setActive={setPopupCard}>
           <IngredientDetails/>
         </Modal>
@@ -41,10 +58,10 @@ function App() {
           <BurgerIngredients setActive={setPopupCard} />
           <BurgerConstructor setActive={setPopupIngredients} />
         </DndProvider>
-      </main>
+      </main> */}
 
-    </div>
-  );
+
+
 }
 
 export default App;
