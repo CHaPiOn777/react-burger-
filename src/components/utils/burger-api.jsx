@@ -23,3 +23,45 @@ export function getOrder(id) {
     .then(res => checkReponse(res))
 }
 
+export function resetPasswordEmail(email) {
+  return fetch(`${baseURL}password-reset`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => checkReponse(res))
+}
+
+export function resetPassword(password, token) {
+  return fetch(`${baseURL}password-reset/reset`, {
+    method: 'POST',
+    body: JSON.stringify({
+      password: password,
+      token: token
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => checkReponse(res))
+}
+
+export function registerUser(email, password, Username) {
+  return fetch(`${baseURL}auth/register`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+      password: password,
+      name: Username
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => checkReponse(res))
+}
+

@@ -13,6 +13,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Registration from '../../pages/registration/Registration';
+import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
+import ResetPassword from '../../pages/resetPassword/ResetPassword';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
@@ -26,7 +28,6 @@ function App() {
 
 
   return (
-    <React.StrictMode >
       <BrowserRouter>
         <div className={StylesApp.page}>
           <AppHeader />
@@ -37,10 +38,15 @@ function App() {
             <Route path="/register" exact={true}>
               <Registration />
             </Route>
+            <Route path="/reset-password" exact={true}>
+              <ResetPassword />
+            </Route>
+            <Route path="/forgot-password" exact={true}>
+              <ForgotPassword />
+            </Route>
           </Switch>
         </div>
       </BrowserRouter>
-    </React.StrictMode>
   )
   {/* {popupCard &&
         <Modal active={popupCard} setActive={setPopupCard}>

@@ -1,11 +1,11 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useCallback } from 'react';
 import style from './Registration.module.css';
 import { Link, useHistory } from 'react-router-dom';
+import { registerUser } from '../../components/utils/burger-api';
 
 const Registration = () => {
-  const history = useHistory();
-  console.log(history)
+
   const [password, setPassword] = React.useState('')
   const onPasword = e => {
     setPassword(e.target.value)
@@ -14,12 +14,18 @@ const Registration = () => {
   const onEmail = e => {
     setEmail(e.target.value)
   }
-  const [name, setName] = React.useState('value')
+  const [name, setName] = React.useState('')
   const inputRef = React.useRef(null)
   const onName = e => {
     setName(e.target.value)
   }
-  
+
+  const newUser = (e, email, password, name) => {
+    registerUser(email, password, name)
+      .then(res => console.log(res))
+      .catch(err => console.error(err))
+  }
+
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Регистрация</h2>
@@ -32,7 +38,7 @@ const Registration = () => {
           value={name}
           name={'name'}
           error={false}
-          ref={inputRef} 
+          ref={inputRef}
           onIconClick={undefined}
           errorText={'Ошибка'}
           size={undefined}
@@ -44,7 +50,7 @@ const Registration = () => {
       <div className={`${style.password} mt-6 mb-6`} >
         <PasswordInput onChange={(e) => { onPasword(e) }} value={password} name={'password'} size={"default"} />
       </div>
-      <Button type="primary" size="large">
+      <Button type="primary" size="large" onClick={(e) => newUser(e, email, password, name)}>
         Зарегистрироваться
       </Button>
       <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >

@@ -31,7 +31,7 @@ const SignIn = () => {
       <p className={`${style.info} mt-4 text text_type_main-default text_color_inactive`} >
         Забыли пароль?
         <span className={`${style.span}`}>
-        <Link to='/register' className={`${style.span} ml-2 text text_type_main-default`}>Восстановить пароль</Link>
+        <Link to='/forgot-password' className={`${style.span} ml-2 text text_type_main-default`}>Восстановить пароль</Link>
         </span>
       </p>
     </section>
