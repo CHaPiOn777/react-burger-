@@ -4,7 +4,7 @@
   align-items: center;
   margin: auto;
   margin-top: 180px;
-  width: 480px;
+  max-width: 480px;
 }
 
 .title {}
@@ -12,8 +12,15 @@
 .email {
 
 }
-
-.password {
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper div  {
+  width: 480px;
+}
+.wrapper div div{
+  text-align: end;
 }
 
 .info {

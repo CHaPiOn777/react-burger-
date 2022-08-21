@@ -15,11 +15,11 @@ const SignIn = () => {
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Вход</h2>
-      <div className={`${style.email} mt-6`}>
+      <div className={`${style.wrapper} mt-6`}>
         <EmailInput onChange={onEmail} value={email} name={'email'} />
       </div>
-      <div className={`${style.password} mt-6 mb-6`} >
-        <PasswordInput className={`${style.password} mt-6 mb-6`} onChange={onPasword} value={password} name={'password'} size={"default"} />
+      <div className={`${style.wrapper} mt-6 mb-6`} >
+        <PasswordInput onChange={onPasword} value={password} name={'password'} size={"default"} />
       </div>
       <Button type="primary" size="large">
         Войти

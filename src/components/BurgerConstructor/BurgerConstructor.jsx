@@ -20,8 +20,8 @@ const BurgerConstructor = ({ setActive }) => {
   const allIngredients = useSelector(store => store.constructorReducer.ingredients);
   const bun = useSelector(store => store.constructorReducer.bun);
   const [total, setTotal] = useState(0);
+  
   const [, dropTarget] = useDrop({
-
     accept: 'ingredients',
     drop(item) {
       dispatch({

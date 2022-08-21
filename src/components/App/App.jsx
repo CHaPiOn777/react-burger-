@@ -15,6 +15,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
+import Profile from '../../pages/profile/Profile';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
@@ -28,9 +29,10 @@ function App() {
 
 
   return (
-      <BrowserRouter>
-        <div className={StylesApp.page}>
-          <AppHeader />
+    <BrowserRouter>
+      <div className={StylesApp.page}>
+        <AppHeader />
+        <div className={`${StylesApp.main} pl-5 `}>
           <Switch>
             <Route path="/" exact={true}>
               <SignIn />
@@ -44,9 +46,13 @@ function App() {
             <Route path="/forgot-password" exact={true}>
               <ForgotPassword />
             </Route>
+            <Route path="/profile" exact={true}>
+              <Profile />
+            </Route>
           </Switch>
         </div>
-      </BrowserRouter>
+      </div>
+    </BrowserRouter>
   )
   {/* {popupCard &&
         <Modal active={popupCard} setActive={setPopupCard}>

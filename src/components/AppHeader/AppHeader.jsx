@@ -6,6 +6,7 @@ import {
 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesHeader from './AppHeader.module.css';
+import { Link } from 'react-router-dom';
 
 const AppHeader = () => {
   return (
@@ -30,10 +31,10 @@ const AppHeader = () => {
             </a>
           </li>
           <li className={`${stylesHeader.listItem} ml-20 mr-5 mt-4 mb-4`}>
-            <a href="#" className={stylesHeader.link}>
+            <Link to='/profile' className={stylesHeader.link}>
               <ProfileIcon type="secondary" />
               <p className={`${stylesHeader.text} ml-2 text text_type_main-default text_color_inactive`}>Личный кабинет</p>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

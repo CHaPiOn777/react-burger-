@@ -12,6 +12,5 @@
   display: flex;
   position: relative;
   max-width: 1240px;
-  justify-content: space-between;
-  margin: 0 auto;
+  padding-left: 370px;
 }

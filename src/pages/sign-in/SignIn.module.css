@@ -6,13 +6,11 @@
   margin-top: 180px;
 }
 
-.title {}
-
-.email {
-  
+.wrapper div  {
+  width: 480px;
 }
-
-.password {
+.wrapper div div{
+  text-align: end;
 }
 
 .info {

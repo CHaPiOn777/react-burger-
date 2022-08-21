@@ -26,7 +26,7 @@ const ForgotPassword = () => {
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Восстановление пароля</h2>
-      <div className={`${style.email} mt-6 mb-6`}>
+      <div className={`${style.wrapper} mt-6 mb-6`}>
         <Input
           type={'email'}
           placeholder={'Укажите e-mail'}
