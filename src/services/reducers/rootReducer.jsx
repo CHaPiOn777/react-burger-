@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { authReduser } from "./authReduser";
 import { constructorReducer } from "./constructorReducer";
 import { IngredientDetailsReducer } from "./IngredientDetailsReducer";
 import { listIgredientsReducer } from "./listIgredientsReducer";
@@ -10,5 +11,6 @@ export const rootReducer = combineReducers({
   constructorReducer: constructorReducer,
   IngredientDetailsReducer: IngredientDetailsReducer,
   orderDetailsReduser: orderDetailsReduser,
-  registerUserReduser: registerUserReduser
+  registerUserReduser: registerUserReduser,
+  authReduser: authReduser
 })

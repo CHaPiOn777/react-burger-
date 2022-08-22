@@ -7,28 +7,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../services/action/registrationAction';
 
 const Registration = () => {
-
-  const [password, setPassword] = React.useState('')
-  const onPasword = e => {
-    setPassword(e.target.value)
-  }
-  const [email, setEmail] = React.useState('')
-  const onEmail = e => {
-    setEmail(e.target.value)
-  }
-  const [name, setName] = React.useState('')
-  const inputRef = React.useRef(null)
-  const onName = e => {
-    setName(e.target.value)
-  }
-
-  const user = useSelector(store => store.registrationReducer);
+  const [name, setName] = React.useState('');
+  const inputRef = React.useRef(null);
+  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
+
+  const onPasword = e => {
+    setPassword(e.target.value);
+  };
+
+  const onEmail = e => {
+    setEmail(e.target.value);
+  };
+
+  const onName = e => {
+    setName(e.target.value);
+  };
+
   const newUser = (e, email, password, name) => {
     e.preventDefault();
-    dispatch(registerUserAction(email, password, name))
-  }
-  console.log(user)
+    dispatch(registerUserAction(email, password, name));
+  };
+
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Регистрация</h2>
@@ -67,7 +68,7 @@ const Registration = () => {
         </Button>
         <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >
           Уже зарегистрированы?
-          <Link to='/' className={`${style.span} ml-2 text text_type_main-default`}>Войти</Link>
+          <Link to='/login' className={`${style.span} ml-2 text text_type_main-default`}>Войти</Link>
         </p>
       </form>
     </section>

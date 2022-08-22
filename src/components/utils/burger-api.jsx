@@ -65,3 +65,16 @@ export function registerUser(email, password, Username) {
     .then(res => checkReponse(res))
 }
 
+export function authUser(email, password) {
+  return fetch(`${baseURL}auth/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+      password: password
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => checkReponse(res))
+}

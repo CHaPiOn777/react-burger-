@@ -32,25 +32,33 @@ function App() {
     <BrowserRouter>
       <div className={StylesApp.page}>
         <AppHeader />
-        <div className={`${StylesApp.main} pl-5 `}>
+        <main className={`${StylesApp.main} pl-5 `}>
           <Switch>
-            <Route path="/" exact={true}>
-              <SignIn />
-            </Route>
-            <Route path="/register" exact={true}>
-              <Registration />
-            </Route>
-            <Route path="/reset-password" exact={true}>
-              <ResetPassword />
-            </Route>
-            <Route path="/forgot-password" exact={true}>
-              <ForgotPassword />
-            </Route>
-            <Route path="/profile" exact={true}>
-              <Profile />
-            </Route>
+            <DndProvider backend={HTML5Backend}>
+              <Route path="/constructor" exact={true}>
+                <BurgerIngredients setActive={setPopupCard} />
+              </Route>
+              <Route path="/constructor" exact={true}>
+                <BurgerConstructor setActive={setPopupIngredients} />
+              </Route>
+              <Route path="/login" exact={true}>
+                <SignIn />
+              </Route>
+              <Route path="/register" exact={true}>
+                <Registration />
+              </Route>
+              <Route path="/reset-password" exact={true}>
+                <ResetPassword />
+              </Route>
+              <Route path="/forgot-password" exact={true}>
+                <ForgotPassword />
+              </Route>
+              <Route path="/profile" exact={true}>
+                <Profile />
+              </Route>
+            </DndProvider>
           </Switch>
-        </div>
+        </main>
       </div>
     </BrowserRouter>
   )
@@ -66,10 +74,7 @@ function App() {
       }
 
       <main className={`${StylesApp.main} pl-5 `}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients setActive={setPopupCard} />
-          <BurgerConstructor setActive={setPopupIngredients} />
-        </DndProvider>
+        
       </main> */}
 
 
