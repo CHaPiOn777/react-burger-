@@ -1,10 +1,11 @@
 import { authUser } from "../../components/utils/burger-api";
 import { LOADER } from "./orderDetailsAction";
 
-export const GET_AUTH_SUCCESS = 'GET_REGISTER_SUCCESS';
-export const GET_AUTH_FAILED = 'GET_REGISTER_FAILED';
+export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
+export const GET_AUTH_FAILED = 'GET_AUTH_FAILED';
 
 export const authAction = (email, password) => {
+  
   return function (dispatch) {
     dispatch({
       type: LOADER

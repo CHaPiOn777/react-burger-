@@ -11,24 +11,23 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 const AppHeader = () => {
   let currentURL = useLocation();
   let typeIcon = '';
-  console.log(currentURL.pathname)
   return (
     <header className={stylesHeader.header}>
       <nav>
         <ul className={`${stylesHeader.list} pt-4 pb-4`}>
           <li className={`${stylesHeader.listItem} ml-5 mr-5 mt-4 mb-4`}>
             <NavLink
-              exact to="/constructor"
+              exact to="/"
               className={stylesHeader.link}
               activeClassName={stylesHeader.link_active}
             >
-              <BurgerIcon type={(currentURL.pathname === '/constructor') ? 'primary' : 'secondary'} />
+              <BurgerIcon type={(currentURL.pathname === '/') ? 'primary' : 'secondary'} />
               <p className={`${stylesHeader.text} ml-2 text text_type_main-default`}>Конструктор</p>
             </NavLink>
           </li>
           <li className={`${stylesHeader.listItem} ml-5 mr-5 mt-4 mb-4`}>
             <NavLink
-              to="/sdf"
+              to="/login"
               className={`${stylesHeader.link} `}
               activeClassName={stylesHeader.link_active}
             >

@@ -5,6 +5,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../components/utils/burger-api';
 import { authAction } from '../../services/action/authAction';
+import { setCookie } from '../../components/utils/utils';
+import Loader from '../../components/utils/Loader/Loader';
+import { getUserAction } from '../../services/action/getUserAction';
 
 const SignIn = () => {
   const [password, setPassword] = React.useState('');
@@ -12,6 +15,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const success = useSelector(store => store.authReduser.success);
+  const authToken = useSelector(store => store.authReduser.authToken);
   const onPasword = e => {
     setPassword(e.target.value);
   };
@@ -22,12 +26,15 @@ const SignIn = () => {
 
   const login = (e, email, password) => {
     e.preventDefault();
+    
     dispatch(authAction(email, password));
-    if (success) {
-      history.push("/constructor");
-    };
+    dispatch(getUserAction())
+    if (authToken && success) {
+      
+      setCookie('token', authToken, {'max-age': 1200});
+      history.push("/");
+    } 
   };
-  //ssd
   return (
     <section className={style.container}>
       <form className={style.form}>

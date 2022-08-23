@@ -1,3 +1,5 @@
+import { getCookie } from "./utils";
+
 const baseURL = 'https://norma.nomoreparties.space/api/'
 
 
@@ -77,4 +79,23 @@ export function authUser(email, password) {
     }
   })
   .then(res => checkReponse(res))
+
 }
+
+export function getUserInfo() {
+  return fetch(`${baseURL}auth/user`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(res => checkReponse(res))
+  .then(res => console.log(res))
+}
+

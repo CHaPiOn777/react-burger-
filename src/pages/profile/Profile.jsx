@@ -1,35 +1,30 @@
 import { Button, EmailInput, Input, PasswordInput, ProfileIcon, ShowIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
-import { registerUser } from '../../components/utils/burger-api';
+import React, { useEffect } from 'react';
+import { getUserInfo, registerUser } from '../../components/utils/burger-api';
 import style from './Profile.module.css'
 import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserAction } from '../../services/action/getUserAction';
+import { registerUserAction } from '../../services/action/registrationAction';
 
 const Profile = () => {
-  const [password, setPassword] = React.useState('')
-  const onPasword = e => {
-    setPassword(e.target.value)
-  }
-  const [email, setEmail] = React.useState('')
-  const onEmail = e => {
-    setEmail(e.target.value)
-  }
-  const [name, setName] = React.useState('')
-  const nameRef = React.useRef(null)
-  const loginRef = React.useRef(null)
-  const passwordRef = React.useRef(null)
-  const onName = e => {
-    setName(e.target.value)
-  }
+  const user = useSelector(store => store.getUserDispatch);
+  console.log(user)
+  const [name, setName] = React.useState(user.name);
+  const [email, setEmail] = React.useState(user.email);
+  const [password, setPassword] = React.useState('');
+  
+  const nameRef = React.useRef(null);
+  const loginRef = React.useRef(null);
+  const passwordRef = React.useRef(null);
 
-  const newUser = (e, email, password, name) => {
-    e.preventDefault();
-    registerUser(email, password, name)
-      .then(res => console.log(res))
-      .catch(err => console.error(err))
-  }
-  const onIconClick = (ref) => {
-    ref.current.focus()
-  }
+  const onPasword = e => {setPassword(e.target.value)};
+  const onEmail = e => {setEmail(e.target.value)};
+  const onName = e => {setName(e.target.value)};
+
+
+
+  const onIconClick = (ref) => {ref.current.focus()};
 
   return (
     <section className={style.container}>
@@ -108,7 +103,7 @@ const Profile = () => {
           />
         </div>
         <div className={style.btns}>
-          <Button type="secondary" size="large" onClick={(e) => newUser(e, email, password, name)}>
+          <Button type="secondary" size="large">
             Отмена
           </Button>
           <Button type="primary" size="large" >

@@ -7,7 +7,7 @@ import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
 import { fetchIngredients } from '../../services/action/listIgredientsAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
@@ -16,17 +16,19 @@ import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
 import Profile from '../../pages/profile/Profile';
+import { getUserAction } from '../../services/action/getUserAction';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
+  const authToken = useSelector(store => store.authReduser.authToken);
 
   //получили ингредиенты с сервера
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchIngredients())
-  }, [dispatch]);
+  useEffect(() => {dispatch(fetchIngredients())}, [dispatch]);
 
+  //отправляем запрос на сервер для зарегистрированного пользователя
+  
 
   return (
     <BrowserRouter>
@@ -35,10 +37,10 @@ function App() {
         <main className={`${StylesApp.main} pl-5 `}>
           <Switch>
             <DndProvider backend={HTML5Backend}>
-              <Route path="/constructor" exact={true}>
+              <Route path="/" exact={true}>
                 <BurgerIngredients setActive={setPopupCard} />
               </Route>
-              <Route path="/constructor" exact={true}>
+              <Route path="/" exact={true}>
                 <BurgerConstructor setActive={setPopupIngredients} />
               </Route>
               <Route path="/login" exact={true}>
