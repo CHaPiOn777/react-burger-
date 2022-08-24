@@ -16,11 +16,7 @@ export const authReduser = (state = initialState, action) => {
     case GET_AUTH_SUCCESS: {
       return {
         ...state,
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken,
         loader: false,
-        success: action.success,
-        authToken: action.accessToken.replace(/Bearer /gi, '')
       }
     }
     case LOADER: {

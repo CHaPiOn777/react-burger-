@@ -5,17 +5,17 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../components/utils/burger-api';
 import { authAction } from '../../services/action/authAction';
-import { setCookie } from '../../components/utils/utils';
+import { getCookie, setCookie } from '../../components/utils/utils';
 import Loader from '../../components/utils/Loader/Loader';
 import { getUserAction } from '../../services/action/getUserAction';
 
 const SignIn = () => {
+  const cookie = getCookie('token');
+  console.log(cookie)
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const success = useSelector(store => store.authReduser.success);
-  const authToken = useSelector(store => store.authReduser.authToken);
   const onPasword = e => {
     setPassword(e.target.value);
   };
@@ -28,13 +28,12 @@ const SignIn = () => {
     e.preventDefault();
     
     dispatch(authAction(email, password));
-    dispatch(getUserAction())
-    if (authToken && success) {
-      
-      setCookie('token', authToken, {'max-age': 1200});
-      history.push("/");
-    } 
+    // dispatch(getUserAction())
+
   };
+  // if (cookie) {
+  //   history.push("/");
+  // } 
   return (
     <section className={style.container}>
       <form className={style.form}>

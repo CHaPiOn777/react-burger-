@@ -96,6 +96,26 @@ export function getUserInfo() {
     referrerPolicy: 'no-referrer'
   })
   .then(res => checkReponse(res))
-  .then(res => console.log(res))
+}
+
+export function setUserInfo(email, name, password) {
+  return fetch(`${baseURL}auth/user`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      email: email,
+      name: name,
+      password: password
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(res => checkReponse(res))
 }
 

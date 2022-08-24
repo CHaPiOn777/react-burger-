@@ -2,28 +2,30 @@ import { getUserInfo } from "../../components/utils/burger-api";
 import { LOADER } from "./orderDetailsAction";
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
-
+console.log(getUserInfo())
 export const getUserAction = () => {
   return function (dispatch) {
-    dispatch ({
+    dispatch({
       type: LOADER
     })
+
     getUserInfo()
+    
       .then(res => {
+
         if (res && res.success) {
-          dispatch ({
+          dispatch({
             type: GET_USER_SUCCESS,
-            name: res.name,
-            email: res.email
+            user: res.user
           })
         } else {
-          dispatch ({
+          dispatch({
             type: GET_USER_FAILED
           })
         }
       })
       .catch(err => {
-        dispatch ({
+        dispatch({
           type: GET_USER_FAILED,
           message: err
         })

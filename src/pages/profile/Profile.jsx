@@ -6,14 +6,19 @@ import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserAction } from '../../services/action/getUserAction';
 import { registerUserAction } from '../../services/action/registrationAction';
+import { setUserAction } from '../../services/action/setUserAction';
 
 const Profile = () => {
-  const user = useSelector(store => store.getUserDispatch);
-  console.log(user)
-  const [name, setName] = React.useState(user.name);
-  const [email, setEmail] = React.useState(user.email);
+  const user = useSelector(store => store.getUserDispatch.user);
+  const newUser = useSelector(store => store.setUserDispatch.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUserAction();
+  }, [dispatch])
+  const [name, setName] = React.useState(`${user.name}`);
+  const [email, setEmail] = React.useState(`${user.email}`);
   const [password, setPassword] = React.useState('');
-  
   const nameRef = React.useRef(null);
   const loginRef = React.useRef(null);
   const passwordRef = React.useRef(null);
@@ -25,6 +30,19 @@ const Profile = () => {
 
 
   const onIconClick = (ref) => {ref.current.focus()};
+
+  const saveUser = (e) => {
+    e.preventDefault();
+    
+    dispatch(setUserAction(name, email, password));
+    // if(newUser) {
+    //   setName(newUser.name);
+    //   setEmail(newUser.email);
+    //   setPassword()
+    //   console.log(newUser)
+    // }
+
+  }
 
   return (
     <section className={style.container}>
@@ -57,7 +75,7 @@ const Profile = () => {
         В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp; свои данные
         </p>
       </nav>
-      <form className={style.form} >
+      <form className={style.form} onSubmit={e => saveUser(e)}>
         <div className={`${style.wrapper}`}>
           <Input
             type={'text'}
