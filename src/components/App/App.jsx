@@ -16,18 +16,17 @@ import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
 import Profile from '../../pages/profile/Profile';
-import { getCookie, setCookie } from '../utils/utils';
-import { getUserAction } from '../../services/action/authAction';
+import { getUserAction } from '../../services/action/getUserAction';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
-  const token = getCookie('token');
+  const authToken = useSelector(store => store.authReduser.authToken);
 
-  //получили ингредиенты с сервераS
+  //получили ингредиенты с сервера
   const dispatch = useDispatch();
   useEffect(() => {dispatch(fetchIngredients())}, [dispatch]);
-  useEffect(() => {dispatch(getUserAction())}, [dispatch, token])
+
   //отправляем запрос на сервер для зарегистрированного пользователя
   
 

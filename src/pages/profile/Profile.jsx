@@ -5,6 +5,7 @@ import style from './Profile.module.css'
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../services/action/registrationAction';
+<<<<<<< HEAD
 import { logoutUserAction } from '../../services/action/authAction';
 
 const Profile = () => {
@@ -12,8 +13,21 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [name, setName] = React.useState(user.name);
   const [email, setEmail] = React.useState(user.email);
+=======
+import { setUserAction } from '../../services/action/setUserAction';
+
+const Profile = () => {
+  const user = useSelector(store => store.getUserDispatch.user);
+  const newUser = useSelector(store => store.setUserDispatch.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUserAction();
+  }, [dispatch])
+  const [name, setName] = React.useState(`${user.name}`);
+  const [email, setEmail] = React.useState(`${user.email}`);
+>>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
   const [password, setPassword] = React.useState('');
-  
   const nameRef = React.useRef(null);
   const loginRef = React.useRef(null);
   const passwordRef = React.useRef(null);
@@ -24,8 +38,22 @@ const Profile = () => {
 
   const onIconClick = (ref) => {ref.current.focus()};
 
+<<<<<<< HEAD
   const handleLogout = () => {
     dispatch(logoutUserAction());
+=======
+  const saveUser = (e) => {
+    e.preventDefault();
+    
+    dispatch(setUserAction(name, email, password));
+    // if(newUser) {
+    //   setName(newUser.name);
+    //   setEmail(newUser.email);
+    //   setPassword()
+    //   console.log(newUser)
+    // }
+
+>>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
   }
 
   return (
@@ -62,7 +90,11 @@ const Profile = () => {
         В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp; свои данные
         </p>
       </nav>
+<<<<<<< HEAD
       <form className={style.form}>
+=======
+      <form className={style.form} onSubmit={e => saveUser(e)}>
+>>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
         <div className={`${style.wrapper}`}>
           <Input
             type={'text'}

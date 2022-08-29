@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { authUser, logoutUser, getUserInfo } from "../../components/utils/burger-api";
 import { deleteCookie, setCookie } from "../../components/utils/utils";
+=======
+import { authUser } from "../../components/utils/burger-api";
+import { setCookie } from "../../components/utils/utils";
+>>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
 import { LOADER } from "./orderDetailsAction";
 
 export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
@@ -46,13 +51,21 @@ export const authAction = (email, password) => {
       .then(res => {
         const accessToken = res.accessToken.split('Bearer ')[1];
         const refreshToken = res.refreshToken;
+<<<<<<< HEAD
         setCookie('token', accessToken, { 'max-age': 1200 });
+=======
+        setCookie('token', accessToken);
+>>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
         localStorage.setItem('refreshToken', refreshToken);
         return res;
       })
       .then(res => {
+<<<<<<< HEAD
         if (res) {
 
+=======
+        if (res && res.success) {
+>>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
           dispatch({
             type: GET_AUTH_SUCCESS,
             user: res.user,

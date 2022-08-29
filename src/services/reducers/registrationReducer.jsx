@@ -3,8 +3,6 @@ import { GET_REGISTER_FAILED, GET_REGISTER_SUCCESS } from "../action/registratio
 
 const initialState = {
   user: {},
-  accessToken: '',
-  refreshToken: '',
   loader: false,
   message: ''
 }
@@ -14,8 +12,6 @@ export const registerUserReduser = (state = initialState, action) => {
     case GET_REGISTER_SUCCESS: {
       return {
         user: action.user,
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken,
         loader: false
       }
     }
