@@ -13,5 +13,5 @@ export const rootReducer = combineReducers({
   IngredientDetailsReducer: IngredientDetailsReducer,
   orderDetailsReduser: orderDetailsReduser,
   registerUserReduser: registerUserReduser,
-  authReduser: authReduser
+  authReduсer: authReducer
 })
