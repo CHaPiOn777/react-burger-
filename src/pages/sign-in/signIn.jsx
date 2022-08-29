@@ -4,30 +4,18 @@ import style from './SignIn.module.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../components/utils/burger-api';
-<<<<<<< HEAD
 import { authAction, getUserAction } from '../../services/action/authAction';
-=======
-import { authAction } from '../../services/action/authAction';
->>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
 import { getCookie, setCookie } from '../../components/utils/utils';
 import Loader from '../../components/utils/Loader/Loader';
 
 const SignIn = () => {
-<<<<<<< HEAD
   const token = getCookie('token');
-=======
-  const cookie = getCookie('token');
-  console.log(cookie)
->>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-<<<<<<< HEAD
   const success = useSelector(store => store.authReducer.success);
   const authToken = useSelector(store => store.authReducer.authToken);
-=======
->>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
   const onPasword = e => {
     setPassword(e.target.value);
   };
@@ -40,7 +28,6 @@ const SignIn = () => {
     e.preventDefault();
     
     dispatch(authAction(email, password));
-<<<<<<< HEAD
     dispatch(getUserAction())
 
   };
@@ -48,14 +35,6 @@ const SignIn = () => {
   if (token) {
     history.push("/");
   } 
-=======
-    // dispatch(getUserAction())
-
-  };
-  // if (cookie) {
-  //   history.push("/");
-  // } 
->>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
   return (
     <section className={style.container}>
       <form className={style.form}>

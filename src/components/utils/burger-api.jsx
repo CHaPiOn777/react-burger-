@@ -96,8 +96,24 @@ export function getUserInfo() {
     referrerPolicy: 'no-referrer'
   })
   .then(res => checkReponse(res))
-<<<<<<< HEAD
-=======
+  .then(res => console.log(res))
+}
+export function logoutUser(refreshToken) {
+  return fetch(`${baseURL}auth/logout`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      token: refreshToken
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(res => checkReponse(res))
 }
 
 export function setUserInfo(email, name, password) {
@@ -114,24 +130,6 @@ export function setUserInfo(email, name, password) {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + getCookie('token')
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
-  })
-  .then(res => checkReponse(res))
->>>>>>> 15e502ea024c342b01612ab1dcce35428213288d
-}
-export function logoutUser(refreshToken) {
-  return fetch(`${baseURL}auth/logout`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    body: JSON.stringify({
-      token: refreshToken
-    }),
-    headers: {
-      'Content-Type': 'application/json'
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
