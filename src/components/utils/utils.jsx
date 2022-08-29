@@ -27,8 +27,7 @@ export function deleteCookie(name) {
     'max-age': -1
   })
 }
-// deleteCookie('token')
-// console.log(getCookie('token'))
+
 export function getCookie(name) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')

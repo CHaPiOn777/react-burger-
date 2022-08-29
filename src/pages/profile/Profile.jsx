@@ -4,12 +4,12 @@ import { getUserInfo, registerUser } from '../../components/utils/burger-api';
 import style from './Profile.module.css'
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserAction } from '../../services/action/getUserAction';
 import { registerUserAction } from '../../services/action/registrationAction';
+import { logoutUserAction } from '../../services/action/authAction';
 
 const Profile = () => {
-  const user = useSelector(store => store.getUserDispatch);
-  console.log(user)
+  const user = useSelector(store => store.authReducer.user);
+  const dispatch = useDispatch();
   const [name, setName] = React.useState(user.name);
   const [email, setEmail] = React.useState(user.email);
   const [password, setPassword] = React.useState('');
@@ -22,9 +22,11 @@ const Profile = () => {
   const onEmail = e => {setEmail(e.target.value)};
   const onName = e => {setName(e.target.value)};
 
-
-
   const onIconClick = (ref) => {ref.current.focus()};
+
+  const handleLogout = () => {
+    dispatch(logoutUserAction());
+  }
 
   return (
     <section className={style.container}>
@@ -39,16 +41,19 @@ const Profile = () => {
             </NavLink>
           </li>
           <li className={`${style.list} `}>
-            <NavLink to='/profile/orders' 
+            <NavLink 
+            to='/profile/orders' 
             className={`${style.link} text text_type_main-medium text_color_inactive`}
             activeClassName={style.activeLink}>
               История заказов
             </NavLink>
           </li>
           <li className={`${style.list} `}>
-            <NavLink to='/profile/orders/:id' 
+            <NavLink 
+            to='/login' 
             className={`${style.link} text text_type_main-medium text_color_inactive`}
-            activeClassName={style.activeLink}>
+            activeClassName={style.activeLink}
+            onClick={handleLogout}>
               Выход
             </NavLink>
           </li>
@@ -57,7 +62,7 @@ const Profile = () => {
         В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp; свои данные
         </p>
       </nav>
-      <form className={style.form} >
+      <form className={style.form}>
         <div className={`${style.wrapper}`}>
           <Input
             type={'text'}

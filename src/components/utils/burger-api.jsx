@@ -96,6 +96,21 @@ export function getUserInfo() {
     referrerPolicy: 'no-referrer'
   })
   .then(res => checkReponse(res))
-  .then(res => console.log(res))
 }
-
+export function logoutUser(refreshToken) {
+  return fetch(`${baseURL}auth/logout`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      token: refreshToken
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(res => checkReponse(res))
+}
