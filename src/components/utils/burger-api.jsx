@@ -85,43 +85,18 @@ export function authUser(email, password) {
 export function getUserInfo() {
   return fetch(`${baseURL}auth/user`, {
     method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + getCookie('token')
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
+    }
   })
   .then(res => checkReponse(res))
-  .then(res => console.log(res))
-}
-export function logoutUser(refreshToken) {
-  return fetch(`${baseURL}auth/logout`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    body: JSON.stringify({
-      token: refreshToken
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
-  })
-  .then(res => checkReponse(res))
+
 }
 
 export function setUserInfo(email, name, password) {
   return fetch(`${baseURL}auth/user`, {
     method: 'PATCH',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
     body: JSON.stringify({
       email: email,
       name: name,
@@ -130,9 +105,19 @@ export function setUserInfo(email, name, password) {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + getCookie('token')
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
+    }
+  })
+  .then(res => checkReponse(res))
+}
+export function logoutUser(refreshToken) {
+  return fetch(`${baseURL}auth/logout`, {
+    method: 'POST',
+    body: JSON.stringify({
+      token: refreshToken
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
   .then(res => checkReponse(res))
 }

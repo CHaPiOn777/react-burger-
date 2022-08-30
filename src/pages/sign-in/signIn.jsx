@@ -1,7 +1,7 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
 import style from './SignIn.module.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUser } from '../../components/utils/burger-api';
 import { authAction, getUserAction } from '../../services/action/authAction';
@@ -13,9 +13,8 @@ const SignIn = () => {
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
-  const success = useSelector(store => store.authReducer.success);
-  const authToken = useSelector(store => store.authReducer.authToken);
   const onPasword = e => {
     setPassword(e.target.value);
   };
@@ -24,20 +23,21 @@ const SignIn = () => {
 
   };
 
-  const login = (e, email, password) => {
+  const login = (e) => {
     e.preventDefault();
-    
-    dispatch(authAction(email, password));
-    dispatch(getUserAction())
+    dispatch(authAction(email, password))
 
   };
 
+  console.log(location)
   if (token) {
-    history.push("/");
+    return (
+    <Redirect to={location.state?.from || '/'} />
+    );
   } 
   return (
     <section className={style.container}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={login}>
         <h2 className={'text text_type_main-medium'}>Вход</h2>
         <div className={`${style.wrapper} mt-6`}>
           <EmailInput onChange={onEmail} value={email} name={'email'} size={"default"} />
@@ -45,7 +45,7 @@ const SignIn = () => {
         <div className={`${style.wrapper} mt-6 mb-6`} >
           <PasswordInput onChange={onPasword} value={password} name={'password'} size={"default"} />
         </div>
-        <Button type="primary" size="large" onClick={(e) => login(e, email, password)}>
+        <Button type="primary" size="large">
           Войти
         </Button>
         <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >

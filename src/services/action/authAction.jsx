@@ -1,6 +1,7 @@
 import { authUser, logoutUser, getUserInfo } from "../../components/utils/burger-api";
 import { deleteCookie, setCookie } from "../../components/utils/utils";
 import { LOADER } from "./orderDetailsAction";
+import { useHistory } from 'react-router-dom';
 
 export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
 export const GET_AUTH_FAILED = 'GET_AUTH_FAILED';
@@ -73,6 +74,7 @@ export const authAction = (email, password) => {
 }
 
 export const logoutUserAction = () => {
+
   return function(dispatch) {
     dispatch({
       type: LOADER
@@ -83,6 +85,7 @@ export const logoutUserAction = () => {
           dispatch({ type: USER_LOGOUT_SUCCESS });
           deleteCookie('token');
           localStorage.clear();
+          
         }
       })
       .catch(err => dispatch({ type: USER_LOGOUT_FAILED }))

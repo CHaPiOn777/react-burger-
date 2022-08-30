@@ -18,6 +18,7 @@ import ResetPassword from '../../pages/resetPassword/ResetPassword';
 import Profile from '../../pages/profile/Profile';
 import { getCookie, setCookie } from '../utils/utils';
 import { getUserAction } from '../../services/action/authAction';
+import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
@@ -27,7 +28,7 @@ function App() {
   //получили ингредиенты с сервераS
   const dispatch = useDispatch();
   useEffect(() => {dispatch(fetchIngredients())}, [dispatch]);
-  useEffect(() => {dispatch(getUserAction())}, [dispatch, token])
+  useEffect(() => {dispatch(getUserAction())}, [dispatch])
   //отправляем запрос на сервер для зарегистрированного пользователя
   
 
@@ -56,9 +57,9 @@ function App() {
               <Route path="/forgot-password" exact={true}>
                 <ForgotPassword />
               </Route>
-              <Route path="/profile" exact={true}>
+              <ProtectedRoute path="/profile">
                 <Profile />
-              </Route>
+              </ProtectedRoute>
             </DndProvider>
           </Switch>
         </main>

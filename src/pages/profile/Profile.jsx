@@ -1,18 +1,23 @@
 import { Button, EmailInput, Input, PasswordInput, ProfileIcon, ShowIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { getUserInfo, registerUser } from '../../components/utils/burger-api';
 import style from './Profile.module.css'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../services/action/registrationAction';
 import { logoutUserAction } from '../../services/action/authAction';
+import { getCookie } from '../../components/utils/utils';
 
 const Profile = () => {
   const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
   const [name, setName] = React.useState(user.name);
-  const [email, setEmail] = React.useState(user.email);
+  const [email, setEmail] = React.useState(user.password);
   const [password, setPassword] = React.useState('');
+  const token = getCookie('token');
+  const history = useHistory();
+  const location = useLocation();
+  
   const nameRef = React.useRef(null);
   const loginRef = React.useRef(null);
   const passwordRef = React.useRef(null);
@@ -21,9 +26,13 @@ const Profile = () => {
   const onEmail = e => {setEmail(e.target.value)};
   const onName = e => {setName(e.target.value)};
 
-
-
   const onIconClick = (ref) => {ref.current.focus()};
+
+  const handleLogout = useCallback ((e) => {
+    e.preventDefault();
+    dispatch(logoutUserAction());
+  }, [dispatch, history])
+
 
   return (
     <section className={style.container}>
