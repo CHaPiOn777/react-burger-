@@ -29,7 +29,6 @@ const SignIn = () => {
 
   };
 
-  console.log(location)
   if (token) {
     return (
     <Redirect to={location.state?.from || '/'} />

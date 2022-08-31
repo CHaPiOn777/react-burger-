@@ -31,7 +31,6 @@ export const authReducer = (state = initialState, action) => {
       }
     }
     case GET_USER_SUCCESS: {
-      console.log(action)
       return {
         ...state,
         user: {email: action.user.email, name: action.user.name}

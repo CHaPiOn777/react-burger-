@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useLocation, useParams } from 'react-router-dom';
 import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
@@ -24,65 +24,59 @@ function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
   const token = getCookie('token');
+  const location = useLocation();
+  const background = location.state?.background;
 
-  //получили ингредиенты с сервераS
+  //получили ингредиенты с сервера
   const dispatch = useDispatch();
-  useEffect(() => {dispatch(fetchIngredients())}, [dispatch]);
-  useEffect(() => {dispatch(getUserAction())}, [dispatch])
+  useEffect(() => { dispatch(fetchIngredients()) }, [dispatch]);
+  useEffect(() => { dispatch(getUserAction()) }, [dispatch])
   //отправляем запрос на сервер для зарегистрированного пользователя
-  
+
 
   return (
-    <BrowserRouter>
-      <div className={StylesApp.page}>
-        <AppHeader />
-        <main className={`${StylesApp.main} pl-5 `}>
-          <Switch>
+    <div className={StylesApp.page}>
+      <AppHeader />
+      <main className={`${StylesApp.main} pl-5 `}>
+        <Switch location={background || location}>
+          <Route path="/" exact={true}>
             <DndProvider backend={HTML5Backend}>
-              <Route path="/" exact={true}>
-                <BurgerIngredients setActive={setPopupCard} />
-              </Route>
-              <Route path="/" exact={true}>
-                <BurgerConstructor setActive={setPopupIngredients} />
-              </Route>
-              <Route path="/login" exact={true}>
-                <SignIn />
-              </Route>
-              <Route path="/register" exact={true}>
-                <Registration />
-              </Route>
-              <Route path="/reset-password" exact={true}>
-                <ResetPassword />
-              </Route>
-              <Route path="/forgot-password" exact={true}>
-                <ForgotPassword />
-              </Route>
-              <ProtectedRoute path="/profile">
-                <Profile />
-              </ProtectedRoute>
+              <BurgerIngredients setActive={setPopupCard} />
+              <BurgerConstructor setActive={setPopupIngredients} />
             </DndProvider>
-          </Switch>
-        </main>
-      </div>
-    </BrowserRouter>
-  )
-  {/* {popupCard &&
-        <Modal active={popupCard} setActive={setPopupCard}>
-          <IngredientDetails/>
-        </Modal>
+          </Route>
+          <Route path="/login" exact={true}>
+            <SignIn />
+          </Route>
+          <Route path="/register" exact={true}>
+            <Registration />
+          </Route>
+          <Route path="/reset-password" exact={true}>
+            <ResetPassword />
+          </Route>
+          <Route path="/forgot-password" exact={true}>
+            <ForgotPassword />
+          </Route>
+          <ProtectedRoute path="/profile">
+            <Profile />
+          </ProtectedRoute>
+
+        </Switch>
+      </main>
+      {popupCard && background &&
+        <Route path='/ingredients/:id' exact={true}>
+          <Modal active={popupCard} setActive={setPopupCard}>
+            < IngredientDetails />
+          </Modal>
+        </Route>
       }
       {popupIngredients &&
         <Modal active={popupIngredients} setActive={setPopupIngredients} >
-          <OrderDetails/>
+          <OrderDetails />
         </Modal>
       }
-
-      <main className={`${StylesApp.main} pl-5 `}>
-        
-      </main> */}
-
-
-
+    </div>
+  )
 }
 
 export default App;

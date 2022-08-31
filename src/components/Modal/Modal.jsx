@@ -27,19 +27,19 @@ const Modal = ({ active, setActive, children }) => {
     <>
       {load ?
         (<>
-          <Loader/>
-          <ModalOverlay active={active} setActive={setActive} closePopup={() => {}}></ModalOverlay>
-          </>
+          <Loader />
+          <ModalOverlay active={active} setActive={setActive} closePopup={() => { }}></ModalOverlay>
+        </>
         )
         : (
           <>
             <div className={active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}>
-              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => { setActive(false)}}>
+              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => { setActive(false) }}>
                 <CloseIcon type="primary" />
               </button>
               {children}
             </div>
-            <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false)}}></ModalOverlay>
+            <ModalOverlay active={active} setActive={setActive} closePopup={() => { setActive(false) }}></ModalOverlay>
           </>)}
     </>
     , modalRoot
