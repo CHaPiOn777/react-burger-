@@ -34,7 +34,8 @@ const SignIn = () => {
     return (
     <Redirect to={location.state?.from || '/'} />
     );
-  } 
+  }
+  
   return (
     <section className={style.container}>
       <form className={style.form} onSubmit={login}>

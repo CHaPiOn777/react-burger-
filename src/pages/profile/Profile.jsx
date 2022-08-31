@@ -28,10 +28,9 @@ const Profile = () => {
 
   const onIconClick = (ref) => {ref.current.focus()};
 
-  const handleLogout = useCallback ((e) => {
-    e.preventDefault();
+  const handleLogout = () => {
     dispatch(logoutUserAction());
-  }, [dispatch, history])
+  }
 
 
   return (
