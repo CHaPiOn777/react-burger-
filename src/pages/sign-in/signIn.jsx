@@ -1,5 +1,5 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useCallback } from 'react';
 import style from './SignIn.module.css';
 import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import { getCookie, setCookie } from '../../components/utils/utils';
 import Loader from '../../components/utils/Loader/Loader';
 
 const SignIn = () => {
-  const token = getCookie('token');
+  const inLogin = useSelector(store => store.authReducer.inLogin);
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const SignIn = () => {
 
   };
 
-  if (token) {
+  if (inLogin) {
     return (
     <Redirect to={location.state?.from || '/'} />
     );

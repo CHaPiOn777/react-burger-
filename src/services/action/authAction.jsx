@@ -12,9 +12,6 @@ export const GET_USER_FAILED = 'GET_USER_FAILED';
 
 export const getUserAction = () => {
   return function (dispatch) {
-    dispatch ({
-      type: LOADER
-    })
     getUserInfo()
       .then(res => {
         if (res && res.success) {

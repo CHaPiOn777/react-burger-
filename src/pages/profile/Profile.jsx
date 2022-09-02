@@ -11,9 +11,9 @@ import { getCookie } from '../../components/utils/utils';
 const Profile = () => {
   const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
-  const [name, setName] = React.useState(user.name);
-  const [email, setEmail] = React.useState(user.password);
-  const [password, setPassword] = React.useState('');
+  const [nameProfile, setName] = React.useState(user.name);
+  const [emaileProfile, setEmail] = React.useState(user.password);
+  const [passworde, setPassword] = React.useState('');
   const token = getCookie('token');
   const history = useHistory();
   const location = useLocation();
@@ -74,7 +74,7 @@ const Profile = () => {
             placeholder={'Имя'}
             onChange={(e) => { onName(e) }}
             icon={'EditIcon'}
-            value={name}
+            value={nameProfile}
             name={'name'}
             error={false}
             ref={nameRef}
@@ -89,7 +89,7 @@ const Profile = () => {
             placeholder={'Логин'}
             onChange={(e) => { onEmail(e) }}
             icon={'EditIcon'}
-            value={email}
+            value={emaileProfile}
             name={'email'}
             error={false}
             ref={loginRef}
@@ -103,7 +103,7 @@ const Profile = () => {
             placeholder={'Пароль'}
             onChange={(e) => { onPasword(e) }}
             icon={'EditIcon'}
-            value={password}
+            value={passworde}
             name={'password'}
             error={false}
             ref={passwordRef}

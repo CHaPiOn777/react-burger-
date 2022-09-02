@@ -4,7 +4,8 @@ import { LOADER } from "../action/orderDetailsAction";
 const initialState = {
   user: {},
   success: false,
-  loader: false
+  loader: false,
+  inLogin: false
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -14,45 +15,52 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loader: false,
-        success: action.success
+        success: action.success,
+        inLogin: true
       }
     }
     case LOADER: {
       return {
         ...state,
-        loader: true
+        loader: true,
+        inLogin: false
       }
     }
     case GET_AUTH_FAILED: {
       return {
         ...state,
         message: action.message,
-        loader: false
+        loader: false,
+        inLogin: false
       }
     }
     case GET_USER_SUCCESS: {
       return {
         ...state,
-        user: {email: action.user.email, name: action.user.name}
+        user: {email: action.user.email, name: action.user.name},
+        inLogin: true
       }
 
     }
     case GET_USER_FAILED: {
       return {
         ...state,
-        message: action.message
+        message: action.message,
+        inLogin: false
       }
     }
     case USER_LOGOUT_SUCCESS: {
       return {
         ...state,
-        loader: false
+        loader: false,
+        inLogin: false
       }
     }
     case USER_LOGOUT_FAILED: {
       return {
         ...state,
-        loader: false
+        loader: false,
+        inLogin: true
       }
     }
     default:

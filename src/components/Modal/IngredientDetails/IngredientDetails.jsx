@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 const IngredientDetails = () => {
   const itemInfo = useSelector(store => store.IngredientDetailsReducer.item);
   const { id } = useParams();
-  const ingredient = itemInfo.find(ingredient => ingredient._id === id)
+  // const ingredient = itemInfo.find(ingredient => ingredient._id === id)
   return (
     <>
       {
-        ingredient &&
+        // ingredient &&
         (
           <>
             <h2 className={`${stylesIngredientDetails.title} mt-10 mb-0 ml-10 mr-10 text_type_main-large`}>Детали ингредиента</h2>

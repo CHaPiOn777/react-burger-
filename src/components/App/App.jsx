@@ -29,8 +29,8 @@ function App() {
 
   //получили ингредиенты с сервера
   const dispatch = useDispatch();
-  useEffect(() => { dispatch(fetchIngredients()) }, [dispatch]);
   useEffect(() => { dispatch(getUserAction()) }, [dispatch])
+  useEffect(() => { dispatch(fetchIngredients()) }, [dispatch]);
   //отправляем запрос на сервер для зарегистрированного пользователя
 
 
@@ -63,7 +63,7 @@ function App() {
 
         </Switch>
       </main>
-      {popupCard && background &&
+      {popupCard && 
         <Route path='/ingredients/:id' exact={true}>
           <Modal active={popupCard} setActive={setPopupCard}>
             < IngredientDetails />

@@ -1,10 +1,15 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback } from 'react';
 import style from './ResetPassword.module.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { resetPassword } from '../../components/utils/burger-api';
+import { useSelector } from 'react-redux';
 
 const ResetPassword = () => {
+  const inLogin = useSelector(store => store.authReducer.inLogin);
+  const location = useLocation();
+  const history = useHistory();
+  console.log(history)
 
   const [password, setPassword] = React.useState('')
   const passwordRef = React.useRef(null)
@@ -25,6 +30,7 @@ const ResetPassword = () => {
       .then(res => console.log(res))
       .catch(err => console.error(err))
   }
+
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Восстановление пароля</h2>

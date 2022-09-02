@@ -1,12 +1,15 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback } from 'react';
 import style from './Registration.module.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { registerUser } from '../../components/utils/burger-api';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../services/action/registrationAction';
 
 const Registration = () => {
+  const inLogin = useSelector(store => store.authReducer.inLogin);
+  const location = useLocation();
+
   const [name, setName] = React.useState('');
   const inputRef = React.useRef(null);
   const [password, setPassword] = React.useState('');
@@ -29,7 +32,11 @@ const Registration = () => {
     e.preventDefault();
     dispatch(registerUserAction(email, password, name));
   };
-
+  if (inLogin) {
+    return (
+    <Redirect to={location.state?.from || '/'} />
+    );
+  }
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Регистрация</h2>

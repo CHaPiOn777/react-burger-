@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { Redirect, useLocation } from "react-router-dom";
+
 export function setCookie(name, value, {props}) {
   props = props || {};
   let exp = props.expires;
@@ -33,4 +36,13 @@ export function getCookie(name) {
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+export function checkInLoginRedirect(inLogin, location) {
+  console.log(inLogin)
+  if (inLogin) {
+    return (
+    <Redirect to={location.state?.from || '/profile'} />
+    );
+  }
 }
