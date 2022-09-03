@@ -1,34 +1,49 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import style from './ResetPassword.module.css';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { resetPassword } from '../../components/utils/burger-api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPasswordAction } from '../../services/action/authAction';
 
 const ResetPassword = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const location = useLocation();
   const history = useHistory();
-  console.log(history)
+  const dispatch = useDispatch();
+  const messageErr = useSelector(store => store.authReducer.message);
+  const succesReset = useSelector(store => store.authReducer.success);
+  const [password, setPassword] = React.useState('');
+  const [code, setCode] = React.useState('');
 
-  const [password, setPassword] = React.useState('')
-  const passwordRef = React.useRef(null)
-  const onPassword = e => {
-    setPassword(e.target.value)
-  }
-  const onIconPasswordClick = () => {
-    setTimeout(() => passwordRef.current.focus(), 0)
-    alert('Icon Click Callback')
-  }
-  const [code, setCode] = React.useState('')
+  const passwordRef = React.useRef(null);
   const codeRef = React.useRef(null)
+
+
+  const onIconPasswordClick = () => {
+    setTimeout(() => passwordRef.current.focus(), 0);
+  }
+
+  const onPassword = e => {
+    setPassword(e.target.value);
+  }
   const onCode = e => {
     setCode(e.target.value)
   }
-  const newPassword = (e, password, code) => {
-    resetPassword(password, code)
-      .then(res => console.log(res))
-      .catch(err => console.error(err))
+  console.log(password, code)
+  const newPassword = (e) => {
+    e.preventDefault();
+    dispatch(resetPasswordAction(password, code))
+  }
+  
+  if (inLogin) {
+    return (
+    <Redirect to={location.state?.from || '/'} />
+    );
+  } else if (succesReset) {
+    return (
+      <Redirect to={'/login'} />
+      );
   }
 
   return (
@@ -42,10 +57,10 @@ const ResetPassword = () => {
           icon={'ShowIcon'}
           value={password}
           name={'password'}
-          error={false}
+          error={messageErr ? true : false}
           ref={passwordRef}
           onIconClick={onIconPasswordClick}
-          errorText={'Ошибка'}
+          errorText={messageErr}
           size={undefined}
         />
       </div>
@@ -57,19 +72,19 @@ const ResetPassword = () => {
           icon={undefined}
           value={code}
           name={'code'}
-          error={false}
+          error={messageErr ? true : false}
           ref={codeRef}
           onIconClick={undefined}
-          errorText={'Ошибка'}
+          errorText={messageErr}
           size={undefined}
         />
       </div>
-      <Button type="primary" size="large" onClick={(e) => {newPassword(password, code)}}>
+      <Button type="primary" size="large" onClick={(e) => {newPassword(e)}}>
         Сохранить
       </Button>
       <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >
         Вспомнили пароль?
-        <Link to='/' className={`${style.span} ml-2 text text_type_main-default`}>Войти</Link>
+        <Link to='/login' className={`${style.span} ml-2 text text_type_main-default`}>Войти</Link>
       </p>
 
     </section>

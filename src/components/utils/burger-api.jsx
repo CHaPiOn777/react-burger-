@@ -38,12 +38,13 @@ export function resetPasswordEmail(email) {
     .then(res => checkReponse(res))
 }
 
-export function resetPassword(password, token) {
+export function resetPassword(password, code) {
+  console.log(code, password)
   return fetch(`${baseURL}password-reset/reset`, {
     method: 'POST',
     body: JSON.stringify({
       password: password,
-      token: token
+      token: code
     }),
     headers: {
       'Content-Type': 'application/json'
@@ -52,13 +53,13 @@ export function resetPassword(password, token) {
     .then(res => checkReponse(res))
 }
 
-export function registerUser(email, password, Username) {
+export function registerUser(email, password, userName) {
   return fetch(`${baseURL}auth/register`, {
     method: 'POST',
     body: JSON.stringify({
       email: email,
       password: password,
-      name: Username
+      name: userName
     }),
     headers: {
       'Content-Type': 'application/json'
@@ -94,7 +95,7 @@ export function getUserInfo() {
 
 }
 
-export function setUserInfo(email, name, password) {
+export function changeUserInfo(email, name, password) {
   return fetch(`${baseURL}auth/user`, {
     method: 'PATCH',
     body: JSON.stringify({

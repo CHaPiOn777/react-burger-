@@ -37,12 +37,3 @@ export function getCookie(name) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-
-export function checkInLoginRedirect(inLogin, location) {
-  console.log(inLogin)
-  if (inLogin) {
-    return (
-    <Redirect to={location.state?.from || '/profile'} />
-    );
-  }
-}

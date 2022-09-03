@@ -3,12 +3,14 @@ import React, { useCallback } from 'react';
 import style from './ForgotPassword.module.css';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { resetPasswordEmail } from '../../components/utils/burger-api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkInLoginRedirect } from '../../components/utils/utils';
+import { resetPasswordEmailAction } from '../../services/action/authAction';
 
 const ForgotPassword = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const [email, setEmail] = React.useState('')
@@ -23,12 +25,15 @@ const ForgotPassword = () => {
     [history]
   );
 
-  const addEmail = (e, email) => {
-    resetPasswordEmail(email)
-      .then(res => res.success ? resetPassword() : console.log(res))
-      .catch(err => console.error(err))
+  const addEmail = () => {
+    dispatch(resetPasswordEmailAction(email));
+    resetPassword()
   }
-  checkInLoginRedirect(inLogin, location);
+  if (inLogin) {
+    return (
+    <Redirect to={location.state?.from || '/'} />
+    );
+  }
   return (
     <section className={style.container}>
       <h2 className={'text text_type_main-medium'}>Восстановление пароля</h2>
@@ -47,7 +52,7 @@ const ForgotPassword = () => {
           size={undefined}
         />
       </div>
-      <Button type="primary" size="large" onClick={(e) => { addEmail(e, email) }}>
+      <Button type="primary" size="large" onClick={(e) => { addEmail() }}>
         Восстановить
       </Button>
       <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >
