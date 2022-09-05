@@ -11,7 +11,6 @@ export const LoaderAuth = ({ children }) => {
           children :
           <div className={`${stylesLoader.loader}`}></div>
       }
-
     </>
   );
 };
