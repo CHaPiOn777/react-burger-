@@ -18,6 +18,7 @@ export const USER_CHANGE_FAILED = 'USER_CHANGE_FAILED';
 
 export const GET_REGISTER_SUCCESS = 'GET_REGISTER_SUCCESS';
 export const GET_REGISTER_FAILED = 'GET_REGISTER_FAILED';
+export const INLOADER = 'INLOADER';
 
 export const registerUserAction = (email, password, name) => {
 
@@ -59,6 +60,11 @@ export const registerUserAction = (email, password, name) => {
           message: err.message
         })
       })
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
   }
 }
 
@@ -81,6 +87,11 @@ export const getUserAction = () => {
         dispatch({
           type: GET_USER_FAILED,
           message: err.message
+        })
+      })
+      .finally(() => {
+        dispatch({
+          type: INLOADER
         })
       })
   }
@@ -120,6 +131,11 @@ export const authAction = (email, password) => {
           message: err.message
         })
       })
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
   }
 }
 
@@ -143,6 +159,11 @@ export const logoutUserAction = () => {
         message: err.message
       })
       )
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
   }
 }
 
@@ -164,6 +185,11 @@ export const resetPasswordEmailAction = (email) => {
         type: USER_RESET_EMAIL_FAILED,
         message: err.message
       }))
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
   }
 }
 export const resetPasswordAction = (password, code) => {
@@ -184,6 +210,11 @@ export const resetPasswordAction = (password, code) => {
         type: USER_RESET_FAILED,
         message: err.message
       }))
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
   }
 }
 export const changeUserInfoAction = (email, name, password) => {
@@ -204,5 +235,10 @@ export const changeUserInfoAction = (email, name, password) => {
         type: USER_CHANGE_FAILED,
         message: err.message
       }))
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
   }
 }

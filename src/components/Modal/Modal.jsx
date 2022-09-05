@@ -7,7 +7,7 @@ import stylesModalDetails from './Modal.module.css';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import Loader from '../utils/Loader/Loader';
+import Loader, { LoaderIngredients } from '../utils/Loader/Loader';
 import { useHistory } from 'react-router-dom';
 const modalRoot = document.querySelector('#modal');
 
@@ -31,19 +31,19 @@ const Modal = ({ active, setActive, children }) => {
     <>
       {load ?
         (<>
-          <Loader />
+          <LoaderIngredients />
           <ModalOverlay active={active} setActive={setActive} closePopup={() => { }}></ModalOverlay>
         </>
         )
         : (
           <>
             <div className={active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}>
-              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={homePage}>
+              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => {homePage(); setActive(false)}}>
                 <CloseIcon type="primary" />
               </button>
               {children}
             </div>
-            <ModalOverlay active={active} setActive={setActive} closePopup={homePage}></ModalOverlay>
+            <ModalOverlay active={active} setActive={setActive} closePopup={() => {homePage(); setActive(false)}}></ModalOverlay>
           </>)}
     </>
     , modalRoot

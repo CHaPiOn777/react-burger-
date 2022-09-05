@@ -1,4 +1,5 @@
 import { getOrder } from "../../components/utils/burger-api";
+import { INLOADER } from "./authAction";
 import { RESET_ITEMS } from "./constructorAction";
 
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -37,6 +38,11 @@ export const getOrderAction = (id) => {
       // Если сервер не вернул данных, также отправляем экшен об ошибке
       dispatch({
         type: GET_ORDER_FAILED
+      })
+    })
+    .finally(() => {
+      dispatch({
+        type: INLOADER
       })
     })
   }

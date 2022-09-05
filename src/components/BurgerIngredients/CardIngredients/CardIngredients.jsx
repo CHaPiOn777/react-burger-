@@ -42,9 +42,12 @@ const CardIngredients = ({ card, setActive }) => {
     [ingredients, bun]
   );
   return (
-    <Link 
-    to={`/ingredients/${card._id}`}
-    state={{ backgroundLocation: location }}>
+    <Link className={stylesCardIngredients.link}
+      to={{
+        pathname: `/ingredients/${card._id}`,
+        state: { background: location }
+      }} >
+
       <li className={`${stylesCardIngredients.card} `}
         ref={dragRef}
         style={{ opacity }}
@@ -65,7 +68,7 @@ const CardIngredients = ({ card, setActive }) => {
         </p>
         <p className={`${stylesCardIngredients.name} text text_type_main-default`}>{card.name}</p>
       </li>
-    </Link>
+    </Link >
   )
 }
 

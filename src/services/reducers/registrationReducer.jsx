@@ -1,3 +1,4 @@
+import { INLOADER } from "../action/authAction";
 import { LOADER } from "../action/orderDetailsAction";
 import { GET_REGISTER_FAILED, GET_REGISTER_SUCCESS } from "../action/registrationAction";
 
@@ -24,6 +25,12 @@ export const registerUserReduser = (state = initialState, action) => {
     case LOADER: {
       return {
         loader: true
+      }
+    }
+    case INLOADER: {
+      return {
+        ...state,
+        loader: false
       }
     }
     default:

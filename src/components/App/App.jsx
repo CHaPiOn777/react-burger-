@@ -25,7 +25,9 @@ function App() {
   const [popupCard, setPopupCard] = React.useState(false);
   const token = getCookie('token');
   const location = useLocation();
+
   const background = location.state?.background;
+  console.log(location)
 
   //получили ингредиенты с сервера
   const dispatch = useDispatch();
@@ -56,6 +58,9 @@ function App() {
           </Route>
           <Route path="/forgot-password" exact={true}>
             <ForgotPassword />
+          </Route>
+          <Route path='/ingredients/:id' exact={true}>
+            <IngredientDetails />
           </Route>
           <ProtectedRoute path="/profile">
             <Profile />

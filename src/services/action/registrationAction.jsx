@@ -1,5 +1,6 @@
 import { registerUser } from "../../components/utils/burger-api";
 import { setCookie } from "../../components/utils/utils";
+import { INLOADER } from "./authAction";
 import { LOADER } from "./orderDetailsAction";
 
 export const GET_REGISTER_SUCCESS = 'GET_REGISTER_SUCCESS';
@@ -47,6 +48,11 @@ export const registerUserAction = (email, password, name) => {
         // Если сервер не вернул данных, также отправляем экшен об ошибке
         dispatch({
           type: GET_REGISTER_FAILED
+        })
+      })
+      .finally(() => {
+        dispatch({
+          type: INLOADER
         })
       })
   }

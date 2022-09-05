@@ -1,3 +1,4 @@
+import { INLOADER } from "../action/authAction"
 import { POPUP_ITEM } from "../action/IngredientDetailsAction"
 import { LOADER } from "../action/orderDetailsAction"
 
@@ -18,6 +19,12 @@ export const IngredientDetailsReducer = (state = initialState, action) => {
     case LOADER: {
       return {
         loader: true
+      }
+    }
+    case INLOADER: {
+      return {
+        ...state,
+        loader: false
       }
     }
     default: {

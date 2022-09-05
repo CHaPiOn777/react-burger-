@@ -1,3 +1,4 @@
+import { INLOADER } from "../action/authAction"
 import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, LOADER } from "../action/orderDetailsAction"
 
 const initialState = {
@@ -35,6 +36,12 @@ export const orderDetailsReduser = ( state = initialState, action ) => {
     case LOADER: {
       return {
         loader: true
+      }
+    }
+    case INLOADER: {
+      return {
+        ...state,
+        loader: false
       }
     }
     default: {
