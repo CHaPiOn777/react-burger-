@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import stylesCardIngredients from './CardIngredients.module.css';
 import PropTypes from 'prop-types';
 import {
@@ -9,7 +9,7 @@ import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const CardIngredients = ({ card, setActive }) => {
   const ingredients = useSelector(store => store.constructorReducer.feed);
@@ -24,12 +24,14 @@ const CardIngredients = ({ card, setActive }) => {
       opacity: monitor.isDragging() ? 0.5 : 1
     })
   })
-  const getItemInfo = (item) => {
+
+  const getItemInfo = useCallback((item) => {
     dispatch({
       type: POPUP_ITEM,
       item: item
     })
-  }
+  }, [dispatch])
+
   const counter = useMemo(
     () =>
       (count = 0) => {
@@ -41,6 +43,8 @@ const CardIngredients = ({ card, setActive }) => {
       },
     [ingredients, bun]
   );
+
+
   return (
     <Link className={stylesCardIngredients.link}
       to={{

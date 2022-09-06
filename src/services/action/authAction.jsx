@@ -1,4 +1,4 @@
-import { authUser, logoutUser, getUserInfo, resetPassword, resetPasswordEmail, changeUserInfo, registerUser } from "../../components/utils/burger-api";
+import { authUser, logoutUser, getUserInfo, resetPassword, resetPasswordEmail, changeUserInfo, registerUser, updateToken } from "../../components/utils/burger-api";
 import { deleteCookie, setCookie } from "../../components/utils/utils";
 import { LOADER } from "./orderDetailsAction";
 import { useHistory } from 'react-router-dom';
@@ -21,7 +21,6 @@ export const GET_REGISTER_FAILED = 'GET_REGISTER_FAILED';
 export const INLOADER = 'INLOADER';
 
 export const registerUserAction = (email, password, name) => {
-
   return function (dispatch) {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоадер или заблокировать 
@@ -31,13 +30,13 @@ export const registerUserAction = (email, password, name) => {
     })
     // Запрашиваем данные у сервера
     registerUser(email, password, name)
-      // .then(res => {
-      //   const accessToken = res.accessToken.split('Bearer ')[1];
-      //   const refreshToken = res.refreshToken;
-      //   setCookie('token', accessToken);
-      //   localStorage.setItem('refreshToken', refreshToken);
-      //   return res;
-      // })
+      .then(res => {
+        const accessToken = res.accessToken.split('Bearer ')[1];
+        const refreshToken = res.refreshToken;
+        setCookie('token', accessToken, { 'max-age': 1200 });
+        localStorage.setItem('refreshToken', refreshToken);
+        return res;
+      })
       .then(res => {
         if (res && res.success) {
 
@@ -49,9 +48,6 @@ export const registerUserAction = (email, password, name) => {
             accessToken: res.accessToken,
             refreshToken: res.refreshToken
           });
-          // dispatch({
-          //   type: RESET_ITEMS
-          // })
         }
       }).catch(err => {
         // Если сервер не вернул данных, также отправляем экшен об ошибке
@@ -138,7 +134,26 @@ export const authAction = (email, password) => {
       })
   }
 }
-
+export const updateTokenAction = () => {
+  return function (dispatch) {
+    dispatch({
+      type: LOADER
+    })
+    updateToken(localStorage.getItem('refreshToken'))
+      .then(res => {
+        const accessToken = res.accessToken.split('Bearer ')[1];
+        const refreshToken = res.refreshToken;
+        setCookie('token', accessToken, { 'max-age': 1200 });
+        localStorage.setItem('refreshToken', refreshToken);
+        return res;
+      })
+      .finally(() => {
+        dispatch({
+          type: INLOADER
+        })
+      })
+  }
+}
 export const logoutUserAction = () => {
 
   return function (dispatch) {

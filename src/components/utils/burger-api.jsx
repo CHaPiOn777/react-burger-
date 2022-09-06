@@ -1,10 +1,25 @@
-import { getCookie } from "./utils";
+import { getCookie, setCookie } from "./utils";
 
 const baseURL = 'https://norma.nomoreparties.space/api/'
 
 
 export const checkReponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  return res.ok ?
+    res.json() :
+    res.json()
+      .then((err) => {
+        if (err.message === 'jwt malformed' || err.message === 'jwt expired') {
+          updateToken(localStorage.getItem('refreshToken'))
+          .then(res => {
+            const accessToken = res.accessToken.split('Bearer ')[1];
+            const refreshToken = res.refreshToken;
+            setCookie('token', accessToken, { 'max-age': 1200 });
+            localStorage.setItem('refreshToken', refreshToken);
+            return res;
+          });
+        }
+        Promise.reject(err);
+      });
 };
 
 export function getIngredients() {
@@ -19,7 +34,8 @@ export function getOrder(id) {
       ingredients: id
     }),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
     }
   })
     .then(res => checkReponse(res))
@@ -79,7 +95,7 @@ export function authUser(email, password) {
       'Content-Type': 'application/json'
     }
   })
-  .then(res => checkReponse(res))
+    .then(res => checkReponse(res))
 
 }
 
@@ -91,7 +107,7 @@ export function getUserInfo() {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-  .then(res => checkReponse(res))
+    .then(res => checkReponse(res))
 
 }
 
@@ -108,7 +124,7 @@ export function changeUserInfo(email, name, password) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-  .then(res => checkReponse(res))
+    .then(res => checkReponse(res))
 }
 export function logoutUser(refreshToken) {
   return fetch(`${baseURL}auth/logout`, {
@@ -120,5 +136,18 @@ export function logoutUser(refreshToken) {
       'Content-Type': 'application/json'
     }
   })
-  .then(res => checkReponse(res))
+    .then(res => checkReponse(res))
+}
+export function updateToken(refreshToken) {
+  return fetch(`${baseURL}auth/token`, {
+    method: 'POST',
+    body: JSON.stringify({
+      token: refreshToken
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
+    }
+  })
+    .then(res => checkReponse(res))
 }

@@ -22,13 +22,14 @@ export const orderDetailsReduser = ( state = initialState, action ) => {
         ...state,
         loader: false,
         order: action.order,
-        feedRequest: false
+        feedRequest: false,
+        feedFailed: false,
       }
     }
     case GET_ORDER_FAILED: {
       return {
         ...state,
-        feedFailed: false,
+        feedFailed: true,
         loader: true,
         feedRequest: false
       }

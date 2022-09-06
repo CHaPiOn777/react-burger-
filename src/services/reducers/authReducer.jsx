@@ -7,7 +7,8 @@ const initialState = {
   loader: false,
   inLogin: false,
   message: null,
-  resetEmailSuccess: false
+  resetEmailSuccess: false,
+  updateToken: false
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -42,8 +43,7 @@ export const authReducer = (state = initialState, action) => {
     case LOADER: {
       return {
         ...state,
-        loader: true,
-        inLogin: false
+        loader: true
       }
     }
     case INLOADER: {

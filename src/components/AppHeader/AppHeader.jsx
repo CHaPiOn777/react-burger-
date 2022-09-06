@@ -10,7 +10,6 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 
 const AppHeader = () => {
   let currentURL = useLocation();
-  let typeIcon = '';
   
   return (
     <header className={stylesHeader.header}>

@@ -11,30 +11,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
-import { BrowserRouter, Switch, Route, useLocation, useParams } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
 import Profile from '../../pages/profile/Profile';
 import { getCookie, setCookie } from '../utils/utils';
-import { getUserAction } from '../../services/action/authAction';
+import { getUserAction, updateTokenAction } from '../../services/action/authAction';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
   const token = getCookie('token');
+  const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
+  const orderState = useSelector(store => store.orderDetailsReduser.feedFailed)
 
   const background = location.state?.background;
-  console.log(location)
 
-  //получили ингредиенты с сервера
   const dispatch = useDispatch();
   useEffect(() => { dispatch(getUserAction()) }, [dispatch])
   useEffect(() => { dispatch(fetchIngredients()) }, [dispatch]);
-  //отправляем запрос на сервер для зарегистрированного пользователя
 
+  useEffect(() => {
+    if (!token && refreshToken) {
+      dispatch(updateTokenAction())
+    }
+  }, [dispatch, token])
 
   return (
     <div className={StylesApp.page}>
@@ -75,7 +79,7 @@ function App() {
           </Modal>
         </Route>
       }
-      {popupIngredients &&
+      {popupIngredients && !orderState &&
         <Modal active={popupIngredients} setActive={setPopupIngredients} >
           <OrderDetails />
         </Modal>

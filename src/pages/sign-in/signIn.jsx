@@ -1,39 +1,36 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback } from 'react';
 import style from './SignIn.module.css';
-import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { authUser } from '../../components/utils/burger-api';
-import { authAction, getUserAction } from '../../services/action/authAction';
-import { getCookie, setCookie } from '../../components/utils/utils';
-import Loader, { LoaderAuth } from '../../components/utils/Loader/Loader';
+import { authAction } from '../../services/action/authAction';
+import { LoaderAuth } from '../../components/utils/Loader/Loader';
 
 const SignIn = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
+
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
+
   const onPasword = e => {
     setPassword(e.target.value);
   };
   const onEmail = e => {
     setEmail(e.target.value);
-
   };
 
-  const login = (e) => {
+  const login = useCallback((e) => {
     e.preventDefault();
     dispatch(authAction(email, password))
-
-  };
+  }, [dispatch]);
 
   if (inLogin) {
     return (
       <Redirect to={location.state?.from || '/'} />
-    );
-  }
+    )
+  };
 
   return (
     <LoaderAuth>

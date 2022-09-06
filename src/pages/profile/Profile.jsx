@@ -1,27 +1,21 @@
-import { Button, EmailInput, Input, PasswordInput, ProfileIcon, ShowIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useEffect } from 'react';
-import { changeUserInfo, getUserInfo, registerUser } from '../../components/utils/burger-api';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useCallback } from 'react';
 import style from './Profile.module.css'
-import { Link, NavLink, useHistory, useLocation, Redirect } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUserAction } from '../../services/action/registrationAction';
 import { changeUserInfoAction, logoutUserAction } from '../../services/action/authAction';
-import { getCookie } from '../../components/utils/utils';
-import Loader, { LoaderAuth } from '../../components/utils/Loader/Loader';
+import { LoaderAuth } from '../../components/utils/Loader/Loader';
 
 const Profile = () => {
   const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
   let [showPassword, setShowPassword] = React.useState(false);
+
   const [form, setForm] = React.useState({
     email: user.email,
     name: user.name,
     password: ''
   });
-  const token = getCookie('token');
-  const history = useHistory();
-  const location = useLocation();
-
 
   const nameRef = React.useRef(null);
   const loginRef = React.useRef(null);
@@ -31,17 +25,18 @@ const Profile = () => {
   const onChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value })
   };
-  const onSubmit = e => {
-    e.preventDefault();
+
+  const onSubmit = (e) => {
     dispatch(changeUserInfoAction(form.email, form.name, form.password))
-  }
+  };
+
+  const handleLogout = useCallback(() => {
+    dispatch(logoutUserAction());
+  }, [dispatch]);
 
   const onIconClick = (ref) => { ref.current.focus() };
   const onShowPassword = () => { setShowPassword(showPassword ? showPassword = false : showPassword = true) };
 
-  const handleLogout = () => {
-    dispatch(logoutUserAction());
-  }
   const resetInfo = () => {
     setForm({
       email: user.email,

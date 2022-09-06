@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import stylesLoader from './Loader.module.css'
 export const LoaderAuth = ({ children }) => {

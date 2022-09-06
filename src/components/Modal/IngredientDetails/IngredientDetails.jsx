@@ -1,15 +1,13 @@
 
 import stylesIngredientDetails from './IngredientDetails.module.css';
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const IngredientDetails = () => {
-  const location = useLocation();
   const ingredients = useSelector(store => store.listIgredients.feed);
-  // console.log(ingredient)
+
   const { id } = useParams();
   const ingredient = ingredients.find(ingredient => ingredient._id === id);
-  const background = location.state?.background;
   return (
     <>
       {

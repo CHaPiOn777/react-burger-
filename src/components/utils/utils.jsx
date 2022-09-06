@@ -1,6 +1,3 @@
-import { useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router-dom";
-
 export function setCookie(name, value, {props}) {
   props = props || {};
   let exp = props.expires;

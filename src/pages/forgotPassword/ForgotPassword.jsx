@@ -1,31 +1,27 @@
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Input, } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback } from 'react';
 import style from './ForgotPassword.module.css';
-import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
-import { resetPasswordEmail } from '../../components/utils/burger-api';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkInLoginRedirect } from '../../components/utils/utils';
 import { resetPasswordEmailAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../components/utils/Loader/Loader';
 
 const ForgotPassword = () => {
-  const inLogin = useSelector(store => store.authReducer.inLogin);
-  const history = useHistory();
-  const dispatch = useDispatch();
   const resetEmailSuccess = useSelector(store => store.authReducer.resetEmailSuccess);
-
-  const location = useLocation();
+  const inLogin = useSelector(store => store.authReducer.inLogin);
   const [email, setEmail] = React.useState('')
   const emailRef = React.useRef(null)
+  const location = useLocation();
+  const dispatch = useDispatch();
+
   const onEmail = e => {
     setEmail(e.target.value);
-    
   }
 
-  const addEmail = () => {
+  const addEmail = useCallback(() => {
     dispatch(resetPasswordEmailAction(email));
+  }, [dispatch])
 
-  }
   if (inLogin) {
     return (
       <Redirect to={location.state?.from || '/'} />

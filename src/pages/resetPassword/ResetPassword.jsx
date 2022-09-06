@@ -1,33 +1,26 @@
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useEffect } from 'react';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useCallback } from 'react';
 import style from './ResetPassword.module.css';
-import { Link, Redirect, useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
-import { resetPassword } from '../../components/utils/burger-api';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPasswordAction } from '../../services/action/authAction';
-import Loader, { LoaderAuth } from '../../components/utils/Loader/Loader';
+import { LoaderAuth } from '../../components/utils/Loader/Loader';
 
 const ResetPassword = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const messageErr = useSelector(store => store.authReducer.message);
   const successReset = useSelector(store => store.authReducer.success);
   const resetEmailSuccess = useSelector(store => store.authReducer.resetEmailSuccess);
+
   const location = useLocation();
-
-  const history = useHistory();
-  const params = useParams();
-  const route = useRouteMatch();
-
   const dispatch = useDispatch();
-
 
   const [password, setPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
   const passwordRef = React.useRef(null);
-  const codeRef = React.useRef(null)
+  const codeRef = React.useRef(null);
 
-  console.log(resetEmailSuccess)
   const onIconPasswordClick = () => {
     setTimeout(() => passwordRef.current.focus(), 0);
   }
@@ -38,10 +31,10 @@ const ResetPassword = () => {
   const onCode = e => {
     setCode(e.target.value)
   }
-  const newPassword = (e) => {
+  const newPassword = useCallback((e) => {
     e.preventDefault();
     dispatch(resetPasswordAction(password, code))
-  }
+  }, [dispatch])
 
   if (inLogin) {
     return (
