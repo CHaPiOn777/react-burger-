@@ -11,77 +11,81 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
 import Profile from '../../pages/profile/Profile';
 import { getCookie, setCookie } from '../utils/utils';
-import { getUserAction } from '../../services/action/authAction';
+import { getUserAction, updateTokenAction } from '../../services/action/authAction';
+import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
   const [popupCard, setPopupCard] = React.useState(false);
   const token = getCookie('token');
+  const refreshToken = localStorage.getItem('refreshToken')
+  const location = useLocation();
+  const orderState = useSelector(store => store.orderDetailsReduser.feedFailed)
 
-  //получили ингредиенты с сервераS
+  const background = location.state?.background;
+
   const dispatch = useDispatch();
-  useEffect(() => {dispatch(fetchIngredients())}, [dispatch]);
-  useEffect(() => {dispatch(getUserAction())}, [dispatch, token])
-  //отправляем запрос на сервер для зарегистрированного пользователя
-  
+  useEffect(() => { dispatch(getUserAction()) }, [dispatch])
+  useEffect(() => { dispatch(fetchIngredients()) }, [dispatch]);
+
+  useEffect(() => {
+    if (!token && refreshToken) {
+      dispatch(updateTokenAction())
+    }
+  }, [dispatch, token])
 
   return (
-    <BrowserRouter>
-      <div className={StylesApp.page}>
-        <AppHeader />
-        <main className={`${StylesApp.main} pl-5 `}>
-          <Switch>
-            <DndProvider backend={HTML5Backend}>
-              <Route path="/" exact={true}>
-                <BurgerIngredients setActive={setPopupCard} />
-              </Route>
-              <Route path="/" exact={true}>
-                <BurgerConstructor setActive={setPopupIngredients} />
-              </Route>
-              <Route path="/login" exact={true}>
-                <SignIn />
-              </Route>
-              <Route path="/register" exact={true}>
-                <Registration />
-              </Route>
-              <Route path="/reset-password" exact={true}>
-                <ResetPassword />
-              </Route>
-              <Route path="/forgot-password" exact={true}>
-                <ForgotPassword />
-              </Route>
-              <Route path="/profile" exact={true}>
-                <Profile />
-              </Route>
-            </DndProvider>
-          </Switch>
-        </main>
-      </div>
-    </BrowserRouter>
-  )
-  {/* {popupCard &&
-        <Modal active={popupCard} setActive={setPopupCard}>
-          <IngredientDetails/>
-        </Modal>
-      }
-      {popupIngredients &&
-        <Modal active={popupIngredients} setActive={setPopupIngredients} >
-          <OrderDetails/>
-        </Modal>
-      }
-
+    <div className={StylesApp.page}>
+      <AppHeader />
       <main className={`${StylesApp.main} pl-5 `}>
-        
-      </main> */}
+        <Switch location={background || location}>
+          <Route path="/" exact={true}>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients setActive={setPopupCard} />
+              <BurgerConstructor setActive={setPopupIngredients} />
+            </DndProvider>
+          </Route>
+          <Route path="/login" exact={true}>
+            <SignIn />
+          </Route>
+          <Route path="/register" exact={true}>
+            <Registration />
+          </Route>
+          <Route path="/reset-password" exact={true}>
+            <ResetPassword />
+          </Route>
+          <Route path="/forgot-password" exact={true}>
+            <ForgotPassword />
+          </Route>
+          <Route path='/ingredients/:id' exact={true}>
+            <IngredientDetails />
+          </Route>
+          <ProtectedRoute path="/profile">
+            <Profile />
+          </ProtectedRoute>
 
-
-
+        </Switch>
+      </main>
+      {popupCard && 
+        <Route path='/ingredients/:id' exact={true}>
+          <Modal active={popupCard} setActive={setPopupCard}>
+            < IngredientDetails />
+          </Modal>
+        </Route>
+      }
+      {popupIngredients && !orderState &&
+        <Modal active={popupIngredients} setActive={setPopupIngredients} >
+          <OrderDetails />
+        </Modal>
+      }
+    </div>
+  )
 }
 
 export default App;

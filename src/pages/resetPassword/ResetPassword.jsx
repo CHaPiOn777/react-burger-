@@ -1,73 +1,103 @@
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback } from 'react';
 import style from './ResetPassword.module.css';
-import { Link, useHistory } from 'react-router-dom';
-import { resetPassword } from '../../components/utils/burger-api';
+import { Link, Redirect, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPasswordAction } from '../../services/action/authAction';
+import { LoaderAuth } from '../../components/utils/Loader/Loader';
 
 const ResetPassword = () => {
+  const inLogin = useSelector(store => store.authReducer.inLogin);
+  const messageErr = useSelector(store => store.authReducer.message);
+  const successReset = useSelector(store => store.authReducer.success);
+  const resetEmailSuccess = useSelector(store => store.authReducer.resetEmailSuccess);
 
-  const [password, setPassword] = React.useState('')
-  const passwordRef = React.useRef(null)
-  const onPassword = e => {
-    setPassword(e.target.value)
-  }
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const [password, setPassword] = React.useState('');
+  const [code, setCode] = React.useState('');
+
+  const passwordRef = React.useRef(null);
+  const codeRef = React.useRef(null);
+
   const onIconPasswordClick = () => {
-    setTimeout(() => passwordRef.current.focus(), 0)
-    alert('Icon Click Callback')
+    setTimeout(() => passwordRef.current.focus(), 0);
   }
-  const [code, setCode] = React.useState('')
-  const codeRef = React.useRef(null)
+
+  const onPassword = e => {
+    setPassword(e.target.value);
+  }
   const onCode = e => {
     setCode(e.target.value)
   }
-  const newPassword = (e, password, code) => {
-    resetPassword(password, code)
-      .then(res => console.log(res))
-      .catch(err => console.error(err))
-  }
-  return (
-    <section className={style.container}>
-      <h2 className={'text text_type_main-medium'}>Восстановление пароля</h2>
-      <div className={`${style.wrapper} mt-6`}>
-        <Input
-          type={'password'}
-          placeholder={'Введите новый пароль'}
-          onChange={(e) => { onPassword(e) }}
-          icon={'ShowIcon'}
-          value={password}
-          name={'password'}
-          error={false}
-          ref={passwordRef}
-          onIconClick={onIconPasswordClick}
-          errorText={'Ошибка'}
-          size={undefined}
-        />
-      </div>
-      <div className={`${style.wrapper} mt-6 mb-6`}>
-        <Input
-          type={'text'}
-          placeholder={'Введите код из письма'}
-          onChange={(e) => { onCode(e) }}
-          icon={undefined}
-          value={code}
-          name={'code'}
-          error={false}
-          ref={codeRef}
-          onIconClick={undefined}
-          errorText={'Ошибка'}
-          size={undefined}
-        />
-      </div>
-      <Button type="primary" size="large" onClick={(e) => {newPassword(password, code)}}>
-        Сохранить
-      </Button>
-      <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >
-        Вспомнили пароль?
-        <Link to='/' className={`${style.span} ml-2 text text_type_main-default`}>Войти</Link>
-      </p>
+  const newPassword = useCallback((e) => {
+    e.preventDefault();
+    dispatch(resetPasswordAction(password, code))
+  }, [dispatch])
 
-    </section>
-  );
-};
+  if (inLogin) {
+    return (
+      <Redirect to={location.state?.from || '/'} />
+    );
+  } 
+
+  if (!resetEmailSuccess) {
+    return (
+      <Redirect to={"/forgot-password" } />
+    )
+  }
+
+  return (
+    <LoaderAuth>
+      <section className={style.container}>
+        <h2 className={'text text_type_main-medium'}>Восстановление пароля</h2>
+        <div className={`${style.wrapper} mt-6`}>
+          <Input
+            type={'password'}
+            placeholder={'Введите новый пароль'}
+            onChange={(e) => { onPassword(e) }}
+            icon={'ShowIcon'}
+            value={password}
+            name={'password'}
+            error={messageErr ? true : false}
+            ref={passwordRef}
+            onIconClick={onIconPasswordClick}
+            errorText={messageErr}
+            size={undefined}
+          />
+        </div>
+        <div className={`${style.wrapper} mt-6 mb-6`}>
+          <Input
+            type={'text'}
+            placeholder={'Введите код из письма'}
+            onChange={(e) => { onCode(e) }}
+            icon={undefined}
+            value={code}
+            name={'code'}
+            error={messageErr ? true : false}
+            ref={codeRef}
+            onIconClick={undefined}
+            errorText={messageErr}
+            size={undefined}
+          />
+        </div>
+        <Button type="primary" size="large" onClick={(e) => { newPassword(e) }}>
+          {successReset ?
+            (<Redirect to={'/login'} />) 
+            : ''
+          }
+          Сохранить
+        </Button>
+        <p className={`${style.info} mt-20 text text_type_main-default text_color_inactive`} >
+          Вспомнили пароль?
+          <Link to='/login' className={`${style.span} ml-2 text text_type_main-default`}>Войти</Link>
+        </p>
+
+      </section>
+    </LoaderAuth>
+  )
+}
+
 
 export default ResetPassword;

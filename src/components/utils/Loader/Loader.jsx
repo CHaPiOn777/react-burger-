@@ -1,11 +1,23 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import stylesLoader from './Loader.module.css'
-const Loader = () => {
+export const LoaderAuth = ({ children }) => {
+  const loader = useSelector(store => store.authReducer.loader);
+
   return (
     <>
-      <div className={`${stylesLoader.loader}`}></div>
+      {
+        !loader ?
+          children :
+          <div className={`${stylesLoader.loader}`}></div>
+      }
     </>
   );
 };
 
-export default Loader;
+export const LoaderIngredients = () => {
+  return (
+    <>
+      <div className={`${stylesLoader.loader} ${stylesLoader.loaderIngredients}`}></div>
+    </>
+  );
+};
