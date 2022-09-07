@@ -1,7 +1,6 @@
-import { authUser, logoutUser, getUserInfo, resetPassword, resetPasswordEmail, changeUserInfo, registerUser, updateToken } from "../../components/utils/burger-api";
-import { deleteCookie, setCookie } from "../../components/utils/utils";
-import { LOADER } from "./orderDetailsAction";
-import { useHistory } from 'react-router-dom';
+import { authUser, logoutUser, getUserInfo, resetPassword, resetPasswordEmail, changeUserInfo, registerUser, updateToken } from "../../utils/burger-api";
+import { deleteCookie, setCookie } from "../../utils/utils";
+import { inLoader, loader } from "./actionCreator";
 
 export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
 export const GET_AUTH_FAILED = 'GET_AUTH_FAILED';
@@ -25,9 +24,7 @@ export const registerUserAction = (email, password, name) => {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоадер или заблокировать 
     // ввод на время выполнения запроса
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader());
     // Запрашиваем данные у сервера
     registerUser(email, password, name)
       .then(res => {
@@ -57,9 +54,7 @@ export const registerUserAction = (email, password, name) => {
         })
       })
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
@@ -86,9 +81,7 @@ export const getUserAction = () => {
         })
       })
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
@@ -96,9 +89,7 @@ export const getUserAction = () => {
 export const authAction = (email, password) => {
 
   return function (dispatch) {
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader());
     authUser(email, password)
       .then(res => {
         const accessToken = res.accessToken.split('Bearer ')[1];
@@ -128,17 +119,13 @@ export const authAction = (email, password) => {
         })
       })
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
 export const updateTokenAction = () => {
   return function (dispatch) {
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader())
     updateToken(localStorage.getItem('refreshToken'))
       .then(res => {
         const accessToken = res.accessToken.split('Bearer ')[1];
@@ -148,18 +135,14 @@ export const updateTokenAction = () => {
         return res;
       })
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
 export const logoutUserAction = () => {
 
   return function (dispatch) {
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader())
     logoutUser(localStorage.getItem('refreshToken'))
       .then(res => {
         if (res && res.success) {
@@ -175,9 +158,7 @@ export const logoutUserAction = () => {
       })
       )
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
@@ -185,9 +166,7 @@ export const logoutUserAction = () => {
 export const resetPasswordEmailAction = (email) => {
 
   return function (dispatch) {
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader())
     resetPasswordEmail(email)
       .then(res => {
         if (res && res.success) {
@@ -201,17 +180,13 @@ export const resetPasswordEmailAction = (email) => {
         message: err.message
       }))
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
 export const resetPasswordAction = (password, code) => {
   return function (dispatch) {
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader())
     resetPassword(password, code)
       .then(res => {
         if (res && res.success) {
@@ -226,17 +201,13 @@ export const resetPasswordAction = (password, code) => {
         message: err.message
       }))
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }
 export const changeUserInfoAction = (email, name, password) => {
   return function (dispatch) {
-    dispatch({
-      type: LOADER
-    })
+    dispatch(loader())
     changeUserInfo(email, name, password)
       .then(res => {
         if (res && res.success) {
@@ -251,9 +222,7 @@ export const changeUserInfoAction = (email, name, password) => {
         message: err.message
       }))
       .finally(() => {
-        dispatch({
-          type: INLOADER
-        })
+        dispatch(inLoader())
       })
   }
 }

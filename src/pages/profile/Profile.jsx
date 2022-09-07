@@ -1,33 +1,32 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback } from 'react';
 import style from './Profile.module.css'
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeUserInfoAction, logoutUserAction } from '../../services/action/authAction';
-import { LoaderAuth } from '../../components/utils/Loader/Loader';
+import { LoaderAuth } from '../../utils/Loader/Loader';
+import { useForm } from '../../utils/hooks/useForm';
 
 const Profile = () => {
   const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
   let [showPassword, setShowPassword] = React.useState(false);
 
-  const [form, setForm] = React.useState({
-    email: user.email,
-    name: user.name,
-    password: ''
-  });
+  const { values, handleChange, setValues } =
+    useForm({
+      email: user.email,
+      name: user.name,
+      password: ''
+    });
+  const { email, password, name } = values
 
   const nameRef = React.useRef(null);
   const loginRef = React.useRef(null);
   const passwordRef = React.useRef(null);
 
-
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  };
-
   const onSubmit = (e) => {
-    dispatch(changeUserInfoAction(form.email, form.name, form.password))
+    setValues({});
+    dispatch(changeUserInfoAction(email, name, password))
   };
 
   const handleLogout = useCallback(() => {
@@ -38,7 +37,7 @@ const Profile = () => {
   const onShowPassword = () => { setShowPassword(showPassword ? showPassword = false : showPassword = true) };
 
   const resetInfo = () => {
-    setForm({
+    setValues({
       email: user.email,
       name: user.name,
       password: ''
@@ -85,9 +84,9 @@ const Profile = () => {
             <Input
               type={'text'}
               placeholder={'Имя'}
-              onChange={(e) => { onChange(e) }}
+              onChange={(e) => { handleChange(e) }}
               icon={'EditIcon'}
-              value={form.name}
+              value={name}
               name={'name'}
               error={false}
               ref={nameRef}
@@ -100,9 +99,9 @@ const Profile = () => {
             <Input
               type={'email'}
               placeholder={'Логин'}
-              onChange={(e) => { onChange(e) }}
+              onChange={(e) => { handleChange(e) }}
               icon={'EditIcon'}
-              value={form.email}
+              value={email}
               name={'email'}
               error={false}
               ref={loginRef}
@@ -114,9 +113,9 @@ const Profile = () => {
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder={'Пароль'}
-              onChange={(e) => { onChange(e) }}
+              onChange={(e) => { handleChange(e) }}
               icon={showPassword ? 'HideIcon' : 'ShowIcon'}
-              value={form.password}
+              value={password}
               name={'password'}
               error={false}
               ref={passwordRef}

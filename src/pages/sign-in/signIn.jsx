@@ -1,47 +1,41 @@
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback } from 'react';
+import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './SignIn.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authAction } from '../../services/action/authAction';
-import { LoaderAuth } from '../../components/utils/Loader/Loader';
+import { LoaderAuth } from '../../utils/Loader/Loader';
+import { useForm } from '../../utils/hooks/useForm';
 
 const SignIn = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
-  const [password, setPassword] = React.useState('');
-  const [email, setEmail] = React.useState('');
 
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const onPasword = e => {
-    setPassword(e.target.value);
-  };
-  const onEmail = e => {
-    setEmail(e.target.value);
-  };
+  const { values, handleChange, setValues } = useForm({});
+  const { email, password} = values;
 
-  const login = useCallback((e) => {
+  const login = (e) => {
+    setValues({})
     e.preventDefault();
     dispatch(authAction(email, password))
-  }, [dispatch]);
+  };
 
   if (inLogin) {
     return (
       <Redirect to={location.state?.from || '/'} />
     )
   };
-
   return (
     <LoaderAuth>
       <section className={style.container}>
         <form className={style.form} onSubmit={login}>
           <h2 className={'text text_type_main-medium'}>Вход</h2>
           <div className={`${style.wrapper} mt-6`}>
-            <EmailInput onChange={onEmail} value={email} name={'email'} size={"default"} />
+            <EmailInput onChange={handleChange} value={email} name={'email'} size={"default"} />
           </div>
           <div className={`${style.wrapper} mt-6 mb-6`} >
-            <PasswordInput onChange={onPasword} value={password} name={'password'} size={"default"} />
+            <PasswordInput onChange={handleChange} value={password} name={'password'} size={"default"} />
           </div>
           <Button type="primary" size="large">
             Войти

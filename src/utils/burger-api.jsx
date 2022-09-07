@@ -55,7 +55,6 @@ export function resetPasswordEmail(email) {
 }
 
 export function resetPassword(password, code) {
-  console.log(code, password)
   return fetch(`${baseURL}password-reset/reset`, {
     method: 'POST',
     body: JSON.stringify({
@@ -96,6 +95,7 @@ export function authUser(email, password) {
     }
   })
     .then(res => checkReponse(res))
+    .catch(err => console.error(err))
 
 }
 

@@ -37,7 +37,7 @@ const AppHeader = () => {
           </li>
           <li className={`${stylesHeader.listItem} ml-25 mr-30`}>
             <Link
-              to="#"
+              to="/"
               className={`${stylesHeader.link}`}>
               <Logo />
             </Link>
