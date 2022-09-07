@@ -1,8 +1,7 @@
 
 import { Redirect, Route, useLocation } from 'react-router-dom';
-import { LoaderAuth } from '../utils/Loader/Loader';
-import { getCookie } from '../utils/utils';
-
+import { LoaderAuth } from '../../utils/Loader/Loader';
+import { getCookie } from '../../utils/utils';
 
 export function ProtectedRoute({ children, ...rest }) {
   const cookie = getCookie('token');

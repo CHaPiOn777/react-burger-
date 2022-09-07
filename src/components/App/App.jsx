@@ -11,14 +11,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/forgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/resetPassword/ResetPassword';
 import Profile from '../../pages/profile/Profile';
-import { getCookie, setCookie } from '../utils/utils';
+
 import { getUserAction, updateTokenAction } from '../../services/action/authAction';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
+import { getCookie } from '../../utils/utils';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
@@ -26,13 +27,17 @@ function App() {
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
-  const orderState = useSelector(store => store.orderDetailsReduser.feedFailed)
+  const history = useHistory();
+  const orderState = useSelector(store => store.orderDetailsReduser.feedFailed);
 
   const background = location.state?.background;
 
   const dispatch = useDispatch();
-  useEffect(() => { dispatch(getUserAction()) }, [dispatch])
-  useEffect(() => { dispatch(fetchIngredients()) }, [dispatch]);
+  useEffect(() => { 
+    dispatch(getUserAction());
+    dispatch(fetchIngredients());
+    history.replace({state: null})
+  }, [dispatch])
 
   useEffect(() => {
     if (!token && refreshToken) {
