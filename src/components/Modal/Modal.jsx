@@ -8,19 +8,15 @@ import ModalOverlay from './ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { LoaderAuth, LoaderIngredients } from '../../utils/Loader/Loader';
-import { useHistory } from 'react-router-dom';
 const modalRoot = document.querySelector('#modal');
 
-const Modal = ({ active, setActive, children }) => {
+const Modal = ({ active, onClose, children }) => {
   const load = useSelector(store => store.orderDetailsReduser.loader);
-  const history = useHistory();
-  const goBack = () => { history.goBack() }
 
   React.useEffect(() => {
     const close = (e) => {
       if (e.key === 'Escape') {
-        setActive(false);
-        goBack();
+        onClose();
       }
     }
     window.addEventListener('keydown', close);
@@ -32,18 +28,18 @@ const Modal = ({ active, setActive, children }) => {
       {load ?
         (<>
           <LoaderIngredients />
-          <ModalOverlay active={active} setActive={setActive} closePopup={() => { }}></ModalOverlay>
+          <ModalOverlay active={active} closePopup={onClose}></ModalOverlay>
         </>
         )
         : (
           <LoaderAuth>
             <div className={active ? `${stylesModalDetails.container} ${stylesModalDetails.active}` : `${stylesModalDetails.container}`}>
-              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={() => {goBack(); setActive(false)}}>
+              <button className={`${stylesModalDetails.close} mt-7 mr-5`} onClick={onClose}>
                 <CloseIcon type="primary" />
               </button>
               {children}
             </div>
-            <ModalOverlay active={active} setActive={setActive} closePopup={() => {goBack(); setActive(false)}}></ModalOverlay>
+            <ModalOverlay active={active} closePopup={onClose}></ModalOverlay>
           </LoaderAuth>)}
     </>
     , modalRoot
@@ -52,7 +48,8 @@ const Modal = ({ active, setActive, children }) => {
 
 Modal.propTypes = {
   active: PropTypes.bool,
-  setActive: PropTypes.func
+  setActive: PropTypes.func,
+  onClose: PropTypes.func
 }
 export default Modal;
 

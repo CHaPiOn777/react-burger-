@@ -45,6 +45,11 @@ function App() {
     }
   }, [dispatch, token])
 
+  const onClose = (setActive) => { 
+    setActive(false);
+    history.replace('/');
+  }
+
   return (
     <div className={StylesApp.page}>
       <AppHeader />
@@ -79,13 +84,13 @@ function App() {
       </main>
       {popupCard && 
         <Route path='/ingredients/:id' exact={true}>
-          <Modal active={popupCard} setActive={setPopupCard}>
+          <Modal active={popupCard} onClose={() => onClose(setPopupCard)}>
             < IngredientDetails />
           </Modal>
         </Route>
       }
       {popupIngredients && !orderState &&
-        <Modal active={popupIngredients} setActive={setPopupIngredients} >
+        <Modal active={popupIngredients} onClose={() => onClose(setPopupIngredients)}>
           <OrderDetails />
         </Modal>
       }
