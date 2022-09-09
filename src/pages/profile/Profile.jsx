@@ -14,8 +14,8 @@ const Profile = () => {
 
   const { values, handleChange, setValues } =
     useForm({
-      email: user.email,
-      name: user.name,
+      email: user.email || '',
+      name: user.name || '',
       password: ''
     });
   const { email, password, name } = values
