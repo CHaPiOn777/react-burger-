@@ -27,7 +27,7 @@ const AppHeader = () => {
           </li>
           <li className={`${stylesHeader.listItem} ml-5 mr-5 mt-4 mb-4`}>
             <NavLink
-              to="/login"
+              to="/feed"
               className={`${stylesHeader.link} `}
               activeClassName={stylesHeader.link_active}
             >

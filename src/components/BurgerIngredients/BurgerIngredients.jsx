@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 const BurgerIngredients = ({ setActive }) => {
   const [current, setCurrent] = React.useState('one');
   const state = useSelector(store => store.listIgredients.feed);
+  console.log(state)
 
   const bun = useMemo(() => state.filter((item) => item.type === 'bun'), [state]);
   const sauce = useMemo(() => state.filter((item) => item.type === 'sauce'), [state]);

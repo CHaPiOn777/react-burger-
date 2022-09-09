@@ -20,6 +20,7 @@ import Profile from '../../pages/profile/Profile';
 import { getUserAction, updateTokenAction } from '../../services/action/authAction';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 import { getCookie } from '../../utils/utils';
+import { Feed } from '../../pages/feed/feed';
 
 function App() {
   const [popupIngredients, setPopupIngredients] = React.useState(false);
@@ -75,6 +76,9 @@ function App() {
           </Route>
           <Route path='/ingredients/:id' exact={true}>
             <IngredientDetails />
+          </Route>
+          <Route path='/feed' exact={true}>
+            <Feed />
           </Route>
           <ProtectedRoute path="/profile">
             <Profile />
