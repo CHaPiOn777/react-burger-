@@ -8,15 +8,11 @@ import { useForm } from '../../utils/hooks/useForm';
 
 const SignIn = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
-  const user = useSelector(store => store.authReducer.user);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { values, handleChange, setValues } = useForm({
-    email: user.email || '',
-    password: ''
-  });
+  const { values, handleChange, setValues } = useForm({});
   const { email, password } = values;
 
   const login = (e) => {
@@ -36,10 +32,10 @@ const SignIn = () => {
         <form className={style.form} onSubmit={login}>
           <h2 className={'text text_type_main-medium'}>Вход</h2>
           <div className={`${style.wrapper} mt-6`}>
-            <EmailInput onChange={handleChange} value={email} name={'email'} size={"default"} />
+            <EmailInput onChange={handleChange} value={email || ''} name={'email'} size={"default"} />
           </div>
           <div className={`${style.wrapper} mt-6 mb-6`} >
-            <PasswordInput onChange={handleChange} value={password} name={'password'} size={"default"} />
+            <PasswordInput onChange={handleChange} value={password || ''} name={'password'} size={"default"} />
           </div>
           <Button type="primary" size="large">
             Войти

@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     setValues({});
     dispatch(resetPasswordEmailAction(email));
   }
-
+  console.log(email)
   if (inLogin) {
     return (
       <Redirect to={location.state?.from || '/'} />
@@ -37,10 +37,10 @@ const ForgotPassword = () => {
             <Input
               type={'email'}
               placeholder={'Укажите e-mail'}
-              onChange={(e) => { handleChange() }}
+              onChange={(e) => { handleChange(e) }}
               icon={undefined}
-              value={email}
-              name={'Email'}
+              value={email || ''}
+              name={'email'}
               error={false}
               ref={emailRef}
               onIconClick={undefined}

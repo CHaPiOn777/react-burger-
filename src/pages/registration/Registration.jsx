@@ -10,7 +10,6 @@ import { useForm } from '../../utils/hooks/useForm';
 const Registration = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const location = useLocation();
-
   const dispatch = useDispatch();
   
   const inputRef = React.useRef(null);
@@ -40,7 +39,7 @@ const Registration = () => {
               placeholder={'Имя'}
               onChange={(e) => { handleChange(e) }}
               icon={undefined}
-              value={name}
+              value={name || ''}
               name={'name'}
               error={false}
               ref={inputRef}
@@ -52,14 +51,14 @@ const Registration = () => {
           <div className={`${style.wrapper} mt-6`}>
             <EmailInput
               onChange={(e) => { handleChange(e) }}
-              value={email}
+              value={email || ''}
               name={'email'}
               size={undefined} />
           </div>
           <div className={`${style.wrapper} mt-6 mb-6`} >
             <PasswordInput
               onChange={(e) => { handleChange(e) }}
-              value={password}
+              value={password || ''}
               name={'password'}
               size={undefined} />
           </div>

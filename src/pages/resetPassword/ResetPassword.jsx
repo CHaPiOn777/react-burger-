@@ -55,7 +55,7 @@ const ResetPassword = () => {
               placeholder={'Введите новый пароль'}
               onChange={(e) => { handleChange(e) }}
               icon={'ShowIcon'}
-              value={password}
+              value={password || ''}
               name={'password'}
               error={messageErr ? true : false}
               ref={passwordRef}
@@ -70,7 +70,7 @@ const ResetPassword = () => {
               placeholder={'Введите код из письма'}
               onChange={(e) => { handleChange(e) }}
               icon={undefined}
-              value={code}
+              value={code || ''}
               name={'code'}
               error={messageErr ? true : false}
               ref={codeRef}
