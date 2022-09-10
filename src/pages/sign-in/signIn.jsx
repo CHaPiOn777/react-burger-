@@ -8,12 +8,15 @@ import { useForm } from '../../utils/hooks/useForm';
 
 const SignIn = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
-
+const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { values, handleChange, setValues } = useForm({});
-  const { email, password} = values;
+  const { values, handleChange, setValues } = useForm({
+    email: user.email || '',
+    password: user.password || ''
+  });
+  const { email, password } = values;
 
   const login = (e) => {
     setValues({})
