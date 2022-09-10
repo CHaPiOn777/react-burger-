@@ -14,8 +14,8 @@ const Profile = () => {
 
   const { values, handleChange, setValues } =
     useForm({
-      email: user.email || '',
-      name: user.name || '',
+      email: user.email,
+      name: user.name,
       password: ''
     });
   const { email, password, name } = values
@@ -86,7 +86,7 @@ const Profile = () => {
               placeholder={'Имя'}
               onChange={(e) => { handleChange(e) }}
               icon={'EditIcon'}
-              value={name}
+              value={name || ''}
               name={'name'}
               error={false}
               ref={nameRef}
@@ -101,7 +101,7 @@ const Profile = () => {
               placeholder={'Логин'}
               onChange={(e) => { handleChange(e) }}
               icon={'EditIcon'}
-              value={email}
+              value={email || ''}
               name={'email'}
               error={false}
               ref={loginRef}
@@ -115,7 +115,7 @@ const Profile = () => {
               placeholder={'Пароль'}
               onChange={(e) => { handleChange(e) }}
               icon={showPassword ? 'HideIcon' : 'ShowIcon'}
-              value={password}
+              value={password || ''}
               name={'password'}
               error={false}
               ref={passwordRef}
