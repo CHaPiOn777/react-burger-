@@ -2,26 +2,9 @@
   display: flex;
   flex-direction: column;
 }
-.orders{
-  padding: 0;
+.orders {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-height: 800px;
-  overflow-y: scroll;
-}
-.listImg {
-  grid-area: imgs;
-  display: flex;
-  flex-direction: row;
-}
-::-webkit-scrollbar {
-  width: 8px;
-  /* ширина для вертикального скролла */
-  background-color: #2F2F37;
+  gap: 60px;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
-  height: 292px;
-}
+

@@ -84,6 +84,7 @@ function App() {
             <Profile />
           </ProtectedRoute>
 
+
         </Switch>
       </main>
       {popupCard && 
