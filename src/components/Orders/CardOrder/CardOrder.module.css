@@ -11,7 +11,10 @@
   'status status'
   'imgs price';
 }
-
+.link{
+  color: #F2F2F3;
+  text-decoration: none;
+}
 .orderNumber{
   grid-area: number;
 }
@@ -26,6 +29,7 @@
   grid-area: imgs;
   display: flex;
   flex-direction: row;
+  padding: 0;
 }
 
 .price{

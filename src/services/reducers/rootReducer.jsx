@@ -4,11 +4,13 @@ import { constructorReducer } from "./constructorReducer";
 import { IngredientDetailsReducer } from "./IngredientDetailsReducer";
 import { listIgredientsReducer } from "./listIgredientsReducer";
 import { orderDetailsReduser } from "./orderDetailsReduser";
+import { popupReduser } from "./popupReduser";
 
 export const rootReducer = combineReducers({
   listIgredients: listIgredientsReducer,
   constructorReducer: constructorReducer,
   IngredientDetailsReducer: IngredientDetailsReducer,
   orderDetailsReduser: orderDetailsReduser,
-  authReducer: authReducer
+  authReducer: authReducer,
+  popupReduser: popupReduser
 })

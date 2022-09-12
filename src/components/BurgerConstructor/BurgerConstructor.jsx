@@ -13,9 +13,10 @@ import { ADD_INGREDIENT } from '../../services/action/constructorAction';
 import BurgerConstructorItem from './BurgerConstrucntorItem/BurgerConstructorItem';
 import { getOrderAction } from '../../services/action/orderDetailsAction';
 import { useHistory } from 'react-router-dom';
+import { POPUP_ORDER } from '../../services/action/popupAction';
 
 
-const BurgerConstructor = ({ setActive }) => {
+const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const ingredients = useSelector(store => store.constructorReducer.feed);
   const allIngredients = useSelector(store => store.constructorReducer.ingredients);
@@ -54,7 +55,7 @@ const BurgerConstructor = ({ setActive }) => {
       history.push('/login')
     } else {
       orderDispatch(burgerId);
-      setActive(true);
+      dispatch({type: POPUP_ORDER})
     }
   }
 
@@ -119,7 +120,5 @@ const BurgerConstructor = ({ setActive }) => {
     </section>
   )
 }
-BurgerConstructor.propTypes = {
-  setActive: PropTypes.func
-}
+
 export default React.memo(BurgerConstructor);

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import OrderDetails from '../Modal/OrderDetails/OrderDetails';
-import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
+import OrderDetails from '../Orders/OrderDetails/OrderDetails';
+import IngredientDetails from '../BurgerIngredients/IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
 import { fetchIngredients } from '../../services/action/listIgredientsAction';
@@ -21,10 +21,12 @@ import { getUserAction, updateTokenAction } from '../../services/action/authActi
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 import { getCookie } from '../../utils/utils';
 import { Feed } from '../../pages/feed/feed';
+import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
+import { POPUP_CLOSE } from '../../services/action/popupAction';
 
 function App() {
-  const [popupIngredients, setPopupIngredients] = React.useState(false);
-  const [popupCard, setPopupCard] = React.useState(false);
+  const {popupCard, popupOrder, popupOrderInfo} = useSelector(store => store.popupReduser);
+  console.log(popupCard)
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
@@ -46,9 +48,9 @@ function App() {
     }
   }, [dispatch, token])
 
-  const onClose = (setActive) => { 
-    setActive(false);
-    history.replace('/');
+  const onClose = () => { 
+    history.goBack();
+    dispatch({type: POPUP_CLOSE})
   }
 
   return (
@@ -58,8 +60,8 @@ function App() {
         <Switch location={background || location}>
           <Route path="/" exact={true}>
             <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients setActive={setPopupCard} />
-              <BurgerConstructor setActive={setPopupIngredients} />
+              <BurgerIngredients />
+              <BurgerConstructor />
             </DndProvider>
           </Route>
           <Route path="/login" exact={true}>
@@ -83,19 +85,28 @@ function App() {
           <ProtectedRoute path="/profile">
             <Profile />
           </ProtectedRoute>
-
+          <Route path='/orders/123' exact={true}>
+            <OrderInfo />
+          </Route>
 
         </Switch>
       </main>
       {popupCard && 
         <Route path='/ingredients/:id' exact={true}>
-          <Modal active={popupCard} onClose={() => onClose(setPopupCard)}>
+          <Modal active={popupCard} onClose={() => onClose()}>
             < IngredientDetails />
           </Modal>
         </Route>
       }
-      {popupIngredients && !orderState &&
-        <Modal active={popupIngredients} onClose={() => onClose(setPopupIngredients)}>
+      {popupOrderInfo && background &&
+        <Route path='/orders/123' exact={true}>
+          <Modal active={popupOrderInfo} onClose={() => onClose()}>
+            <OrderInfo />
+          </Modal>
+        </Route>
+      }
+      {popupOrder && !orderState &&
+        <Modal active={popupOrder} onClose={() => onClose()}>
           <OrderDetails />
         </Modal>
       }

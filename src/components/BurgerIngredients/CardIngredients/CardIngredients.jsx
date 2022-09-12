@@ -10,13 +10,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { Link, useLocation } from 'react-router-dom';
+import { POPUP_ITEM_INFO } from '../../../services/action/popupAction';
 
-const CardIngredients = ({ card, setActive }) => {
+const CardIngredients = ({ card }) => {
   const ingredients = useSelector(store => store.constructorReducer.feed);
   const bun = useSelector(store => store.constructorReducer.bun);
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const openPopup = () => {
+    getItemInfo(card);
+    dispatch({
+      type: POPUP_ITEM_INFO
+    })
+  }
   const [{ opacity }, dragRef] = useDrag({
     type: 'ingredients',
     item: { card },
@@ -50,14 +56,14 @@ const CardIngredients = ({ card, setActive }) => {
       to={{
         pathname: `/ingredients/${card._id}`,
         state: { background: location }
-      }} >
+      }} 
+      onClick={
+        () => { openPopup()  }
+      }>
 
       <li className={`${stylesCardIngredients.card} `}
         ref={dragRef}
         style={{ opacity }}
-        onClick={
-          () => { setActive(true); getItemInfo(card) }
-        }
       >
         <img src={card.image}
           alt="`${card.name}`"

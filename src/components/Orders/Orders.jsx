@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import { CardOrder } from '../../components/CardOrder/CardOrder';
-import { IconIngredients, IconIngredientsHiden } from '../CardOrder/IconIngredients/IconIngredients';
+import { CardOrder } from './CardOrder/CardOrder';
 import style from './Orders.module.css'
 export const Orders = () => {
   
