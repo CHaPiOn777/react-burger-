@@ -23,16 +23,15 @@ import { getCookie } from '../../utils/utils';
 import { Feed } from '../../pages/feed/feed';
 import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
 import { POPUP_CLOSE } from '../../services/action/popupAction';
+import { wsGetOrder, WS_CONNECTION_START, WS_GET_ORDER } from '../../services/action/wsActions';
 
 function App() {
   const {popupCard, popupOrder, popupOrderInfo} = useSelector(store => store.popupReduser);
-  console.log(popupCard)
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
   const history = useHistory();
   const orderState = useSelector(store => store.orderDetailsReduser.feedFailed);
-
   const background = location.state?.background;
 
   const dispatch = useDispatch();
@@ -47,6 +46,9 @@ function App() {
       dispatch(updateTokenAction())
     }
   }, [dispatch, token])
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START })
+  }, [])
 
   const onClose = () => { 
     history.goBack();
@@ -85,7 +87,7 @@ function App() {
           <ProtectedRoute path="/profile">
             <Profile />
           </ProtectedRoute>
-          <Route path='/orders/123' exact={true}>
+          <Route path='/orders/:id' exact={true}>
             <OrderInfo />
           </Route>
 
@@ -99,7 +101,7 @@ function App() {
         </Route>
       }
       {popupOrderInfo && background &&
-        <Route path='/orders/123' exact={true}>
+        <Route path='/orders/:id' exact={true}>
           <Modal active={popupOrderInfo} onClose={() => onClose()}>
             <OrderInfo />
           </Modal>

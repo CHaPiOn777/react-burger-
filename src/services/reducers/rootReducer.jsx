@@ -5,6 +5,7 @@ import { IngredientDetailsReducer } from "./IngredientDetailsReducer";
 import { listIgredientsReducer } from "./listIgredientsReducer";
 import { orderDetailsReduser } from "./orderDetailsReduser";
 import { popupReduser } from "./popupReduser";
+import { wsReduser } from "./wsReduser";
 
 export const rootReducer = combineReducers({
   listIgredients: listIgredientsReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   IngredientDetailsReducer: IngredientDetailsReducer,
   orderDetailsReduser: orderDetailsReduser,
   authReducer: authReducer,
-  popupReduser: popupReduser
+  popupReduser: popupReduser,
+  wsReduser: wsReduser
 })

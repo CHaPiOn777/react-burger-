@@ -151,3 +151,9 @@ export function updateToken(refreshToken) {
   })
     .then(res => checkReponse(res))
 }
+
+// export const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all")
+// ws.onmessage  = (event) => {
+//   console.log(event.data)
+// }
+// console.log(ws.readyState)  

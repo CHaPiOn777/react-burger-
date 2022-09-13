@@ -57,11 +57,8 @@ const Profile = () => {
           <ProfileForm />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders" exact>
-          <Orders />
+          <Orders order/>
         </ProtectedRoute>
-
-
-
       </section>
     </LoaderAuth>
   );
