@@ -1,5 +1,5 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import style from './Profile.module.css'
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,10 +11,13 @@ import { ProtectedRoute } from '../../components/protectedRoute/protectedRoute';
 import { Orders } from '../../components/Orders/Orders';
 
 const Profile = () => {
+  const orders = useSelector(store => store.wsReduser.myOrders);
+  const reverseOrders = orders.reverse();
+    
   const dispatch = useDispatch()
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     dispatch(logoutUserAction());
-  }, [dispatch]);
+  };
 
   return (
     <LoaderAuth>
@@ -57,7 +60,7 @@ const Profile = () => {
           <ProfileForm />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders" exact>
-          <Orders order/>
+          <Orders orders={reverseOrders}/>
         </ProtectedRoute>
       </section>
     </LoaderAuth>

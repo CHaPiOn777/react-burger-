@@ -1,8 +1,9 @@
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER } from "../action/wsActions";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_MY } from "../action/wsActions";
 
 const initialState = {
   wsConnected: false,
   orders: [],
+  myOrders: [],
   total: null,
   totalToday: null
 };
@@ -29,9 +30,14 @@ export const wsReduser = (state = initialState, action) => {
         ...state,
         total: action.payload.total,
         totalToday: action.payload.totalToday,
-        orders: state.orders.length
-          ? [...state.orders, ...action.payload.orders]
-          : [...action.payload.orders]
+        orders: action.payload.orders
+      }
+    case WS_GET_ORDER_MY:
+      return {
+        ...state,
+        total: action.payload.total,
+        totalToday: action.payload.totalToday,
+        myOrders: action.payload.orders
       }
     default:
       return state;

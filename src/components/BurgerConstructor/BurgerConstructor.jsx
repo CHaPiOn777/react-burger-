@@ -38,17 +38,16 @@ const BurgerConstructor = () => {
 
   let burgerId = useMemo(() => allIngredients.map((item) => item.card._id), [allIngredients]);
 
-  
-  const orderDispatch = useCallback((id) => {
-    dispatch(getOrderAction(id))
-  }, [dispatch])
-
   useEffect(() => {
     const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
     const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
     const totalPrice = bunPrice + ingredientsPrice;
     setTotal(totalPrice)
   }, [ingredients, bun])
+
+  const orderDispatch = useCallback((id) => {
+    dispatch(getOrderAction(id))
+  }, [dispatch])
 
   const checkAuthUser = () => {
     if (!inLogin) {

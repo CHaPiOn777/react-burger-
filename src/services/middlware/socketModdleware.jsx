@@ -7,8 +7,13 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendOrder, onOpen, onClose, onError, onMessage } = wsActions;
-      const token = getCookie('token')
-      if (type === wsInit && token ) {
+      const token = getCookie('token');
+
+      if (type === wsInit && !token) {
+        socket = new WebSocket(`${wsUrl}`);
+      }
+
+      if (type === wsInit && token) {
         socket = new WebSocket(`${wsUrl}?token=${token}`);
       }
       if (socket) {
@@ -27,6 +32,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event});
+          socketMiddleware(wsUrl, wsActions)
         };
         if (type === wsSendOrder) {
           const order = { ...payload, token: token};

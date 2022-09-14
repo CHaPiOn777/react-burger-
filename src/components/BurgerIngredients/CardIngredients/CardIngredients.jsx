@@ -17,12 +17,7 @@ const CardIngredients = ({ card }) => {
   const bun = useSelector(store => store.constructorReducer.bun);
   const location = useLocation();
   const dispatch = useDispatch();
-  const openPopup = () => {
-    getItemInfo(card);
-    dispatch({
-      type: POPUP_ITEM_INFO
-    })
-  }
+
   const [{ opacity }, dragRef] = useDrag({
     type: 'ingredients',
     item: { card },
@@ -31,13 +26,21 @@ const CardIngredients = ({ card }) => {
     })
   })
 
+
+  const openPopup = () => {
+    getItemInfo(card);
+    dispatch({
+      type: POPUP_ITEM_INFO
+    })
+  }
+
   const getItemInfo = useCallback((item) => {
     dispatch({
       type: POPUP_ITEM,
       item: item
     })
   }, [dispatch])
-
+  
   const counter = useMemo(
     () =>
       (count = 0) => {

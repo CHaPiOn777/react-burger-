@@ -2,6 +2,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { POPUP_ORDER_ITEM_INFO } from '../../../services/action/popupAction';
 import style from './CardOrder.module.css'
 import { IconIngredients, IconIngredientsHiden } from './IconIngredients/IconIngredients';
@@ -14,10 +15,29 @@ export const CardOrder = ({ order }) => {
   let ingredientsArr = [];
   let lastItem = [];
   let numberItems = null;
-  
-  const conformityIngredients = order.ingredients.map(item => ingredients.find(ingredient => ingredient._id === item));
-  const priceOrder = conformityIngredients.reduce((sum, item) => +sum + item.price, []);
 
+  //подтянули данные по иконкам
+  const conformityIngredientsIcon = useMemo(() => order.ingredients.map(item => ingredients.find(ingredient => ingredient._id === item)), [order]);
+  //создали новый массив заказа с измененными данными иконок
+  const conformityIngredients = [{...order, ingredients: conformityIngredientsIcon}];
+  const bunOrder = useMemo(() => conformityIngredientsIcon.find(item => item.type === 'bun'), [conformityIngredientsIcon]);
+  const priceOrder = useMemo(() => conformityIngredientsIcon.reduce((sum, item) => +sum + item.price, [bunOrder.price]), [conformityIngredientsIcon, bunOrder]);
+  
+  const getItemInfo = useCallback((item, priceOrder) => {
+    dispatch({
+      type: POPUP_ITEM,
+      item: item,
+      priceOrder: priceOrder
+    })
+  }, [dispatch])
+  
+  const openPopup = useCallback(() => {
+    getItemInfo(conformityIngredients, priceOrder);
+    dispatch({
+      type: POPUP_ORDER_ITEM_INFO
+    })
+  }, [dispatch, conformityIngredientsIcon])
+  //обрезка кол-ва иконок 
   const reduceItemsIngredients = (arr) => {
     if (arr.length > 5) {
       ingredientsArr = arr.slice(0, 5);
@@ -29,9 +49,9 @@ export const CardOrder = ({ order }) => {
       numberItems = null;
     }
   }
-
+//отрисовка иконок в заказе
   const drawIconsItems = useCallback(() => {
-    reduceItemsIngredients(conformityIngredients);
+    reduceItemsIngredients(conformityIngredientsIcon);
     return (
       <ul className={`${style.listImg} mt-6`}>
         {ingredientsArr.map((item, index) => {
@@ -41,7 +61,7 @@ export const CardOrder = ({ order }) => {
 
         {lastItem &&
           (
-            <IconIngredientsHiden item={lastItem} numberItems={numberItems}  />
+            <IconIngredientsHiden item={lastItem} numberItems={numberItems} />
           )
         }
       </ul>
@@ -51,7 +71,7 @@ export const CardOrder = ({ order }) => {
   const activeClass = () => {
     return order.status === 'done' ? 'text_color_success' : ''
   }
-  
+
   return (
     order &&
     <Link to={{
@@ -59,7 +79,7 @@ export const CardOrder = ({ order }) => {
       state: { background: location }
     }}
       status={order.status}
-      onClick={() => dispatch({ type: POPUP_ORDER_ITEM_INFO })}
+      onClick={() => openPopup()}
       className={style.link}>
       <li className={`${style.order} p-6 mr-2`}>
         <p className={`${style.orderNumber} text text_type_digits-default`}>{`#${order.number}`}</p>

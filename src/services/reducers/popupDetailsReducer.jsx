@@ -4,16 +4,18 @@ import { LOADER } from "../action/orderDetailsAction"
 
 const initialState = {
   item: [],
+  priceOrder: null,
   loader: false
 }
 
-export const IngredientDetailsReducer = (state = initialState, action) => {
+export const popupDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case POPUP_ITEM: {
       return {
         ...state,
         item: action.item,
-        loader: false
+        loader: false,
+        priceOrder: action.priceOrder ? action.priceOrder : ''
       }
     }
     case LOADER: {

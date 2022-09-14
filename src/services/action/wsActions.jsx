@@ -4,6 +4,7 @@ export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR';
 export const WS_CONNECTION_CLOSED = 'WS_CONNECTION_CLOSED';
 export const WS_SEND_ORDER = 'WS_SEND_ORDER';
 export const WS_GET_ORDER = 'WS_GET_ORDER';
+export const WS_GET_ORDER_MY = 'WS_GET_ORDER_MY';
 
 export const wsConnectionSuccess = () => {
   return {
@@ -36,3 +37,10 @@ export const wsSendOrder = order => {
     payload: order
   };
 };
+export const wsGetOrderMy = order => {
+  return {
+    type: WS_GET_ORDER_MY,
+    payload: order
+  };
+};
+

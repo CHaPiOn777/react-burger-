@@ -51,7 +51,7 @@ function App() {
   }, [])
 
   const onClose = () => { 
-    history.goBack();
+    history.replace('/');
     dispatch({type: POPUP_CLOSE})
   }
 

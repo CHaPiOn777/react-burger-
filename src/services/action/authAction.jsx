@@ -52,6 +52,7 @@ export const registerUserAction = (email, password, name) => {
           type: GET_REGISTER_FAILED,
           message: err.message
         })
+        
       })
       .finally(() => {
         dispatch(inLoader())
