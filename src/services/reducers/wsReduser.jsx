@@ -30,14 +30,16 @@ export const wsReduser = (state = initialState, action) => {
         ...state,
         total: action.payload.total,
         totalToday: action.payload.totalToday,
-        orders: action.payload.orders
+        orders: action.payload.orders,
+        loader: false
       }
     case WS_GET_ORDER_MY:
       return {
         ...state,
         total: action.payload.total,
         totalToday: action.payload.totalToday,
-        myOrders: action.payload.orders
+        myOrders: action.payload.orders,
+        loader: false
       }
     default:
       return state;

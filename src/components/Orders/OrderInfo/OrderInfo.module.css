@@ -8,7 +8,7 @@
 
 
 .listOrderInfo {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 366px;
   padding: 0;
   display: flex;

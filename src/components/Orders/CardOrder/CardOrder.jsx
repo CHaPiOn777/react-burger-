@@ -1,7 +1,7 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { POPUP_ORDER_ITEM_INFO } from '../../../services/action/popupAction';
 import style from './CardOrder.module.css'
@@ -20,9 +20,8 @@ export const CardOrder = ({ order }) => {
   const conformityIngredientsIcon = useMemo(() => order.ingredients.map(item => ingredients.find(ingredient => ingredient._id === item)), [order]);
   //создали новый массив заказа с измененными данными иконок
   const conformityIngredients = [{...order, ingredients: conformityIngredientsIcon}];
-  const bunOrder = useMemo(() => conformityIngredientsIcon.find(item => item.type === 'bun'), [conformityIngredientsIcon]);
-  const priceOrder = useMemo(() => conformityIngredientsIcon.reduce((sum, item) => +sum + item.price, [bunOrder.price]), [conformityIngredientsIcon, bunOrder]);
-  
+  const bunOrder = useMemo(() => conformityIngredientsIcon.find(item => item?.type === 'bun'), [conformityIngredientsIcon]);
+  const priceOrder = useMemo(() => conformityIngredientsIcon.reduce((sum, item) => +sum + item?.price, [bunOrder?.price]), [conformityIngredientsIcon, bunOrder]);
   const getItemInfo = useCallback((item, priceOrder) => {
     dispatch({
       type: POPUP_ITEM,
@@ -37,6 +36,7 @@ export const CardOrder = ({ order }) => {
       type: POPUP_ORDER_ITEM_INFO
     })
   }, [dispatch, conformityIngredientsIcon])
+
   //обрезка кол-ва иконок 
   const reduceItemsIngredients = (arr) => {
     if (arr.length > 5) {
@@ -73,12 +73,11 @@ export const CardOrder = ({ order }) => {
   }
 
   return (
-    order &&
+    conformityIngredients &&
     <Link to={{
-      pathname: `/orders/${order._id}`,
+      pathname: `${location.pathname}/${order._id}`,
       state: { background: location }
     }}
-      status={order.status}
       onClick={() => openPopup()}
       className={style.link}>
       <li className={`${style.order} p-6 mr-2`}>

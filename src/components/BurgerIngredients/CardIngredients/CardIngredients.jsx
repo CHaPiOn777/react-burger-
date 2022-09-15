@@ -28,7 +28,7 @@ const CardIngredients = ({ card }) => {
 
 
   const openPopup = () => {
-    getItemInfo(card);
+    // getItemInfo(card);
     dispatch({
       type: POPUP_ITEM_INFO
     })

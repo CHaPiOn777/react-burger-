@@ -6,7 +6,7 @@ export const Orders = ({orders}) => {
 
   return (
     <ul className={`${style.listOrders}`}>
-      {orders.map(order => {
+      {orders?.map(order => {
         return <CardOrder order={order} key={order._id}/>
       })}
     </ul>

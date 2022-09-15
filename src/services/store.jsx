@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore } from "redux";
 import { rootReducer } from "./reducers/rootReducer";
 import thunkMiddleware from 'redux-thunk';
-import { socketMiddleware } from "./middlware/socketModdleware";
+import { socketMiddleware } from "./middlware/socketMiddleware";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_MY, WS_SEND_ORDER } from "./action/wsActions";
 

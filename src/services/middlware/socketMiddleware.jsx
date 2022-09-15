@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { getCookie } from "../../utils/utils";
 
 export const socketMiddleware = (wsUrl, wsActions) => {
+ 
   return store => {
     let socket = null;
     return next => action => {
@@ -32,7 +34,6 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event});
-          socketMiddleware(wsUrl, wsActions)
         };
         if (type === wsSendOrder) {
           const order = { ...payload, token: token};

@@ -26,7 +26,7 @@ import { POPUP_CLOSE } from '../../services/action/popupAction';
 import { wsGetOrder, WS_CONNECTION_START, WS_GET_ORDER } from '../../services/action/wsActions';
 
 function App() {
-  const {popupCard, popupOrder, popupOrderInfo} = useSelector(store => store.popupReduser);
+  const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser);
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
@@ -34,13 +34,16 @@ function App() {
   const orderState = useSelector(store => store.orderDetailsReduser.feedFailed);
   const background = location.state?.background;
 
+  const orders = useSelector(store => store.wsReduser.orders);
+  const myOrders = useSelector(store => store.wsReduser.myOrders);
+
   const dispatch = useDispatch();
-  useEffect(() => { 
+  useEffect(() => {
     dispatch(getUserAction());
     dispatch(fetchIngredients());
-    history.replace({state: null})
+    history.replace({ state: null })
   }, [dispatch])
-
+  
   useEffect(() => {
     if (!token && refreshToken) {
       dispatch(updateTokenAction())
@@ -50,9 +53,13 @@ function App() {
     dispatch({ type: WS_CONNECTION_START })
   }, [])
 
-  const onClose = () => { 
+  const onClose = () => {
     history.replace('/');
-    dispatch({type: POPUP_CLOSE})
+    dispatch({ type: POPUP_CLOSE })
+  }
+  const onCloseOrder = () => {
+    history.goBack();
+    dispatch({ type: POPUP_CLOSE })
   }
 
   return (
@@ -84,16 +91,21 @@ function App() {
           <Route path='/feed' exact={true}>
             <Feed />
           </Route>
+        
+            <Route path='/profile/orders/:id' exact={true}>
+              <OrderInfo popupOrder={myOrders} />
+            </Route>
+       
+            <Route path='/feed/:id' exact={true}>
+              <OrderInfo popupOrder={orders} />
+            </Route>
+    
           <ProtectedRoute path="/profile">
             <Profile />
           </ProtectedRoute>
-          <Route path='/orders/:id' exact={true}>
-            <OrderInfo />
-          </Route>
-
         </Switch>
       </main>
-      {popupCard && 
+      {popupCard &&
         <Route path='/ingredients/:id' exact={true}>
           <Modal active={popupCard} onClose={() => onClose()}>
             < IngredientDetails />
@@ -101,9 +113,16 @@ function App() {
         </Route>
       }
       {popupOrderInfo && background &&
-        <Route path='/orders/:id' exact={true}>
-          <Modal active={popupOrderInfo} onClose={() => onClose()}>
-            <OrderInfo />
+        <Route path={"/feed/:id"} exact={true}>
+          <Modal active={popupOrderInfo} onClose={() => onCloseOrder()}>
+            <OrderInfo popupOrder={orders} />
+          </Modal>
+        </Route>
+      }
+      {popupOrderInfo && background &&
+        <Route path={"/profile/orders/:id"} exact={true}>
+          <Modal active={popupOrderInfo} onClose={() => onCloseOrder()}>
+            <OrderInfo popupOrder={myOrders} />
           </Modal>
         </Route>
       }

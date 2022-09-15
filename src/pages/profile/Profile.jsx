@@ -1,5 +1,5 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import style from './Profile.module.css'
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { Orders } from '../../components/Orders/Orders';
 
 const Profile = () => {
   const orders = useSelector(store => store.wsReduser.myOrders);
-  const reverseOrders = orders.reverse();
+  const reverseOrders = useMemo(() => orders?.reverse(), [orders]);
     
   const dispatch = useDispatch()
   const handleLogout = () => {
