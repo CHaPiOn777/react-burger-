@@ -94,9 +94,9 @@ function App() {
             <Feed />
           </Route>
 
-          <Route path='/profile/orders/:id' exact={true}>
+          <ProtectedRoute path='/profile/orders/:id' exact={true}>
             <OrderInfo popupOrder={myOrders} />
-          </Route>
+          </ProtectedRoute>
 
           <Route path='/feed/:id' exact={true}>
             <OrderInfo popupOrder={orders} />
