@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   ConstructorElement,
   Button,

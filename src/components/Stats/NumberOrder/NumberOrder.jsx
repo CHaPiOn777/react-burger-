@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+
 import { ItemNumberOrder } from './ItemNumberOrder/ItemNumberOrder';
 import style from './NumberOrder.module.css';
+import PropTypes from 'prop-types';
 
 
 export const NumberOrder = ({ orderNumber, orderNumberRest }) => {
@@ -27,3 +27,7 @@ export const NumberOrder = ({ orderNumber, orderNumberRest }) => {
     </div>
   );
 };
+NumberOrder.propTypes = {
+  orderNumber: PropTypes.array,
+  orderNumberRest: PropTypes.array,
+}

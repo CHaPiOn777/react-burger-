@@ -1,9 +1,10 @@
 
 import { useSelector } from 'react-redux';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import style from './Stats.module.css'
 import { NumberOrder } from './NumberOrder/NumberOrder';
-export const Stats = () => {
+
+export const Stats = React.memo(function Stats() {
   const { total, totalToday, orders } = useSelector(store => store.wsReduser);
 
   const ordersDone = useMemo(() => orders.filter(item => item.status === 'done').slice(0, 15), [orders]);
@@ -33,4 +34,4 @@ export const Stats = () => {
       </div>
     </div>
   );
-};
+});

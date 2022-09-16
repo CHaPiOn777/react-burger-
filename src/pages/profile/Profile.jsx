@@ -12,15 +12,23 @@ import { Orders } from '../../components/Orders/Orders';
 
 const Profile = () => {
   const orders = useSelector(store => store.wsReduser.myOrders);
-  const reverseOrders = useMemo(() => orders?.reverse(), [orders]);
-    
+  const loader = useSelector(store => store.authReducer.loader);
+
+  const reverceOrders = orders?.sort((a, b) => {
+    if (a.number < b.number) {
+      return 1
+    } else {
+      return -1
+    }
+  })
+
   const dispatch = useDispatch()
   const handleLogout = () => {
     dispatch(logoutUserAction());
   };
 
   return (
-    <LoaderAuth>
+    <LoaderAuth loader={loader}>
       <section className={style.container}>
         <nav className={style.navigation}>
           <ul className={`${style.ul} mb-20`}>
@@ -60,7 +68,7 @@ const Profile = () => {
           <ProfileForm />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders" exact>
-          <Orders orders={reverseOrders}/>
+          <Orders orders={reverceOrders} />
         </ProtectedRoute>
       </section>
     </LoaderAuth>

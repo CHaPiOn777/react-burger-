@@ -4,7 +4,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from './CardIngredients/CardIngredients';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 

@@ -28,7 +28,6 @@ const CardIngredients = ({ card }) => {
 
 
   const openPopup = () => {
-    // getItemInfo(card);
     dispatch({
       type: POPUP_ITEM_INFO
     })
@@ -86,7 +85,6 @@ const CardIngredients = ({ card }) => {
 }
 
 CardIngredients.propTypes = {
-  card: PropTypes.object,
-  setActive: PropTypes.func
+  card: PropTypes.object
 }
 export default React.memo(CardIngredients);

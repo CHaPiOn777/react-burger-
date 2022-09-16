@@ -2,8 +2,10 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import React from 'react';
 import { IconIngredients } from '../../CardOrder/IconIngredients/IconIngredients';
 import style from './OrderItemInfo.module.css';
+import PropTypes from 'prop-types';
 
 export const OrderItemInfo = ({item}) => {
+
   return (
 
     <div className={`${style.consistItem}`} key={item?._id}>
@@ -18,3 +20,7 @@ export const OrderItemInfo = ({item}) => {
     </div>
   );
 };
+
+OrderItemInfo.propTypes = {
+  order: PropTypes.object
+}

@@ -12,6 +12,7 @@ const ResetPassword = () => {
   const messageErr = useSelector(store => store.authReducer.message);
   const successReset = useSelector(store => store.authReducer.success);
   const resetEmailSuccess = useSelector(store => store.authReducer.resetEmailSuccess);
+  const loader = useSelector(store => store.authReducer.loader);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const ResetPassword = () => {
   }
 
   return (
-    <LoaderAuth>
+    <LoaderAuth loader={loader}>
       <section className={style.container}>
         <form className={style.form} onSubmit={(e) => { newPassword(e) }}>
           <h2 className={'text text_type_main-medium'}>Восстановление пароля</h2>
@@ -55,7 +56,7 @@ const ResetPassword = () => {
               placeholder={'Введите новый пароль'}
               onChange={(e) => { handleChange(e) }}
               icon={'ShowIcon'}
-              value={password}
+              value={password || ''}
               name={'password'}
               error={messageErr ? true : false}
               ref={passwordRef}
@@ -70,7 +71,7 @@ const ResetPassword = () => {
               placeholder={'Введите код из письма'}
               onChange={(e) => { handleChange(e) }}
               icon={undefined}
-              value={code}
+              value={code || ''}
               name={'code'}
               error={messageErr ? true : false}
               ref={codeRef}

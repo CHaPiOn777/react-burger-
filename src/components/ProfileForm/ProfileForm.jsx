@@ -1,9 +1,7 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeUserInfoAction, logoutUserAction } from '../../services/action/authAction';
-import { LoaderAuth } from '../../utils/Loader/Loader';
+import { changeUserInfoAction } from '../../services/action/authAction';
 import { useForm } from '../../utils/hooks/useForm';
 
 import style from './ProfileForm.module.css';

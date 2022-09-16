@@ -8,7 +8,6 @@ const IngredientDetails = () => {
 
   const { id } = useParams();
   const ingredient = ingredients.find(ingredient => ingredient._id === id);
-  console.log(ingredient)
   return (
     <>
       {

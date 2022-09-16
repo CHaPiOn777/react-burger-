@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -23,10 +23,11 @@ import { getCookie } from '../../utils/utils';
 import { Feed } from '../../pages/feed/feed';
 import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
 import { POPUP_CLOSE } from '../../services/action/popupAction';
-import { wsGetOrder, WS_CONNECTION_START, WS_GET_ORDER } from '../../services/action/wsActions';
+import { WS_CONNECTION_START } from '../../services/action/wsActions';
 
 function App() {
   const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser);
+  const inLogin = useSelector(store => store.authReducer.inLogin);
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
@@ -43,15 +44,16 @@ function App() {
     dispatch(fetchIngredients());
     history.replace({ state: null })
   }, [dispatch])
-  
+
   useEffect(() => {
     if (!token && refreshToken) {
       dispatch(updateTokenAction())
     }
-  }, [dispatch, token])
+  }, [dispatch, token]);
+
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START })
-  }, [])
+    dispatch({ type: WS_CONNECTION_START });
+  }, [inLogin]);
 
   const onClose = () => {
     history.replace('/');
@@ -91,15 +93,15 @@ function App() {
           <Route path='/feed' exact={true}>
             <Feed />
           </Route>
-        
-            <Route path='/profile/orders/:id' exact={true}>
-              <OrderInfo popupOrder={myOrders} />
-            </Route>
-       
-            <Route path='/feed/:id' exact={true}>
-              <OrderInfo popupOrder={orders} />
-            </Route>
-    
+
+          <Route path='/profile/orders/:id' exact={true}>
+            <OrderInfo popupOrder={myOrders} />
+          </Route>
+
+          <Route path='/feed/:id' exact={true}>
+            <OrderInfo popupOrder={orders} />
+          </Route>
+
           <ProtectedRoute path="/profile">
             <Profile />
           </ProtectedRoute>

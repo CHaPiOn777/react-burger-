@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const ItemNumberOrder = ({ item }) => {
   const styleOrder = item.status === 'done' ? 'text_color_success' : ''; 
@@ -8,3 +9,6 @@ export const ItemNumberOrder = ({ item }) => {
     </>
   );
 };
+ItemNumberOrder.propTypes = {
+  item: PropTypes.object
+}
