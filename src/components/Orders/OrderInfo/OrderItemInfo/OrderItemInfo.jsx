@@ -5,17 +5,16 @@ import style from './OrderItemInfo.module.css';
 import PropTypes from 'prop-types';
 
 export const OrderItemInfo = ({ item }) => {
-
-
+  console.log(item)
   return (
 
-    <div className={`${style.consistItem}`} key={item?._id}>
+    <div className={`${style.consistItem}`} key={item[0]?._id}>
       <div className={style.iconContainer}>
-        <IconIngredients item={item} />
-        <p className={'text text_type_main-small ml-4'}>{item?.name}</p>
+        <IconIngredients item={item[0]} />
+        <p className={'text text_type_main-small ml-4'}>{item[0]?.name}</p>
       </div>
       <div className={`${style.price} mr-6`}>
-        <p className={`${style.priceNumber} text text_type_digits-default`}>{item?.price}</p>
+        <p className={`${style.priceNumber} text text_type_digits-default`}>{`${item[1].count} x ${item[0]?.price}`}</p>
         <CurrencyIcon type="primary" />
       </div>
     </div>

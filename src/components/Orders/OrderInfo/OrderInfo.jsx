@@ -64,15 +64,28 @@ export const OrderInfo = () => {
   )
   const getChangeFormatDate = setDate(conformityIngredients.createdAt);
 
-  const a = conformityIngredients.ingredients?.map(item => {
-    return conformityIngredients.ingredients.filter(newItem => item === newItem)
+  const newArrIngredients = [];
+  let count = 1;
+
+  const sortredIngredients = conformityIngredients.ingredients?.sort((a, b) => {
+    if (a._id > b._id) {
+      return 1
+    } else if (a._id < b._id) {
+      return - 1
+    } else {
+      return 0
+    }
   })
-  
-  const filterRepeatedIngr = useMemo(() => a.filter((item, pos) => {
-    return a.indexOf(item) == pos
-  }), [])
-  // const uniqNumbers = _.uniq(filterRepeatedIngr);
-  console.log(conformityIngredients.ingredients)
+
+  for (let index = 1; index < sortredIngredients?.length + 1; index++) {
+      if (sortredIngredients[index] !== sortredIngredients[index-1]) {
+        newArrIngredients.push([sortredIngredients[index - 1], {count: count}]);
+        count = 1;
+      } else {
+        count += 1
+      }
+    } 
+
   return (
     <>
       {conformityIngredients &&
@@ -82,7 +95,7 @@ export const OrderInfo = () => {
           <p className={`${activeClass()} text text_type_main-small mt-3`}>{orderStatusRus}</p>
           <h3 className={`${style.consistTitle} text text_type_main-medium mt-15`}>Состав:</h3>
           <ul className={`${style.listOrderInfo} mt-6`}>
-            {filterRepeatedIngr?.map((item, index) => {
+            {newArrIngredients?.map((item, index) => {
               return (
                 <OrderItemInfo item={item} key={index} />
               )
