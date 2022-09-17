@@ -27,7 +27,6 @@ import { WS_CONNECTION_START } from '../../services/action/wsActions';
 
 function App() {
   const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser);
-  const inLogin = useSelector(store => store.authReducer.inLogin);
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
   const location = useLocation();
@@ -51,9 +50,7 @@ function App() {
     }
   }, [dispatch, token]);
 
-  useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
-  }, [inLogin]);
+
 
   const onClose = () => {
     history.replace('/');
@@ -95,11 +92,11 @@ function App() {
           </Route>
 
           <ProtectedRoute path='/profile/orders/:id' exact={true}>
-            <OrderInfo popupOrder={myOrders} />
+            <OrderInfo />
           </ProtectedRoute>
 
           <Route path='/feed/:id' exact={true}>
-            <OrderInfo popupOrder={orders} />
+            <OrderInfo />
           </Route>
 
           <ProtectedRoute path="/profile">

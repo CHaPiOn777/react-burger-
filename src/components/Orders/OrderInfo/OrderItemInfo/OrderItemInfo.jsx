@@ -1,10 +1,11 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import { useMemo } from 'react';
 import { IconIngredients } from '../../CardOrder/IconIngredients/IconIngredients';
 import style from './OrderItemInfo.module.css';
 import PropTypes from 'prop-types';
 
-export const OrderItemInfo = ({item}) => {
+export const OrderItemInfo = ({ item }) => {
+
 
   return (
 

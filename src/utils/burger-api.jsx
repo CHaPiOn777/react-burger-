@@ -14,7 +14,7 @@ export const checkReponse = (res) => {
             deleteCookie('token');
             const accessToken = res.accessToken.split('Bearer ')[1];
             const refreshToken = res.refreshToken;
-            setCookie('token', accessToken, { 'max-age': 1200 });
+            setCookie('token', accessToken, { 'max-age': 1200, path: '/' });
             localStorage.setItem('refreshToken', refreshToken);
             return res;
           });

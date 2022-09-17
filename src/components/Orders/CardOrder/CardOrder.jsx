@@ -20,7 +20,12 @@ export const CardOrder = React.memo(function CardOrder({ order }) {
   let numberItems = null;
 
   //подтянули данные по иконкам
-  const conformityIngredientsIcon = useMemo(() => order.ingredients.map(item => ingredients.find(ingredient => ingredient._id === item)), [order]);
+  const conformityIngredientsIcon = useMemo(() => order.ingredients?.map(item => {
+    return ingredients?.find(ingredient => {
+      return ingredient._id === item
+    })
+  }), [ingredients, order.ingredients]);
+
   //создали новый массив заказа с измененными данными иконок
   const conformityIngredients = [{ ...order, ingredients: conformityIngredientsIcon }];
   const bunOrder = useMemo(() => conformityIngredientsIcon.find(item => item?.type === 'bun'), [conformityIngredientsIcon]);

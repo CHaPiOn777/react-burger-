@@ -4,7 +4,9 @@ export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR';
 export const WS_CONNECTION_CLOSED = 'WS_CONNECTION_CLOSED';
 export const WS_SEND_ORDER = 'WS_SEND_ORDER';
 export const WS_GET_ORDER = 'WS_GET_ORDER';
-export const WS_GET_ORDER_MY = 'WS_GET_ORDER_MY';
+export const WS_GET_ORDER_AUTH = 'WS_GET_ORDER_AUTH';
+export const WS_CONNECTION_START_AUTH = 'WS_CONNECTION_START_AUTH';
+export const WS_CONNECTION_CLOSED_AUTH = 'WS_CONNECTION_CLOSED_AUTH';
 
 export const wsConnectionSuccess = () => {
   return {
@@ -23,6 +25,11 @@ export const wsConnectionClosed = () => {
     type: WS_CONNECTION_CLOSED
   };
 };
+export const wsConnectionClosedAuth = () => {
+  return {
+    type: WS_CONNECTION_CLOSED_AUTH
+  };
+};
 
 export const wsGetOrder = order => {
   return {
@@ -39,7 +46,7 @@ export const wsSendOrder = order => {
 };
 export const wsGetOrderMy = order => {
   return {
-    type: WS_GET_ORDER_MY,
+    type: WS_GET_ORDER_AUTH,
     payload: order
   };
 };

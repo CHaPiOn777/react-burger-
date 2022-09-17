@@ -1,7 +1,8 @@
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_MY } from "../action/wsActions";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_AUTH } from "../action/wsActions";
 
 const initialState = {
   wsConnected: false,
+  wsConnectedAuth: false,
   orders: [],
   myOrders: [],
   total: null,
@@ -13,17 +14,24 @@ export const wsReduser = (state = initialState, action) => {
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
-        wsConnected: true
+        wsConnected: true,
+        wsConnectedAuth: true
       }
     case WS_CONNECTION_ERROR:
       return {
         ...state,
-        wsConnected: false
+        wsConnected: false,
+        wsConnectedAuth: false
       }
     case WS_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false
+      }
+    case WS_CONNECTION_CLOSED_AUTH:
+      return {
+        ...state,
+        wsConnectedAuth: false
       }
     case WS_GET_ORDER:
       return {
@@ -33,7 +41,7 @@ export const wsReduser = (state = initialState, action) => {
         orders: action.payload.orders,
         loader: false
       }
-    case WS_GET_ORDER_MY:
+    case WS_GET_ORDER_AUTH:
       return {
         ...state,
         total: action.payload.total,

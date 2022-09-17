@@ -1,23 +1,47 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useMemo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import { setDate } from '../../../utils/utils';
 import style from './OrderInfo.module.css'
 import { OrderItemInfo } from './OrderItemInfo/OrderItemInfo';
 import PropTypes from 'prop-types';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../../services/action/wsActions';
 
-export const OrderInfo = ({ popupOrder }) => {
+export const OrderInfo = () => {
+  const orderStore = useSelector(store => store.wsReduser.orders);
+  const orderStoreAuth = useSelector(store => store.wsReduser.myOrders);
+
+  const isProfile = '/profile/orders/:id';
+  const isFeed = '/feed/:id';
+
 
   const ingredients = useSelector(store => store.listIgredients.feed);
   const { id } = useParams();
-  const order = popupOrder?.find(order => order._id === id);
+  const dispatch = useDispatch();
+  const match = useRouteMatch();
+
+  const popupOrder = match.path === isProfile ? orderStoreAuth : orderStore;
+  const order = popupOrder.find(order => order._id === id);
+
+  useEffect(() => {
+    if (!order) {
+      if (match.path === isProfile) {
+        dispatch({ type: WS_CONNECTION_START_AUTH });
+        return () => dispatch({ type: WS_CONNECTION_CLOSED_AUTH });
+      } else {
+        dispatch({ type: WS_CONNECTION_START });
+        return () => dispatch({ type: WS_CONNECTION_CLOSED });
+      }
+    }
+  }, [order, dispatch, match.path])
 
   //подтянули данные по иконкам
-  const conformityIngredientsIcon = useMemo(() =>
-    order?.ingredients.map(item => ingredients.find(ingredient => ingredient._id === item)),
-    [order, order?.ingredients]
-  );
+  const conformityIngredientsIcon = useMemo(() => order?.ingredients.map(item => {
+    return ingredients?.find(ingredient => {
+      return ingredient._id === item
+    })
+  }), [ingredients, order?.ingredients]);
 
   //создали новый массив заказа с измененными данными иконок
   const conformityIngredients = { ...order, ingredients: conformityIngredientsIcon };
@@ -39,6 +63,16 @@ export const OrderInfo = ({ popupOrder }) => {
     [order, order?.status]
   )
   const getChangeFormatDate = setDate(conformityIngredients.createdAt);
+
+  const a = conformityIngredients.ingredients?.map(item => {
+    return conformityIngredients.ingredients.filter(newItem => item === newItem)
+  })
+  
+  const filterRepeatedIngr = useMemo(() => a.filter((item, pos) => {
+    return a.indexOf(item) == pos
+  }), [])
+  // const uniqNumbers = _.uniq(filterRepeatedIngr);
+  console.log(conformityIngredients.ingredients)
   return (
     <>
       {conformityIngredients &&
@@ -48,7 +82,7 @@ export const OrderInfo = ({ popupOrder }) => {
           <p className={`${activeClass()} text text_type_main-small mt-3`}>{orderStatusRus}</p>
           <h3 className={`${style.consistTitle} text text_type_main-medium mt-15`}>Состав:</h3>
           <ul className={`${style.listOrderInfo} mt-6`}>
-            {conformityIngredients.ingredients?.map((item, index) => {
+            {filterRepeatedIngr?.map((item, index) => {
               return (
                 <OrderItemInfo item={item} key={index} />
               )
@@ -67,5 +101,5 @@ export const OrderInfo = ({ popupOrder }) => {
 };
 
 OrderItemInfo.propTypes = {
-  order: PropTypes.array
+  popupOrder: PropTypes.array
 }

@@ -9,10 +9,12 @@ import { useForm } from '../../utils/hooks/useForm';
 import { ProfileForm } from '../../components/ProfileForm/ProfileForm';
 import { ProtectedRoute } from '../../components/protectedRoute/protectedRoute';
 import { Orders } from '../../components/Orders/Orders';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../services/action/wsActions';
 
 const Profile = () => {
   const orders = useSelector(store => store.wsReduser.myOrders);
   const loader = useSelector(store => store.authReducer.loader);
+  const inLogin = useSelector(store => store.authReducer.inLogin);
 
   const reverceOrders = orders?.sort((a, b) => {
     if (a.number < b.number) {
@@ -23,10 +25,16 @@ const Profile = () => {
   })
 
   const dispatch = useDispatch()
+
   const handleLogout = () => {
     dispatch(logoutUserAction());
   };
 
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START_AUTH });
+    return () => dispatch({ type: WS_CONNECTION_CLOSED_AUTH });
+  }, [inLogin]);
+  
   return (
     <LoaderAuth loader={loader}>
       <section className={style.container}>
