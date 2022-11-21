@@ -1,27 +1,40 @@
 import { authUser, logoutUser, getUserInfo, resetPassword, resetPasswordEmail, changeUserInfo, registerUser, updateToken } from "../../utils/burger-api";
 import { deleteCookie, setCookie } from "../../utils/utils";
-import { inLoader, loader } from "./actionCreator";
+import { AppDispatch, AppThunk } from "../types";
+import { inLoader, loader, TLoader } from "./actionCreator";
+import { TAccessToken, TRefreshToken, TUser } from "../types/types";
 
-export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
-export const GET_AUTH_FAILED = 'GET_AUTH_FAILED';
-export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS';
-export const USER_LOGOUT_FAILED = 'USER_LOGOUT_FAILED';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED = 'GET_USER_FAILED';
-export const USER_RESET_FAILED = 'USER_RESET_FAILED';
-export const USER_RESET_SUCCESS = 'USER_RESET_SUCCESS';
-export const USER_RESET_EMAIL_SUCCESS = 'USER_RESET_EMAIL_SUCCESS';
-export const USER_RESET_EMAIL_FAILED = 'USER_RESET_EMAIL_FAILED';
-export const USER_CHANGE_SUCCESS = 'USER_CHANGE_SUCCESS';
-export const USER_CHANGE_FAILED = 'USER_CHANGE_FAILED';
-export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const GET_AUTH_SUCCESS: 'GET_AUTH_SUCCESS' = 'GET_AUTH_SUCCESS';
+export const GET_AUTH_FAILED: 'GET_AUTH_FAILED' = 'GET_AUTH_FAILED';
+export const USER_LOGOUT_SUCCESS: 'USER_LOGOUT_SUCCESS' = 'USER_LOGOUT_SUCCESS';
+export const USER_LOGOUT_FAILED: 'USER_LOGOUT_FAILED' = 'USER_LOGOUT_FAILED';
+export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED: 'GET_USER_FAILED' = 'GET_USER_FAILED';
+export const USER_RESET_FAILED: 'USER_RESET_FAILED' = 'USER_RESET_FAILED';
+export const USER_RESET_SUCCESS: 'USER_RESET_SUCCESS' = 'USER_RESET_SUCCESS';
+export const USER_RESET_EMAIL_SUCCESS: 'USER_RESET_EMAIL_SUCCESS' = 'USER_RESET_EMAIL_SUCCESS';
+export const USER_RESET_EMAIL_FAILED: 'USER_RESET_EMAIL_FAILED' = 'USER_RESET_EMAIL_FAILED';
+export const USER_CHANGE_SUCCESS: 'USER_CHANGE_SUCCESS' = 'USER_CHANGE_SUCCESS';
+export const USER_CHANGE_FAILED: 'USER_CHANGE_FAILED' = 'USER_CHANGE_FAILED';
+export const UPDATE_TOKEN: 'UPDATE_TOKEN' = 'UPDATE_TOKEN';
 
-export const GET_REGISTER_SUCCESS = 'GET_REGISTER_SUCCESS';
-export const GET_REGISTER_FAILED = 'GET_REGISTER_FAILED';
-export const INLOADER = 'INLOADER';
+export const GET_REGISTER_SUCCESS: 'GET_REGISTER_SUCCESS' = 'GET_REGISTER_SUCCESS';
+export const GET_REGISTER_FAILED: 'GET_REGISTER_FAILED' = 'GET_REGISTER_FAILED';
+export const INLOADER: 'INLOADER' = 'INLOADER';
 
-export const registerUserAction = (email, password, name) => {
-  return function (dispatch) {
+interface IRegisterSuccess {
+  readonly type: typeof GET_REGISTER_SUCCESS;
+  readonly user: TUser; 
+  readonly accessToken: TAccessToken;
+  readonly refreshToken: TRefreshToken;
+}
+interface IRegisterFailed {
+  readonly type: typeof GET_REGISTER_FAILED;
+  readonly message?: string; 
+}
+
+export const registerUserAction: AppThunk = (email: string, password: string, name: string) => {
+  return function (dispatch: AppDispatch) {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоадер или заблокировать 
     // ввод на время выполнения запроса
@@ -61,8 +74,17 @@ export const registerUserAction = (email, password, name) => {
   }
 }
 
-export const getUserAction = () => {
-  return function (dispatch) {
+interface IGetUserFailed {
+  readonly type: typeof GET_USER_FAILED;
+  readonly message?: string; 
+}
+interface IGetUserSuccess {
+  readonly type: typeof GET_USER_SUCCESS;
+  readonly user: TUser; 
+}
+
+export const getUserAction: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     getUserInfo()
       .then(res => {
         if (res && res.success) {
@@ -88,9 +110,19 @@ export const getUserAction = () => {
   }
 }
 
-export const authAction = (email, password) => {
+interface IAuthFailed {
+  readonly type: typeof GET_AUTH_FAILED;
+  readonly message?: string; 
+}
 
-  return function (dispatch) {
+interface IAuthSuccess {
+  readonly type: typeof GET_AUTH_SUCCESS;
+  readonly user: TUser; 
+  readonly success: boolean;
+}
+
+export const authAction: AppThunk = (email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(loader());
     authUser(email, password)
       .then(res => {
@@ -125,8 +157,13 @@ export const authAction = (email, password) => {
       })
   }
 }
-export const updateTokenAction = () => {
-  return function (dispatch) {
+
+interface IUpdateToken {
+  readonly type: typeof UPDATE_TOKEN;
+}
+
+export const updateTokenAction: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch(loader())
     updateToken(localStorage.getItem('refreshToken'))
       .then(res => {
@@ -145,9 +182,17 @@ export const updateTokenAction = () => {
       })
   }
 }
-export const logoutUserAction = () => {
 
-  return function (dispatch) {
+interface ILogoutUserFailed {
+  readonly type: typeof USER_LOGOUT_FAILED;
+  readonly message?: string;
+}
+interface ILogoutUserSuccess {
+  readonly type: typeof USER_LOGOUT_SUCCESS;
+}
+export const logoutUserAction: AppThunk = () => {
+
+  return function (dispatch: AppDispatch) {
     dispatch(loader())
     logoutUser(localStorage.getItem('refreshToken'))
       .then(res => {
@@ -155,11 +200,10 @@ export const logoutUserAction = () => {
           dispatch({ type: USER_LOGOUT_SUCCESS });
           deleteCookie('token');
           localStorage.clear();
-
         }
       })
       .catch(err => dispatch({
-        type: GET_AUTH_FAILED,
+        type: USER_LOGOUT_FAILED,
         message: err.message
       })
       )
@@ -169,9 +213,18 @@ export const logoutUserAction = () => {
   }
 }
 
-export const resetPasswordEmailAction = (email) => {
 
-  return function (dispatch) {
+interface IResetPasswordEmailFailed {
+  readonly type: typeof USER_RESET_EMAIL_FAILED;
+  readonly message?: string;
+}
+interface IResetPasswordEmailSuccess {
+  readonly type: typeof USER_RESET_EMAIL_SUCCESS;
+}
+
+export const resetPasswordEmailAction: AppThunk = (email: string) => {
+
+  return function (dispatch: AppDispatch) {
     dispatch(loader())
     resetPasswordEmail(email)
       .then(res => {
@@ -190,8 +243,18 @@ export const resetPasswordEmailAction = (email) => {
       })
   }
 }
-export const resetPasswordAction = (password, code) => {
-  return function (dispatch) {
+
+interface IResetPasswordFailed {
+  readonly type: typeof USER_RESET_FAILED;
+  readonly message?: string;
+}
+interface IResetPasswordSuccess {
+  success?: boolean;
+  readonly type: typeof USER_RESET_SUCCESS;
+}
+
+export const resetPasswordAction: AppThunk = (password: string, code: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(loader())
     resetPassword(password, code)
       .then(res => {
@@ -211,8 +274,18 @@ export const resetPasswordAction = (password, code) => {
       })
   }
 }
-export const changeUserInfoAction = (email, name, password) => {
-  return function (dispatch) {
+
+interface IChangeUserInfoFailed {
+  readonly type: typeof USER_CHANGE_FAILED;
+  readonly message?: string;
+}
+interface IChangeUserInfoSuccess {
+  user: any;
+  readonly type: typeof USER_CHANGE_SUCCESS;
+}
+
+export const changeUserInfoAction: AppThunk = (email: string, name: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(loader())
     changeUserInfo(email, name, password)
       .then(res => {
@@ -232,3 +305,21 @@ export const changeUserInfoAction = (email, name, password) => {
       })
   }
 }
+
+export type TAuthActions =
+  | IRegisterSuccess
+  | IRegisterFailed
+  | IGetUserFailed
+  | IGetUserSuccess
+  | IAuthFailed
+  | IAuthSuccess
+  | IUpdateToken
+  | ILogoutUserFailed
+  | ILogoutUserSuccess
+  | IResetPasswordFailed
+  | IResetPasswordSuccess
+  | IResetPasswordEmailFailed
+  | IResetPasswordEmailSuccess
+  | IChangeUserInfoFailed
+  | IChangeUserInfoSuccess
+  | TLoader;

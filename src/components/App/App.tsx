@@ -25,17 +25,29 @@ import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
 import { POPUP_CLOSE } from '../../services/action/popupAction';
 import { WS_CONNECTION_START } from '../../services/action/wsActions';
 
+export type TLocation = {
+	background: {
+		pathname: string;
+		search: string;
+		hash: string;
+		state: null;
+		key: string;
+	}
+	from: string;
+	state?: object;
+};
 function App() {
   const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser);
+  const orders = useSelector(store => store.wsReduser.orders);
+  const myOrders = useSelector(store => store.wsReduser.myOrders);  
+  const orderState = useSelector(store => store.orderDetailsReduser.feedFailed);
+  
   const token = getCookie('token');
   const refreshToken = localStorage.getItem('refreshToken')
-  const location = useLocation();
+  const location = useLocation<TLocation>();
   const history = useHistory();
-  const orderState = useSelector(store => store.orderDetailsReduser.feedFailed);
   const background = location.state?.background;
 
-  const orders = useSelector(store => store.wsReduser.orders);
-  const myOrders = useSelector(store => store.wsReduser.myOrders);
 
   const dispatch = useDispatch();
   useEffect(() => {

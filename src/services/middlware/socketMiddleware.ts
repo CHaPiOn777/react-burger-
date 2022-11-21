@@ -1,10 +1,13 @@
 import { useSelector } from "react-redux";
+import { Middleware, MiddlewareAPI } from "redux";
 import { getCookie } from "../../utils/utils";
+import { TWsSocketMiddlewareActions } from "../types/types";
 
-export const socketMiddleware = (wsUrl, wsActions) => {
+export const socketMiddleware = (wsUrl: string, wsActions: TWsSocketMiddlewareActions): Middleware => {
  
-  return store => {
-    let socket = null;
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
+
     return next => action => {
       const { dispatch } = store;
       const { type, payload } = action;

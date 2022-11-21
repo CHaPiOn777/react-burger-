@@ -1,17 +1,32 @@
-import { GET_AUTH_FAILED, GET_AUTH_SUCCESS, GET_REGISTER_FAILED, GET_REGISTER_SUCCESS, GET_USER_FAILED, GET_USER_SUCCESS, INLOADER, UPDATE_TOKEN, USER_CHANGE_FAILED, USER_CHANGE_SUCCESS, USER_LOGOUT_FAILED, USER_LOGOUT_SUCCESS, USER_RESET_EMAIL_FAILED, USER_RESET_EMAIL_SUCCESS, USER_RESET_FAILED, USER_RESET_SUCCESS } from "../action/authAction";
+import { TLoader } from './../action/actionCreator';
+import { TUser } from './../types/types';
+import { GET_AUTH_FAILED, GET_AUTH_SUCCESS, GET_REGISTER_FAILED, GET_REGISTER_SUCCESS, GET_USER_FAILED, GET_USER_SUCCESS, INLOADER, TAuthActions, UPDATE_TOKEN, USER_CHANGE_FAILED, USER_CHANGE_SUCCESS, USER_LOGOUT_FAILED, USER_LOGOUT_SUCCESS, USER_RESET_EMAIL_FAILED, USER_RESET_EMAIL_SUCCESS, USER_RESET_FAILED, USER_RESET_SUCCESS } from "../action/authAction";
 import { LOADER } from "../action/orderDetailsAction";
 
-const initialState = {
-  user: {},
+type TAuthInitialState = {
+  user: TUser,
+  success: boolean,
+  loader: boolean,
+  inLogin: boolean,
+  message: string | undefined,
+  resetEmailSuccess: boolean,
+  updateToken: boolean
+}
+const initialState: TAuthInitialState = {
+  user: {
+    email: '',
+    name: '',
+    password: ''
+  },
   success: false,
   loader: false,
   inLogin: false,
-  message: null,
+  message: '',
   resetEmailSuccess: false,
   updateToken: false
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions) : TAuthInitialState => {
 
   switch (action.type) {
     case UPDATE_TOKEN: {
@@ -42,7 +57,7 @@ export const authReducer = (state = initialState, action) => {
         loader: false,
         success: action.success,
         inLogin: true,
-        message: null,
+        message: undefined,
         user: {email: action.user.email, name: action.user.name}
       }
     }
@@ -72,7 +87,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         user: {email: action.user.email, name: action.user.name},
         inLogin: true,
-        message: null
+        message: undefined
       }
 
     }
