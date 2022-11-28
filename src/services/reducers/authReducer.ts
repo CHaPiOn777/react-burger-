@@ -5,7 +5,7 @@ import { LOADER } from "../action/orderDetailsAction";
 
 type TAuthInitialState = {
   user: TUser,
-  success: boolean,
+  success?: boolean,
   loader: boolean,
   inLogin: boolean,
   message: string | undefined,
@@ -76,7 +76,6 @@ export const authReducer = (state = initialState, action: TAuthActions) : TAuthI
     case GET_AUTH_FAILED: {
       return {
         ...state,
-        message: action.message,
         loader: false,
         inLogin: false,
         message: action.message
@@ -95,8 +94,7 @@ export const authReducer = (state = initialState, action: TAuthActions) : TAuthI
       return {
         ...state,
         message: action.message,
-        inLogin: false,
-        message: action.message
+        inLogin: false
       }
     }
     case USER_LOGOUT_SUCCESS: {
@@ -104,7 +102,7 @@ export const authReducer = (state = initialState, action: TAuthActions) : TAuthI
         ...state,
         loader: false,
         inLogin: false,
-        message: null
+        message: undefined
       }
     }
     case USER_LOGOUT_FAILED: {
@@ -128,7 +126,7 @@ export const authReducer = (state = initialState, action: TAuthActions) : TAuthI
         ...state,
         loader: false,
         inLogin: false,
-        message: null,
+        message: undefined,
         success: action.success
       }
     }
@@ -137,7 +135,7 @@ export const authReducer = (state = initialState, action: TAuthActions) : TAuthI
         ...state,
         loader: false,
         inLogin: false,
-        message: null,
+        message: undefined,
         resetEmailSuccess: true
       }
     }
@@ -155,7 +153,7 @@ export const authReducer = (state = initialState, action: TAuthActions) : TAuthI
         ...state,
         loader: false,
         inLogin: true,
-        message: null,
+        message: undefined,
         user: {
           email: action.user.email, 
           name: action.user.name,

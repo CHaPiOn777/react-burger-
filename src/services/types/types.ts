@@ -29,6 +29,11 @@ export type TIngredient = {
 	count?: number;
 }
 
+export type TIngredientConstructor = {
+  card: TIngredient;
+  id: string;
+}
+
 export type TFeed = {
 	createdAt: string;
 	ingredients: string[];
@@ -54,3 +59,4 @@ export type TWsSocketMiddlewareActions = {
 	onError: string;
 	onMessage: string;
 }
+

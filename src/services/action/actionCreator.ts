@@ -4,12 +4,14 @@ import { LOADER } from "./orderDetailsAction";
 
 interface ILoader {
   readonly type: typeof LOADER;
+  loader?: boolean;
 }
 interface IInLoader {
   readonly type: typeof INLOADER;
+  loader?: boolean;
 }
 export const loader = () => {
-  return{
+  return {
     type: LOADER
   }
 }

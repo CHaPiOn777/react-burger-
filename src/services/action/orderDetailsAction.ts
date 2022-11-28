@@ -1,6 +1,6 @@
 import { getOrder } from "../../utils/burger-api";
 import { AppDispatch, AppThunk } from "../types";
-import { inLoader, loader } from "./actionCreator";
+import { inLoader, loader, TLoader } from "./actionCreator";
 import { RESET_ITEMS } from "./constructorAction";
 
 export const GET_ORDER_SUCCESS: 'GET_ORDER_SUCCESS' = 'GET_ORDER_SUCCESS';
@@ -61,4 +61,5 @@ export const getOrderAction: AppThunk = (id: string) => {
 export type TGetOrder = 
   | IGetOrderSuccess
   | IGetOrderFailed
-  | IResetItems;
+  | IResetItems
+  | TLoader;

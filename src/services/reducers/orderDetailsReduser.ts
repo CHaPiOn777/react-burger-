@@ -1,22 +1,22 @@
 import { INLOADER } from "../action/authAction"
-import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, LOADER } from "../action/orderDetailsAction"
+import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, LOADER, TGetOrder } from "../action/orderDetailsAction"
 
-const initialState = {
+export type TInitialState = {
+	feedRequest: boolean;
+  feedFailed: boolean;
+  loader: boolean;
+	order: Number | null;
+}
+
+const initialState: TInitialState = {
   feedRequest: true,
   feedFailed: false,
   loader: false,
-  order: []
+  order: null
 }
 
-export const orderDetailsReduser = ( state = initialState, action ) => {
+export const orderDetailsReduser = ( state = initialState, action: TGetOrder ): TInitialState  => {
   switch(action.type) {
-    case GET_ORDER: {
-      return {
-        ...state,
-        feedRequest: true,
-        feedFailed: false
-      }
-    }
     case GET_ORDER_SUCCESS: {
       return {
         ...state,
