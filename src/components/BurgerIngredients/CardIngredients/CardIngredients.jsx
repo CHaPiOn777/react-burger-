@@ -32,13 +32,6 @@ const CardIngredients = ({ card }) => {
       type: POPUP_ITEM_INFO
     })
   }
-
-  const getItemInfo = useCallback((item) => {
-    dispatch({
-      type: POPUP_ITEM,
-      item: item
-    })
-  }, [dispatch])
   
   const counter = useMemo(
     () =>

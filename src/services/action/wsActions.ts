@@ -39,16 +39,6 @@ interface IWsGetOrderAuth {
 	payload: TFeedResponce
 }
 
-export type TWsActions =
-	| IWsConnectionStart
-	| IWsConnectionSuccess
-	| IWsConnectionError
-	| IWsConnectionClosed
-	| IWsGetMessage
-	| IWsGetOrderAuth
-	| IWsConnectionClosedAuth
-	| IWsSendMessage;
-
 
 
 export const wsConnectionSuccess = (): IWsConnectionSuccess => {
@@ -93,4 +83,14 @@ export const wsGetOrderMy =  (order: TFeedResponce): IWsGetOrderAuth => {
     payload: order
   };
 };
+
+export type TWsActions =
+	| IWsConnectionStart
+	| IWsConnectionSuccess
+	| IWsConnectionError
+	| IWsConnectionClosed
+	| IWsGetMessage
+	| IWsGetOrderAuth
+	| IWsConnectionClosedAuth
+	| IWsSendMessage;
 

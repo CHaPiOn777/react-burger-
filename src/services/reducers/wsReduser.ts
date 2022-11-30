@@ -1,15 +1,27 @@
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_AUTH } from "../action/wsActions";
+import { TFeed } from './../types/types';
+import { TWsActions, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_AUTH } from "../action/wsActions";
 
-const initialState = {
+export type TInitialState = {
+	wsConnected: boolean;
+	wsConnectedAuth: boolean;
+	orders: TFeed[];
+	myOrders: TFeed[];
+	total: number | null;
+	totalToday: number | null;
+  loader: boolean;
+}
+
+const initialState: TInitialState = {
   wsConnected: false,
   wsConnectedAuth: false,
   orders: [],
   myOrders: [],
   total: null,
-  totalToday: null
+  totalToday: null,
+  loader: false
 };
 
-export const wsReduser = (state = initialState, action) => {
+export const wsReduser = (state = initialState, action: TWsActions): TInitialState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

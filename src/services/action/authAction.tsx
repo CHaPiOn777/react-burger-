@@ -44,7 +44,7 @@ export const registerUserAction: AppThunk = (email: string, password: string, na
       .then(res => {
         const accessToken = res.accessToken.split('Bearer ')[1];
         const refreshToken = res.refreshToken;
-        setCookie('token', accessToken, { 'max-age': 1200, path: '/' });
+        setCookie('token', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         return res;
       })
@@ -128,7 +128,7 @@ export const authAction: AppThunk = (email: string, password: string) => {
       .then(res => {
         const accessToken = res.accessToken.split('Bearer ')[1];
         const refreshToken = res.refreshToken;
-        setCookie('token', accessToken, { 'max-age': 1200, path: '/' });
+        setCookie('token', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         return res;
       })
@@ -169,7 +169,7 @@ export const updateTokenAction: AppThunk = () => {
       .then(res => {
         const accessToken = res.accessToken.split('Bearer ')[1];
         const refreshToken = res.refreshToken;
-        setCookie('token', accessToken, { 'max-age': 1200, path: '/' });
+        setCookie('token', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         return res;
       }).then(res => {

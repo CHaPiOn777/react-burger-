@@ -1,14 +1,21 @@
 import { INLOADER } from "../action/authAction"
-import { POPUP_ITEM } from "../action/IngredientDetailsAction"
+import { IItemInfo, POPUP_ITEM, TOrderInfo } from "../action/IngredientDetailsAction"
 import { LOADER } from "../action/orderDetailsAction"
+import { TIngredientsInfo } from "../types/types";
 
-const initialState = {
-  item: [],
+export type TInitialState = {
+	item: TIngredientsInfo | null;
+  priceOrder: string | number | null;
+  loader: boolean;
+}
+
+const initialState: TInitialState = {
+  item: null,
   priceOrder: null,
   loader: false
 }
 
-export const popupDetailsReducer = (state = initialState, action) => {
+export const popupDetailsReducer = (state = initialState, action: TOrderInfo): TInitialState => {
   switch (action.type) {
     case POPUP_ITEM: {
       return {
@@ -20,6 +27,7 @@ export const popupDetailsReducer = (state = initialState, action) => {
     }
     case LOADER: {
       return {
+        ...state,
         loader: true
       }
     }

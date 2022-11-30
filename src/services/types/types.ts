@@ -34,6 +34,16 @@ export type TIngredientConstructor = {
   id: string;
 }
 
+export type TIngredientsInfo = {
+  _id: string;
+  ingredients: TIngredient[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+}
+
 export type TFeed = {
 	createdAt: string;
 	ingredients: string[];

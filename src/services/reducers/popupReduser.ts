@@ -1,12 +1,19 @@
-import { POPUP_CLOSE, POPUP_ITEM_INFO, POPUP_ITEM_INFO_CLOSE, POPUP_ORDER, POPUP_ORDER_CLOSE, POPUP_ORDER_ITEM_INFO, POPUP_ORDER_ITEM_INFO_CLOSE } from "../action/popupAction"
+import { POPUP_CLOSE, POPUP_ITEM_INFO, POPUP_ORDER, POPUP_ORDER_ITEM_INFO, TPopup } from "../action/popupAction"
 
-const initialState = {
+
+export type TInitialState = {
+	popupCard: boolean;
+	popupOrder: boolean;
+	popupOrderInfo: boolean;
+}
+
+const initialState: TInitialState = {
   popupCard: false,
   popupOrder: false,
   popupOrderInfo: false
 }
 
-export const popupReduser = (state = initialState, action) => {
+export const popupReduser = (state = initialState, action: TPopup): TInitialState => {
   switch (action.type) {
     case POPUP_ITEM_INFO: {
       return {

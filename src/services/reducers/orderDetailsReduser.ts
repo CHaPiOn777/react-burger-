@@ -36,6 +36,7 @@ export const orderDetailsReduser = ( state = initialState, action: TGetOrder ): 
     }
     case LOADER: {
       return {
+        ...state,
         loader: true
       }
     }
