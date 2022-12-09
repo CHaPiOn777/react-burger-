@@ -30,3 +30,4 @@ export const initialStore = (initialState = {}) =>
     initialState,
     composeWithDevTools(applyMiddleware(thunkMiddleware, socketMiddleware(wsUrl, wsActions), socketMiddleware(wsUrlMy, wsActionsMy)))
   )
+

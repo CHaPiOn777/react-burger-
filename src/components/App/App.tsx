@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -24,6 +24,11 @@ import { Feed } from '../../pages/feed/feed';
 import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
 import { POPUP_CLOSE } from '../../services/action/popupAction';
 import { WS_CONNECTION_START } from '../../services/action/wsActions';
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
 
 export type TLocation = {
 	background: {
@@ -36,7 +41,8 @@ export type TLocation = {
 	from: string;
 	state?: object;
 };
-function App() {
+
+const App: FC = () => {
   const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser);
   const orders = useSelector(store => store.wsReduser.orders);
   const myOrders = useSelector(store => store.wsReduser.myOrders);  

@@ -2,7 +2,7 @@ import { authUser, logoutUser, getUserInfo, resetPassword, resetPasswordEmail, c
 import { deleteCookie, setCookie } from "../../utils/utils";
 import { AppDispatch, AppThunk } from "../types";
 import { inLoader, loader, TLoader } from "./actionCreator";
-import { TAccessToken, TRefreshToken, TUser } from "../types/types";
+import { TUser } from "../types/types";
 
 export const GET_AUTH_SUCCESS: 'GET_AUTH_SUCCESS' = 'GET_AUTH_SUCCESS';
 export const GET_AUTH_FAILED: 'GET_AUTH_FAILED' = 'GET_AUTH_FAILED';
@@ -25,8 +25,8 @@ export const INLOADER: 'INLOADER' = 'INLOADER';
 interface IRegisterSuccess {
   readonly type: typeof GET_REGISTER_SUCCESS;
   readonly user: TUser; 
-  readonly accessToken: TAccessToken;
-  readonly refreshToken: TRefreshToken;
+  readonly accessToken: string;
+  readonly refreshToken: string;
 }
 interface IRegisterFailed {
   readonly type: typeof GET_REGISTER_FAILED;

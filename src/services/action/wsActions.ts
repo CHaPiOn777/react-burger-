@@ -26,6 +26,9 @@ interface IWsConnectionClosed {
 interface IWsConnectionClosedAuth {
 	readonly type: typeof WS_CONNECTION_CLOSED_AUTH;
 }
+interface IWsConnectionStartAuth {
+	readonly type: typeof WS_CONNECTION_START_AUTH;
+}
 interface IWsGetMessage {
 	readonly type: typeof WS_GET_ORDER;
 	payload: TFeedResponce
@@ -39,7 +42,11 @@ interface IWsGetOrderAuth {
 	payload: TFeedResponce
 }
 
-
+export const wsConnectionOpen = (): IWsConnectionStart => {
+	return {
+		type: WS_CONNECTION_START
+	}
+}
 
 export const wsConnectionSuccess = (): IWsConnectionSuccess => {
   return {
@@ -63,6 +70,12 @@ export const wsConnectionClosedAuth = (): IWsConnectionClosedAuth => {
     type: WS_CONNECTION_CLOSED_AUTH
   };
 };
+
+export const wsConnectionStartAuth = (): IWsConnectionStartAuth => {
+	return {
+		type: WS_CONNECTION_START_AUTH
+	}
+}
 
 export const wsGetOrder = (order: TFeedResponce):IWsGetMessage => {
   return {
@@ -92,5 +105,6 @@ export type TWsActions =
 	| IWsGetMessage
 	| IWsGetOrderAuth
 	| IWsConnectionClosedAuth
+  | IWsConnectionStartAuth
 	| IWsSendMessage;
 

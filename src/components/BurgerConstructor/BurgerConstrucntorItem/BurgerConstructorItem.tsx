@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,9 +8,17 @@ import {
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CHANGE_ITEM, DELETE_ITEM } from '../../../services/action/constructorAction';
+import { TIngredient } from '../../../services/types/types';
 
-
-const BurgerConstructorItem = ({type, id, image, price, name, index}) => {
+type TConstructorItems = {
+  type: string;
+	index: number;
+  id: string;
+  image: string;
+  price: number;
+  name: string;
+}
+const BurgerConstructorItem: FC<TConstructorItems> = ({type, id, image, price, name, index}) => {
   const dispatch = useDispatch();
   const ingredients = useSelector(store => store.constructorReducer.feed);
   const ref = useRef(null);
@@ -23,9 +31,9 @@ const BurgerConstructorItem = ({type, id, image, price, name, index}) => {
     })
   })
 
-  const [{}, dropRefMovie] = useDrop({
+  const [, dropRefMovie] = useDrop({
     accept: 'movie',
-    hover(item) {
+    hover(item: TIngredient) {
       const dragIndex = item.index;
       const dropIndex = index;
       dispatch({
@@ -35,7 +43,7 @@ const BurgerConstructorItem = ({type, id, image, price, name, index}) => {
       item.index = dropIndex;
     },
   })
-  const deleteItem = (id) => {
+  const deleteItem = (id: string) => {
     dispatch({
       type: DELETE_ITEM,
       id: id
@@ -58,12 +66,5 @@ const BurgerConstructorItem = ({type, id, image, price, name, index}) => {
     </>
   );
 };
-BurgerConstructorItem.propTypes = {
-  type: PropTypes.string,
-  id: PropTypes.number,
-  image: PropTypes.string,
-  price: PropTypes.number,
-  name: PropTypes.string,
-  index: PropTypes.number
-}
+
 export default React.memo (BurgerConstructorItem)

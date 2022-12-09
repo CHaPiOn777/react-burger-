@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { FC } from 'react';
 import stylesCardIngredients from './CardIngredients.module.css';
 import PropTypes from 'prop-types';
 import {
@@ -11,8 +11,14 @@ import { useMemo } from 'react';
 import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { Link, useLocation } from 'react-router-dom';
 import { POPUP_ITEM_INFO } from '../../../services/action/popupAction';
+import { TIngredient, TIngredientConstructor } from '../../../services/types/types';
 
-const CardIngredients = ({ card }) => {
+type TCard = {
+	card: TIngredient;
+}
+
+
+const CardIngredients: FC<TCard> = ({ card }) => {
   const ingredients = useSelector(store => store.constructorReducer.feed);
   const bun = useSelector(store => store.constructorReducer.bun);
   const location = useLocation();
@@ -77,7 +83,4 @@ const CardIngredients = ({ card }) => {
   )
 }
 
-CardIngredients.propTypes = {
-  card: PropTypes.object
-}
 export default React.memo(CardIngredients);

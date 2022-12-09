@@ -5,12 +5,13 @@ import {
   ProfileIcon,
 
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { FC } from 'react';
 import stylesHeader from './AppHeader.module.css';
 import { NavLink, Link, useLocation } from 'react-router-dom';
+import { TLocation } from '../App/App';
 
-const AppHeader = () => {
-  let location = useLocation();
+const AppHeader: FC = () => {
+  let location = useLocation<TLocation>();
 
   return (
     <header className={stylesHeader.header}>

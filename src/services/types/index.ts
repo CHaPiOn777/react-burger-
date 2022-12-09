@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { store } from "../..";
+import { store } from "../../index";
 import { TLoader } from "../action/actionCreator";
 import { TAuthActions } from "../action/authAction";
 import { TBurgerIngredients } from "../action/listIgredientsAction";

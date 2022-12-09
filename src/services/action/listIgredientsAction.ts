@@ -1,3 +1,4 @@
+
 import { getIngredients } from "../../utils/burger-api";
 import { AppDispatch, AppThunk } from "../types";
 import { TIngredient } from "../types/types";
@@ -30,7 +31,7 @@ export const fetchIngredients: AppThunk  = () => {
     })
     // Запрашиваем данные у сервера
     getIngredients()
-    .then(res => {
+    .then((res) => {
       if (res && res.success) {
         // В случае успешного получения данных вызываем экшен
         // для записи полученных данных в хранилище
@@ -44,7 +45,7 @@ export const fetchIngredients: AppThunk  = () => {
           type: GET_FEED_FAILED
         })
       }
-    }).catch(err => {
+    }).catch((err) => {
       // Если сервер не вернул данных, также отправляем экшен об ошибке
       dispatch({
         type: GET_FEED_FAILED

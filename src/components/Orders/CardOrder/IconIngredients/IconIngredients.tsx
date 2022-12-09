@@ -1,8 +1,17 @@
-import React from 'react';
+import React, {FC} from 'react';
 import PropTypes from 'prop-types';
 import style from './IconsIngredients.module.css';
+import { TIngredient } from '../../../../services/types/types';
 
-export const IconIngredients = React.memo(function IconIngredients({ item }) {
+interface IIconIngredients {
+	item: TIngredient;
+}
+interface IIconIngredientsHiden {
+	item: TIngredient[];
+  numberItems: number;
+}
+
+export const IconIngredients: FC<IIconIngredients> = React.memo(function IconIngredients({ item }) {
   return (
     <li className={style.border}>
       <div className={style.item}>
@@ -11,7 +20,7 @@ export const IconIngredients = React.memo(function IconIngredients({ item }) {
     </li>
   );
 });
-export const IconIngredientsHiden = React.memo(function IconIngredientsHiden({ item, numberItems }) {
+export const IconIngredientsHiden: FC<IIconIngredientsHiden> = React.memo(function IconIngredientsHiden({ item, numberItems }) {
   return (
     <li className={`${style.border} `} key={item[0]?._id}>
       <p className={`${style.numberItems} text_type_main-small`}>{`+${numberItems}`}</p>
@@ -22,10 +31,3 @@ export const IconIngredientsHiden = React.memo(function IconIngredientsHiden({ i
   );
 });
 
-IconIngredients.propTypes = {
-  item: PropTypes.object
-}
-IconIngredientsHiden.propTypes = {
-  item: PropTypes.array,
-  numberItems: PropTypes.number
-}

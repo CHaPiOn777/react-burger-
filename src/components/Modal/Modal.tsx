@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ReactDOM from 'react-dom';
 import {
   CloseIcon
@@ -8,14 +8,15 @@ import ModalOverlay from './ModalOverlay/ModalOverlay';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { LoaderAuth, LoaderIngredients } from '../../utils/Loader/Loader';
-const modalRoot = document.querySelector('#modal');
+import { TModal } from '../../services/types/types';
+const modalRoot = document.querySelector('#modal') as HTMLElement;
 
-const Modal = ({ active, onClose, children }) => {
+const Modal: FC<TModal> = ({ active, onClose, children }) => {
   const loader = useSelector(store => store.authReducer.loader);
   const load = useSelector(store => store.orderDetailsReduser.loader);
 
   React.useEffect(() => {
-    const close = (e) => {
+    const close = (e: {key: string}) => {
       if (e.key === 'Escape') {
         onClose();
       }
@@ -47,10 +48,5 @@ const Modal = ({ active, onClose, children }) => {
   )
 }
 
-Modal.propTypes = {
-  active: PropTypes.bool,
-  children: PropTypes.element,
-  onClose: PropTypes.func
-}
 export default Modal;
 

@@ -1,22 +1,26 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, FC } from 'react';
 import style from './Profile.module.css'
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeUserInfoAction, logoutUserAction } from '../../services/action/authAction';
+import { changeUserInfoAction, logoutUserAction } from '../../services/action/authAction.ts';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { useForm } from '../../utils/hooks/useForm';
 import { ProfileForm } from '../../components/ProfileForm/ProfileForm';
 import { ProtectedRoute } from '../../components/protectedRoute/protectedRoute';
 import { Orders } from '../../components/Orders/Orders';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../services/action/wsActions';
+import { wsConnectionClosedAuth, wsConnectionOpen, wsConnectionStartAuth, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../services/action/wsActions';
 
-const Profile = () => {
+type TReverceOrders = {
+  number: number
+}
+
+const Profile: FC = () => {
   const orders = useSelector(store => store.wsReduser.myOrders);
   const loader = useSelector(store => store.authReducer.loader);
   const inLogin = useSelector(store => store.authReducer.inLogin);
 
-  const reverceOrders = orders?.sort((a, b) => {
+  const reverceOrders = orders?.sort((a:TReverceOrders, b: TReverceOrders) => {
     if (a.number < b.number) {
       return 1
     } else {
@@ -31,9 +35,11 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START_AUTH });
-    return () => dispatch({ type: WS_CONNECTION_CLOSED_AUTH });
-  }, [inLogin]);
+    dispatch(wsConnectionStartAuth());
+    return () => {
+      dispatch(wsConnectionClosedAuth());
+    }
+  }, [dispatch]);
   
   return (
     <LoaderAuth loader={loader}>

@@ -1,15 +1,11 @@
+import { ReactNode } from "react";
+
 export type TUser = {
 	email: string;
 	name: string;
   password?: string;
 	createdAt?: string;
 	updatedAt?: string;
-}
-export type TAccessToken = {
-	accessToken: string;
-}
-export type TRefreshToken = {
-	refreshToken: string;
 }
 
 export type TIngredient = {
@@ -27,6 +23,19 @@ export type TIngredient = {
 	_id: string;
 	id?: string;
 	count?: number;
+  index?: number;
+}
+
+export type TOrder = {
+	createdAt: string;
+	ingredients: TIngredient[];
+	name: string;
+	number: number;
+	owner: TUser;
+	price: number;
+	status: string;
+	updatedAt: string;
+	_id: string;
 }
 
 export type TIngredientConstructor = {
@@ -70,3 +79,39 @@ export type TWsSocketMiddlewareActions = {
 	onMessage: string;
 }
 
+
+export type TOrderDetailsResponse = {
+	name: string
+	order: TOrder;
+	success: boolean;
+}
+
+export type TIngredientResponse = {
+	data: Array<TIngredient>;
+	success: boolean;
+}
+
+export type TUserResponce = {
+	success: boolean;
+	user: TUser;
+	accessToken: string;
+	refreshToken: string;
+	message: string;
+}
+
+export type TUserLogoutResponse = {
+	message: string;
+	success: boolean;
+	refreshToken: string;
+}
+
+export type TModal = {
+	active: boolean;
+  onClose: () => void;
+  children: ReactNode;
+}
+
+export type TModalOverlay = {
+  active: boolean;
+	closePopup: () => void;
+}

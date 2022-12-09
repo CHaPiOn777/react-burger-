@@ -1,4 +1,4 @@
-import { INLOADER } from "../action/authAction"
+import { INLOADER } from "../action/authAction.ts"
 import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, LOADER, TGetOrder } from "../action/orderDetailsAction"
 
 export type TInitialState = {

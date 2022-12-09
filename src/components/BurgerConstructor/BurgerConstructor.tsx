@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import React from 'react';
+import React, {FC} from 'react';
 import {
   ConstructorElement,
   Button,
@@ -13,20 +13,26 @@ import BurgerConstructorItem from './BurgerConstrucntorItem/BurgerConstructorIte
 import { getOrderAction } from '../../services/action/orderDetailsAction';
 import { useHistory } from 'react-router-dom';
 import { POPUP_ORDER } from '../../services/action/popupAction';
+import { TLocation } from '../App/App';
+import { TIngredient, TIngredientConstructor } from '../../services/types/types';
 
 
-const BurgerConstructor = () => {
+interface DropItem {
+	ingredient: TIngredient;
+}
+
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const ingredients = useSelector(store => store.constructorReducer.feed);
   const allIngredients = useSelector(store => store.constructorReducer.ingredients);
   const bun = useSelector(store => store.constructorReducer.bun);
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const [total, setTotal] = useState(0);
-  const history = useHistory();
+  const history = useHistory<TLocation>();
 
   const [, dropTarget] = useDrop({
     accept: 'ingredients',
-    drop(item) {
+    drop(item: DropItem) {
       dispatch({
         type: ADD_INGREDIENT,
         data: { ...item, id: Date.now() }
@@ -35,16 +41,16 @@ const BurgerConstructor = () => {
   })
 
 
-  let burgerId = useMemo(() => allIngredients.map((item) => item.card._id), [allIngredients]);
+  let burgerId = useMemo(() => allIngredients.map((item: TIngredientConstructor) => item.card._id), [allIngredients]);
 
   useEffect(() => {
-    const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
+    const ingredientsPrice = ingredients.reduce((sum: number, item: TIngredientConstructor) => +sum + item.card.price, []);
     const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
     const totalPrice = bunPrice + ingredientsPrice;
     setTotal(totalPrice)
   }, [ingredients, bun])
 
-  const orderDispatch = useCallback((id) => {
+  const orderDispatch = useCallback((id: string) => {
     dispatch(getOrderAction(id))
   }, [dispatch])
 
@@ -75,7 +81,7 @@ const BurgerConstructor = () => {
           )}
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {ingredients.map((item, index) => {
+        {ingredients.map((item: TIngredientConstructor, index: number) => {
           return (
             <BurgerConstructorItem
               key={item.id}

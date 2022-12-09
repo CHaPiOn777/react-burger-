@@ -1,17 +1,19 @@
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './SignIn.module.css';
+import { FC, FormEvent } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { useForm } from '../../utils/hooks/useForm';
+import { TLocation } from '../../components/App/App';
 
-const SignIn = () => {
+const SignIn: FC = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const loader = useSelector(store => store.authReducer.loader);
 const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation<TLocation>();
 
   const { values, handleChange, setValues } = useForm({
     email: user.email || '',
@@ -19,7 +21,7 @@ const user = useSelector(store => store.authReducer.user);
   });
   const { email, password } = values;
 
-  const login = (e) => {
+  const login = (e: FormEvent<HTMLFormElement>) => {
     setValues({})
     e.preventDefault();
     dispatch(authAction(email, password))

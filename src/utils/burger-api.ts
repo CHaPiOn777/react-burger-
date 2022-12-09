@@ -1,9 +1,10 @@
+import { TIngredientResponse, TOrderDetailsResponse, TUserLogoutResponse, TUserResponce } from "../services/types/types";
 import { deleteCookie, getCookie, setCookie } from "./utils";
 
 const baseURL = 'https://norma.nomoreparties.space/api/'
 
 
-export const checkReponse = (res) => {
+export const checkReponse = <T> (res: Response): Promise<T> => {
   return res.ok ?
     res.json() :
     res.json()
@@ -14,7 +15,7 @@ export const checkReponse = (res) => {
             deleteCookie('token');
             const accessToken = res.accessToken.split('Bearer ')[1];
             const refreshToken = res.refreshToken;
-            setCookie('token', accessToken, { 'max-age': 1200, path: '/' });
+            setCookie('token', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             return res;
           });
@@ -25,10 +26,10 @@ export const checkReponse = (res) => {
 
 export function getIngredients() {
   return fetch(`${baseURL}ingredients`)
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TIngredientResponse>(res))
 }
 
-export function getOrder(id) {
+export function getOrder(id: string) {
   return fetch(`${baseURL}orders`, {
     method: 'POST',
     body: JSON.stringify({
@@ -39,10 +40,10 @@ export function getOrder(id) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TOrderDetailsResponse>(res))
 }
 
-export function resetPasswordEmail(email) {
+export function resetPasswordEmail(email:string) {
   return fetch(`${baseURL}password-reset`, {
     method: 'POST',
     body: JSON.stringify({
@@ -52,10 +53,10 @@ export function resetPasswordEmail(email) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserResponce>(res))
 }
 
-export function resetPassword(password, code) {
+export function resetPassword(password:string, code:string | any) {
   return fetch(`${baseURL}password-reset/reset`, {
     method: 'POST',
     body: JSON.stringify({
@@ -66,10 +67,10 @@ export function resetPassword(password, code) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserResponce>(res))
 }
 
-export function registerUser(email, password, userName) {
+export function registerUser(email:string, password:string, userName:string) {
   return fetch(`${baseURL}auth/register`, {
     method: 'POST',
     body: JSON.stringify({
@@ -81,10 +82,10 @@ export function registerUser(email, password, userName) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserResponce>(res))
 }
 
-export function authUser(email, password) {
+export function authUser(email:string, password:string) {
   return fetch(`${baseURL}auth/login`, {
     method: 'POST',
     body: JSON.stringify({
@@ -95,8 +96,7 @@ export function authUser(email, password) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse(res))
-    .catch(err => console.error(err))
+    .then(res => checkReponse<TUserResponce>(res))
 
 }
 
@@ -108,11 +108,11 @@ export function getUserInfo() {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserResponce>(res))
 
 }
 
-export function changeUserInfo(email, name, password) {
+export function changeUserInfo(email:string, name:string, password:string) {
   return fetch(`${baseURL}auth/user`, {
     method: 'PATCH',
     body: JSON.stringify({
@@ -125,9 +125,9 @@ export function changeUserInfo(email, name, password) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserResponce>(res))
 }
-export function logoutUser(refreshToken) {
+export function logoutUser(refreshToken:string | null) {
   return fetch(`${baseURL}auth/logout`, {
     method: 'POST',
     body: JSON.stringify({
@@ -137,9 +137,9 @@ export function logoutUser(refreshToken) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserLogoutResponse>(res))
 }
-export function updateToken(refreshToken) {
+export function updateToken(refreshToken:string | null) {
   return fetch(`${baseURL}auth/token`, {
     method: 'POST',
     body: JSON.stringify({
@@ -150,6 +150,6 @@ export function updateToken(refreshToken) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse(res))
+    .then(res => checkReponse<TUserResponce>(res))
 }
 

@@ -1,16 +1,17 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback } from 'react';
+import React, { useCallback, FC } from 'react';
 import style from './Registration.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { registerUserAction } from '../../services/action/authAction';
 import { useForm } from '../../utils/hooks/useForm';
+import { TLocation } from '../../components/App/App';
 
-const Registration = () => {
+const Registration: FC = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const loader = useSelector(store => store.authReducer.loader);
-  const location = useLocation();
+  const location = useLocation<TLocation>();
 
   const dispatch = useDispatch();
   
@@ -19,7 +20,7 @@ const Registration = () => {
   const { values, handleChange, setValues } = useForm({});
   const { email, password, name} = values;
 
-  const newUser = useCallback((e, email, password, name) => {
+  const newUser = useCallback((e: any, email: string, password: string, name: string) => {
     e.preventDefault();
     setValues({});
     dispatch(registerUserAction(email, password, name));

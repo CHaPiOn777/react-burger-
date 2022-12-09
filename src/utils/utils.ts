@@ -1,4 +1,4 @@
-export function setCookie(name, value, { props }) {
+export function setCookie(name: string, value: string, props: { [key: string]: any } & { expires?: number | Date | string } = {}) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -6,8 +6,8 @@ export function setCookie(name, value, { props }) {
     d.setTime(d.getTime() + exp * 20000);
     exp = props.expires = d;
   }
-  if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
+  if (exp && (exp as Date).toUTCString) {
+    props.expires = (exp as Date).toUTCString();
   }
   value = encodeURIComponent(value);
   let updatedCookie = name + '=' + value;
@@ -22,20 +22,20 @@ export function setCookie(name, value, { props }) {
 
 }
 
-export function deleteCookie(name) {
+export function deleteCookie(name: string) {
   setCookie(name, "", {
     'max-age': -1
   })
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function setDay(day) {
+function setDay(day: number) {
   if (day === 0) {
     return 'сегoдня'
   };
@@ -53,10 +53,10 @@ function setDay(day) {
   }
  return `${day} дней назад`
 }
-export function setDate(date) {
+export function setDate(date: string) {
   const dateTime = date?.slice(11, 16);
   const dateYearMonthDay = date?.slice(0, 10);
-  const dateNew = new Date;
+  const dateNew: any = new Date;
   const dateDayMS = dateNew - Date.parse(dateYearMonthDay);
   const dateDay = Math.floor(dateDayMS / 3600 / 24 / 1000);
   const newFormatDay = setDay(dateDay)

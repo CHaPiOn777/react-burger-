@@ -1,20 +1,21 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback } from 'react';
+import React, { useCallback, FC, FormEvent } from 'react';
 import style from './ResetPassword.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetPasswordAction } from '../../services/action/authAction';
+import { resetPasswordAction } from '../../services/action/authAction.ts';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { useForm } from '../../utils/hooks/useForm';
+import { TLocation } from '../../components/App/App';
 
-const ResetPassword = () => {
+const ResetPassword: FC = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);
   const messageErr = useSelector(store => store.authReducer.message);
   const successReset = useSelector(store => store.authReducer.success);
   const resetEmailSuccess = useSelector(store => store.authReducer.resetEmailSuccess);
   const loader = useSelector(store => store.authReducer.loader);
 
-  const location = useLocation();
+  const location = useLocation<TLocation>();
   const dispatch = useDispatch();
 
   const { values, handleChange, setValues } = useForm({});
@@ -27,7 +28,7 @@ const ResetPassword = () => {
     setTimeout(() => passwordRef.current.focus(), 0);
   }
 
-  const newPassword = useCallback((e) => {
+  const newPassword = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setValues({});
     dispatch(resetPasswordAction(password, code))

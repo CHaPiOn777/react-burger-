@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Orders } from '../../components/Orders/Orders';
 import { Stats } from '../../components/Stats/Stats';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/action/wsActions';
+import { wsConnectionClosed, wsConnectionOpen, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/action/wsActions';
 import style from './feed.module.css';
 
-export const Feed = () => {
+export const Feed: FC = () => {
   const orders = useSelector(store => store.wsReduser.orders);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
-    return () => dispatch({ type: WS_CONNECTION_CLOSED });
-  }, []);
+    dispatch(wsConnectionOpen());
+    return () => {
+      dispatch(wsConnectionClosed());
+    }
+  }, [dispatch]);
+
   return (
     <section className={style.feed}>
       <h1 className='text text_type_main-large mt-10 mb-5 '>Лента заказов</h1>

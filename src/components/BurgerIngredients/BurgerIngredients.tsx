@@ -1,20 +1,23 @@
-import React, { useMemo, useEffect, useRef } from 'react';
+import React, { useMemo, useEffect, useRef, FC } from 'react';
 import {
   Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from './CardIngredients/CardIngredients';
 import { useSelector } from 'react-redux';
+import { TIngredient } from '../../services/types/types';
 
+type TRef = {
+	current: any;
+}
 
-
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const [current, setCurrent] = React.useState('one');
   const state = useSelector(store => store.listIgredients.feed);
 
-  const bun = useMemo(() => state.filter((item) => item.type === 'bun'), [state]);
-  const sauce = useMemo(() => state.filter((item) => item.type === 'sauce'), [state]);
-  const main = useMemo(() => state.filter((item) => item.type === 'main'), [state]);
+  const bun = useMemo(() => state.filter((item: TIngredient) => item.type === 'bun'), [state]);
+  const sauce = useMemo(() => state.filter((item: TIngredient) => item.type === 'sauce'), [state]);
+  const main = useMemo(() => state.filter((item: TIngredient) => item.type === 'main'), [state]);
 
   const tabRef = useRef(current);
   const bunRef = useRef(null);
@@ -35,7 +38,7 @@ const BurgerIngredients = () => {
     tabRef.current.addEventListener('scroll', scrollMenu)
   }, [])
 
-  const buttonHandler = (ref) => {
+  const buttonHandler = (ref:TRef) => {
     ref.current.scrollIntoView();
   }
 
@@ -64,7 +67,7 @@ const BurgerIngredients = () => {
       <div className={stylesIngredients.cards} ref={tabRef} >
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={bunRef}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`} >
-          {bun.map((card) => {
+          {bun.map((card: TIngredient) => {
             return (
               <CardIngredients
                 card={card}
@@ -75,7 +78,7 @@ const BurgerIngredients = () => {
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={sauceRef}>Соусы</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-          {sauce.map((card) => {
+          {sauce.map((card: TIngredient) => {
             return (
               <CardIngredients
                 card={card}
@@ -87,7 +90,7 @@ const BurgerIngredients = () => {
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`} ref={mainRef}>Начинки</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-          {main.map((card) => {
+          {main.map((card: TIngredient) => {
             return (
               <CardIngredients
                 card={card}
