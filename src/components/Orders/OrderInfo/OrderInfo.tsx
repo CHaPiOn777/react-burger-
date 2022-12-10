@@ -1,14 +1,14 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useMemo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMemo, useEffect, FC } from 'react';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import { setDate } from '../../../utils/utils';
 import style from './OrderInfo.module.css'
 import { OrderItemInfo } from './OrderItemInfo/OrderItemInfo';
 import PropTypes from 'prop-types';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../../services/action/wsActions';
+import { wsConnectionClosed, wsConnectionClosedAuth, wsConnectionOpen, wsConnectionStartAuth, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../../services/action/wsActions';
+import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
 
-export const OrderInfo = () => {
+export const OrderInfo: FC = () => {
   const orderStore = useSelector(store => store.wsReduser.orders);
   const orderStoreAuth = useSelector(store => store.wsReduser.myOrders);
 
@@ -17,24 +17,24 @@ export const OrderInfo = () => {
 
 
   const ingredients = useSelector(store => store.listIgredients.feed);
-  const { id } = useParams();
+  const { id } = useParams<any>();
   const dispatch = useDispatch();
   const match = useRouteMatch();
 
   const popupOrder = match.path === isProfile ? orderStoreAuth : orderStore;
   const order = popupOrder.find(order => order._id === id);
 
-  useEffect(() => {
+
     if (!order) {
       if (match.path === isProfile) {
-        dispatch({ type: WS_CONNECTION_START_AUTH });
-        return () => dispatch({ type: WS_CONNECTION_CLOSED_AUTH });
+        dispatch(wsConnectionStartAuth());
+        return () => dispatch(wsConnectionClosedAuth());
       } else {
-        dispatch({ type: WS_CONNECTION_START });
-        return () => dispatch({ type: WS_CONNECTION_CLOSED });
+        dispatch(wsConnectionOpen());
+        return () => dispatch(wsConnectionClosed());
       }
     }
-  }, [order, dispatch, match.path])
+
 
   //подтянули данные по иконкам
   const conformityIngredientsIcon = useMemo(() => order?.ingredients.map(item => {
@@ -113,6 +113,3 @@ export const OrderInfo = () => {
   );
 };
 
-OrderItemInfo.propTypes = {
-  popupOrder: PropTypes.array
-}

@@ -8,7 +8,7 @@ interface IIconIngredients {
 }
 interface IIconIngredientsHiden {
 	item: TIngredient[];
-  numberItems: number;
+  numberItems: number | null;
 }
 
 export const IconIngredients: FC<IIconIngredients> = React.memo(function IconIngredients({ item }) {

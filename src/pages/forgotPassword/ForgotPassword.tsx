@@ -2,10 +2,9 @@ import { Button, Input, } from '@ya.praktikum/react-developer-burger-ui-componen
 import React, { FC } from 'react';
 import style from './ForgotPassword.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { resetPasswordEmailAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
-import { useForm } from '../../utils/hooks/useForm';
+import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
 import { TLocation } from '../../components/App/App';
 
 const ForgotPassword: FC = () => {

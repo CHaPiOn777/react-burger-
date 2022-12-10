@@ -1,8 +1,9 @@
 import { useEffect, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Orders } from '../../components/Orders/Orders';
 import { Stats } from '../../components/Stats/Stats';
 import { wsConnectionClosed, wsConnectionOpen, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/action/wsActions';
+import { useDispatch, useSelector } from '../../utils/hooks/useForm';
 import style from './feed.module.css';
 
 export const Feed: FC = () => {

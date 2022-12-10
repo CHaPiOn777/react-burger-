@@ -2,10 +2,9 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import React, { useCallback, FC, FormEvent } from 'react';
 import style from './ResetPassword.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetPasswordAction } from '../../services/action/authAction.ts';
+import { resetPasswordAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
-import { useForm } from '../../utils/hooks/useForm';
+import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
 import { TLocation } from '../../components/App/App';
 
 const ResetPassword: FC = () => {

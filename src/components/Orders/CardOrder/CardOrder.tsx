@@ -1,6 +1,5 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useMemo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useMemo, FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { POPUP_ORDER_ITEM_INFO } from '../../../services/action/popupAction';
@@ -8,16 +7,24 @@ import PropTypes from 'prop-types';
 import { setDate } from '../../../utils/utils';
 import style from './CardOrder.module.css'
 import { IconIngredients, IconIngredientsHiden } from './IconIngredients/IconIngredients';
+import { TLocation } from '../../App/App';
+import { TIngredient, TOrder, TOrder1, TOrderImage } from '../../../services/types/types';
+import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
 
-export const CardOrder = React.memo(function CardOrder({ order }) {
+
+type TOrdersInfoDetails = {
+	order: TOrder1;
+}
+
+export const CardOrder: FC<TOrdersInfoDetails> = React.memo(function CardOrder({ order }) {
   const ingredients = useSelector(store => store.listIgredients.feed);
 
-  const location = useLocation();
+  const location = useLocation<TLocation>();
   const dispatch = useDispatch();
 
-  let ingredientsArr = [];
-  let lastItem = [];
-  let numberItems = null;
+  let ingredientsArr:TIngredient[] = [];
+  let lastItem:TIngredient[] | null = [];
+  let numberItems: null | number = null;
 
   //подтянули данные по иконкам
   const conformityIngredientsIcon = useMemo(() => order.ingredients?.map(item => {
@@ -28,10 +35,10 @@ export const CardOrder = React.memo(function CardOrder({ order }) {
 
   //создали новый массив заказа с измененными данными иконок
   const conformityIngredients = [{ ...order, ingredients: conformityIngredientsIcon }];
-  const bunOrder = useMemo(() => conformityIngredientsIcon.find(item => item?.type === 'bun'), [conformityIngredientsIcon]);
-  const priceOrder = useMemo(() => conformityIngredientsIcon.reduce((sum, item) => +sum + item?.price, [bunOrder?.price]), [conformityIngredientsIcon, bunOrder]);
+  const bunOrder = useMemo(() => conformityIngredientsIcon?.find(item => item?.type === 'bun'), [conformityIngredientsIcon]);
+  const priceOrder = useMemo(() => conformityIngredientsIcon?.reduce((sum, item) => +sum + item?.price, [bunOrder?.price]), [conformityIngredientsIcon, bunOrder]);
 
-  const getItemInfo = useCallback((item, priceOrder) => {
+  const getItemInfo = useCallback((item: TOrderImage[], priceOrder: TIngredient | undefined) => {
     dispatch({
       type: POPUP_ITEM,
       item: item,
@@ -47,7 +54,7 @@ export const CardOrder = React.memo(function CardOrder({ order }) {
   }, [dispatch, conformityIngredientsIcon])
 
   //обрезка кол-ва иконок 
-  const reduceItemsIngredients = (arr) => {
+  const reduceItemsIngredients = (arr: any) => {
     if (arr.length > 5) {
       ingredientsArr = arr.slice(0, 5);
       lastItem = arr.slice(-1);

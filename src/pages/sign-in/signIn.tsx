@@ -2,10 +2,9 @@ import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer
 import style from './SignIn.module.css';
 import { FC, FormEvent } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { authAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
-import { useForm } from '../../utils/hooks/useForm';
+import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
 import { TLocation } from '../../components/App/App';
 
 const SignIn: FC = () => {

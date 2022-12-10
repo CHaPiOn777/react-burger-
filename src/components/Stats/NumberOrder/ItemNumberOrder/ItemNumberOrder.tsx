@@ -1,7 +1,13 @@
-import React from 'react';
+import {FC} from 'react';
 import PropTypes from 'prop-types';
 
-export const ItemNumberOrder = ({ item }) => {
+export type TItemNumberOrder = {
+	item: any;
+  key: Number
+};
+
+export const ItemNumberOrder: FC<TItemNumberOrder> = ({ item }) => {
+  console.log(item)
   const styleOrder = item.status === 'done' ? 'text_color_success' : ''; 
   return (
     <>
@@ -9,6 +15,3 @@ export const ItemNumberOrder = ({ item }) => {
     </>
   );
 };
-ItemNumberOrder.propTypes = {
-  item: PropTypes.object
-}

@@ -1,11 +1,11 @@
-import { INLOADER } from "../action/authAction.ts"
+import { INLOADER } from "../action/authAction"
 import { GET_ORDER, GET_ORDER_FAILED, GET_ORDER_SUCCESS, LOADER, TGetOrder } from "../action/orderDetailsAction"
 
 export type TInitialState = {
 	feedRequest: boolean;
   feedFailed: boolean;
   loader: boolean;
-	order: Number | null;
+	order: Number | null | any;
 }
 
 const initialState: TInitialState = {

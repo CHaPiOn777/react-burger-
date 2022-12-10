@@ -8,12 +8,12 @@ import { TGetOrder } from "../action/orderDetailsAction";
 import { TWsActions } from "../action/wsActions";
 import { rootReducer } from "../reducers/rootReducer"
 
-type TApplicationActions = 
-| TAuthActions
-| TBurgerIngredients
-| TGetOrder
-| TWsActions
-| TLoader;
+type TApplicationActions =
+  | TAuthActions
+  | TBurgerIngredients
+  | TGetOrder
+  | TWsActions
+  | TLoader;
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

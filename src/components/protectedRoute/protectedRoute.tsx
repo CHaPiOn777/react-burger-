@@ -1,10 +1,16 @@
 
-import { useSelector } from 'react-redux';
+
+import React, {FC} from 'react';
 import { Redirect, Route, useLocation } from 'react-router-dom';
+import { useSelector } from '../../utils/hooks/useForm';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { getCookie } from '../../utils/utils';
 
-export function ProtectedRoute({ children, ...rest }) {
+export type TProtectedRoute = {
+	children?: 'ReactNode'
+};
+
+export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {
   const cookie = getCookie('token');
   const location = useLocation();
   const loader = useSelector(store => store.authReducer.loader);

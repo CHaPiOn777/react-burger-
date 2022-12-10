@@ -1,12 +1,14 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeUserInfoAction } from '../../services/action/authAction.ts';
-import { useForm } from '../../utils/hooks/useForm';
+import React, {FC} from 'react';
+import { changeUserInfoAction } from '../../services/action/authAction';
+import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
 
 import style from './ProfileForm.module.css';
 
-export const ProfileForm = () => {
+export type TRefCurrent = {
+	current: null | HTMLInputElement;
+}
+export const ProfileForm: FC = () => {
   const user = useSelector(store => store.authReducer.user);
   const dispatch = useDispatch();
   let [showPassword, setShowPassword] = React.useState(false);
@@ -23,14 +25,15 @@ export const ProfileForm = () => {
   const loginRef = React.useRef(null);
   const passwordRef = React.useRef(null);
 
-  const onSubmit = (e) => {
+  const onSubmit = () => {
     setValues({});
     dispatch(changeUserInfoAction(email, name, password))
   };
 
 
 
-  const onIconClick = (ref) => { ref.current.focus() };
+  const onIconClick = (ref: TRefCurrent) => { console.log(ref); ref.current?.focus() };
+
   const onShowPassword = () => { setShowPassword(showPassword ? showPassword = false : showPassword = true) };
 
   const resetInfo = () => {
@@ -41,7 +44,7 @@ export const ProfileForm = () => {
     })
   }
   return (
-    <form className={style.form} onSubmit={e => onSubmit(e)}>
+    <form className={style.form} onSubmit={e => onSubmit()}>
       <div className={`${style.wrapper}`}>
         <Input
           type={'text'}
@@ -81,7 +84,7 @@ export const ProfileForm = () => {
           name={'password'}
           error={false}
           ref={passwordRef}
-          onIconClick={() => onShowPassword(passwordRef)}
+          onIconClick={() => onShowPassword()}
           errorText={'Ошибка'}
           size={undefined}
         />

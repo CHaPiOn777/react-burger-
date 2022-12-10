@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types';
+import { TIngredient, TOrder1 } from '../../services/types/types';
 import { CardOrder } from './CardOrder/CardOrder';
-import style from './Orders.module.css'
+import style from './Orders.module.css';
+import { FC } from 'react';
 
-export const Orders = ({ orders }) => {
+
+
+type TOrdersInfoDetails = {
+	orders: TOrder1[];
+}
+export const Orders: FC<TOrdersInfoDetails> = ({ orders }) => {
 
   return (
     orders &&
@@ -14,7 +21,3 @@ export const Orders = ({ orders }) => {
 )
   );
 };
-
-Orders.propTypes = {
-  orders: PropTypes.array
-}

@@ -1,10 +1,11 @@
 
-import { useSelector } from 'react-redux';
-import React, { useMemo } from 'react';
+
+import React, { useMemo, FC } from 'react';
 import style from './Stats.module.css'
 import { NumberOrder } from './NumberOrder/NumberOrder';
+import { useSelector } from '../../utils/hooks/useForm';
 
-export const Stats = React.memo(function Stats() {
+export const Stats: FC = React.memo(function Stats() {
   const { total, totalToday, orders } = useSelector(store => store.wsReduser);
 
   const ordersDone = useMemo(() => orders.filter(item => item.status === 'done').slice(0, 15), [orders]);

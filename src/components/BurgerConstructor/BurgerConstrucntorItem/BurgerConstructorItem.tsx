@@ -1,7 +1,6 @@
 import React, { useRef, FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+
 import stylesConstructor from './BurgerConstructorItem.module.css';
 import {
   ConstructorElement,
@@ -9,9 +8,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CHANGE_ITEM, DELETE_ITEM } from '../../../services/action/constructorAction';
 import { TIngredient } from '../../../services/types/types';
+import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
 
 type TConstructorItems = {
-  type: string;
+  type?:  "main" | "bun" | "sauce";
 	index: number;
   id: string;
   image: string;
@@ -55,7 +55,7 @@ const BurgerConstructorItem: FC<TConstructorItems> = ({type, id, image, price, n
       <li className={`${stylesConstructor.ingredient} mr-2`} style={{opacity}} ref={ref}>
         <DragIcon type="primary" />
         <ConstructorElement
-          type={type}
+ 
           isLocked={false}
           text={name}
           price={price}

@@ -1,10 +1,15 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useMemo } from 'react';
+import { FC } from 'react';
 import { IconIngredients } from '../../CardOrder/IconIngredients/IconIngredients';
 import style from './OrderItemInfo.module.css';
 import PropTypes from 'prop-types';
+import { TIngredient } from '../../../../services/types/types';
 
-export const OrderItemInfo = ({ item }) => {
+
+type TOrdersInfoDetails = {
+	item: TIngredient[];
+}
+export const OrderItemInfo:FC<TOrdersInfoDetails> = ({ item }) => {
   console.log(item)
   return (
 
@@ -21,6 +26,3 @@ export const OrderItemInfo = ({ item }) => {
   );
 };
 
-OrderItemInfo.propTypes = {
-  order: PropTypes.object
-}

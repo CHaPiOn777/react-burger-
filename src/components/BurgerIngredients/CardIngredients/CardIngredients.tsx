@@ -1,17 +1,16 @@
 import React, { FC } from 'react';
 import stylesCardIngredients from './CardIngredients.module.css';
-import PropTypes from 'prop-types';
 import {
   CurrencyIcon,
   Counter
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
-import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { Link, useLocation } from 'react-router-dom';
 import { POPUP_ITEM_INFO } from '../../../services/action/popupAction';
-import { TIngredient, TIngredientConstructor } from '../../../services/types/types';
+import { TIngredient } from '../../../services/types/types';
+import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
+import { TLocation } from '../../App/App';
 
 type TCard = {
 	card: TIngredient;
@@ -21,7 +20,7 @@ type TCard = {
 const CardIngredients: FC<TCard> = ({ card }) => {
   const ingredients = useSelector(store => store.constructorReducer.feed);
   const bun = useSelector(store => store.constructorReducer.bun);
-  const location = useLocation();
+  const location = useLocation<TLocation>();
   const dispatch = useDispatch();
 
   const [{ opacity }, dragRef] = useDrag({
@@ -71,7 +70,7 @@ const CardIngredients: FC<TCard> = ({ card }) => {
           className={`${stylesCardIngredients.img} mr-4 ml-4`}
         />
         {counter() > 0 &&
-          <Counter count={counter()} size="small" className={stylesCardIngredients.counter} />
+          <Counter count={counter()} size="small"/>
         }
         <p className={`${stylesCardIngredients.price} text text_type_digits-default mt-1 mb-1`}>
           {card.price}

@@ -2,10 +2,9 @@ import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-de
 import React, { useCallback, FC } from 'react';
 import style from './Registration.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { registerUserAction } from '../../services/action/authAction';
-import { useForm } from '../../utils/hooks/useForm';
+import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
 import { TLocation } from '../../components/App/App';
 
 const Registration: FC = () => {

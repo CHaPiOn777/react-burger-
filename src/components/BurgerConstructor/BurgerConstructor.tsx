@@ -6,7 +6,7 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { useDrop } from 'react-dnd';
 import { ADD_INGREDIENT } from '../../services/action/constructorAction';
 import BurgerConstructorItem from './BurgerConstrucntorItem/BurgerConstructorItem';
@@ -15,9 +15,10 @@ import { useHistory } from 'react-router-dom';
 import { POPUP_ORDER } from '../../services/action/popupAction';
 import { TLocation } from '../App/App';
 import { TIngredient, TIngredientConstructor } from '../../services/types/types';
+import { useDispatch, useSelector } from '../../utils/hooks/useForm';
 
 
-interface DropItem {
+interface IDropItem {
 	ingredient: TIngredient;
 }
 
@@ -32,7 +33,7 @@ const BurgerConstructor: FC = () => {
 
   const [, dropTarget] = useDrop({
     accept: 'ingredients',
-    drop(item: DropItem) {
+    drop(item: IDropItem) {
       dispatch({
         type: ADD_INGREDIENT,
         data: { ...item, id: Date.now() }
@@ -41,16 +42,16 @@ const BurgerConstructor: FC = () => {
   })
 
 
-  let burgerId = useMemo(() => allIngredients.map((item: TIngredientConstructor) => item.card._id), [allIngredients]);
+  let burgerId:string[] = useMemo(() => allIngredients.map((item) => item.card._id), [allIngredients]);
 
   useEffect(() => {
-    const ingredientsPrice = ingredients.reduce((sum: number, item: TIngredientConstructor) => +sum + item.card.price, []);
+    const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
     const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
     const totalPrice = bunPrice + ingredientsPrice;
     setTotal(totalPrice)
   }, [ingredients, bun])
 
-  const orderDispatch = useCallback((id: string) => {
+  const orderDispatch = useCallback((id: string[]) => {
     dispatch(getOrderAction(id))
   }, [dispatch])
 

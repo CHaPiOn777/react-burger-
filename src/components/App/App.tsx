@@ -7,7 +7,7 @@ import IngredientDetails from '../BurgerIngredients/IngredientDetails/Ingredient
 import Modal from '../Modal/Modal';
 import StylesApp from './App.module.css';
 import { fetchIngredients } from '../../services/action/listIgredientsAction';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from '../../pages/sign-in/signIn';
@@ -24,9 +24,10 @@ import { Feed } from '../../pages/feed/feed';
 import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
 import { POPUP_CLOSE } from '../../services/action/popupAction';
 import { WS_CONNECTION_START } from '../../services/action/wsActions';
+import { useDispatch, useSelector } from '../../utils/hooks/useForm';
 declare module 'react' {
   interface FunctionComponent<P = {}> {
-    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+    (props: PropsWithChildren<P>, context?: any,  ): ReactElement<any, any> | null;
   }
 }
 

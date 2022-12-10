@@ -2,9 +2,16 @@
 import { ItemNumberOrder } from './ItemNumberOrder/ItemNumberOrder';
 import style from './NumberOrder.module.css';
 import PropTypes from 'prop-types';
+import {FC} from 'react';
+import { TFeed } from '../../../services/types/types';
+
+export type TNumberOrder = {
+	orderNumber: TFeed[],
+  orderNumberRest: TFeed[]
+};
 
 
-export const NumberOrder = ({ orderNumber, orderNumberRest }) => {
+export const NumberOrder: FC<TNumberOrder> = ({ orderNumber, orderNumberRest }) => {
 
   return (
     <div className={style.list}>
@@ -27,7 +34,3 @@ export const NumberOrder = ({ orderNumber, orderNumberRest }) => {
     </div>
   );
 };
-NumberOrder.propTypes = {
-  orderNumber: PropTypes.array,
-  orderNumberRest: PropTypes.array,
-}

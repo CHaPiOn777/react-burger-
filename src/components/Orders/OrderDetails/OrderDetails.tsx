@@ -1,10 +1,10 @@
 
 import stylesOrderDetails from './OrderDetails.module.css';
 import successImg from '../../../image/done.jpg'
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
+import { useSelector } from '../../../utils/hooks/useForm';
 
-
-const OrderDetails = () => {
+const OrderDetails: FC = () => {
   const order = useSelector(store => store.orderDetailsReduser.order);
   
   return (
