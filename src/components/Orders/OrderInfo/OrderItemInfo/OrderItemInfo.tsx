@@ -10,7 +10,7 @@ type TOrdersInfoDetails = {
 	item: TIngredient[];
 }
 export const OrderItemInfo:FC<TOrdersInfoDetails> = ({ item }) => {
-  console.log(item)
+
   return (
 
     <div className={`${style.consistItem}`} key={item[0]?._id}>

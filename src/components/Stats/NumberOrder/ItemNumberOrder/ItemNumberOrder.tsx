@@ -7,7 +7,7 @@ export type TItemNumberOrder = {
 };
 
 export const ItemNumberOrder: FC<TItemNumberOrder> = ({ item }) => {
-  console.log(item)
+
   const styleOrder = item.status === 'done' ? 'text_color_success' : ''; 
   return (
     <>

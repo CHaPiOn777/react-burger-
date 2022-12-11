@@ -1,13 +1,12 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useMemo, useEffect, FC, ReactNode } from 'react';
+import { useMemo, FC} from 'react';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import { setDate } from '../../../utils/utils';
 import style from './OrderInfo.module.css'
 import { OrderItemInfo } from './OrderItemInfo/OrderItemInfo';
-import PropTypes from 'prop-types';
-import { wsConnectionClosed, wsConnectionClosedAuth, wsConnectionOpen, wsConnectionStartAuth, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../../services/action/wsActions';
+
 import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
-import { TIngredient } from '../../../services/types/types';
+
 
 export const OrderInfo: FC = () => {
   const orderStore = useSelector(store => store.wsReduser.orders);
@@ -24,20 +23,6 @@ export const OrderInfo: FC = () => {
 
   const popupOrder = match.path === isProfile ? orderStoreAuth : orderStore;
   const order = popupOrder.find(order => order._id === id);
-
-
-  // if (!order) {
-  //   if (match.path === isProfile) {
-  //     dispatch(wsConnectionStartAuth());
-  //     return () => dispatch(wsConnectionClosedAuth());
-  //   } else {
-  //     dispatch(wsConnectionOpen());
-  //     return () => dispatch(wsConnectionClosed());
-  //   }
-  // }
-
-
-
 
   //подтянули данные по иконкам
   const conformityIngredientsIcon = useMemo(() => order?.ingredients?.map(item => {
@@ -75,8 +60,8 @@ export const OrderInfo: FC = () => {
   const newArrIngredients = [];
   let count = 1;
 
-  const sortredIngredients = conformityIngredients?.ingredients?.sort((a, b) => {
-    if (a && b) {
+  
+  const sortredIngredients = conformityIngredients.ingredients?.sort((a:any, b:any) => {
       if (a._id > b._id) {
         return 1
       } else if (a._id < b._id) {
@@ -84,9 +69,7 @@ export const OrderInfo: FC = () => {
       } else {
         return 0
       }
-    }
-
-  })
+    })
 
   if (sortredIngredients?.length) {
     for (let index = 1; index < sortredIngredients?.length + 1; index++) {
