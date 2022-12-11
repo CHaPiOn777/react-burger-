@@ -1,11 +1,11 @@
-import { TFeed } from './../types/types';
+import { TFeed, TOrder1 } from './../types/types';
 import { TWsActions, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_ORDER, WS_GET_ORDER_AUTH } from "../action/wsActions";
 
 export type TInitialState = {
 	wsConnected: boolean;
 	wsConnectedAuth: boolean;
-	orders: TFeed[];
-	myOrders: TFeed[];
+	orders: TOrder1[];
+	myOrders: TOrder1[];
 	total: number | null;
 	totalToday: number | null;
   loader: boolean;

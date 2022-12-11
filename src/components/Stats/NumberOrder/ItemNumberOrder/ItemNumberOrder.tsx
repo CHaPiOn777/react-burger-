@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export type TItemNumberOrder = {
 	item: any;
-  key: Number
+  key: string
 };
 
 export const ItemNumberOrder: FC<TItemNumberOrder> = ({ item }) => {

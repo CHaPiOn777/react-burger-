@@ -45,7 +45,7 @@ const BurgerConstructor: FC = () => {
   let burgerId:string[] = useMemo(() => allIngredients.map((item) => item.card._id), [allIngredients]);
 
   useEffect(() => {
-    const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
+    const ingredientsPrice = ingredients.reduce((sum: any, item) => +sum + item.card.price, []);
     const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
     const totalPrice = bunPrice + ingredientsPrice;
     setTotal(totalPrice)

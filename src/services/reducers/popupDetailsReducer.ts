@@ -1,4 +1,4 @@
-import { INLOADER } from "../action/authAction.ts"
+import { INLOADER } from "../action/authAction"
 import { IItemInfo, POPUP_ITEM, TOrderInfo } from "../action/IngredientDetailsAction"
 import { LOADER } from "../action/orderDetailsAction"
 import { TIngredientsInfo } from "../types/types";

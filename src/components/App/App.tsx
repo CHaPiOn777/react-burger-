@@ -133,14 +133,14 @@ const App: FC = () => {
       {popupOrderInfo && background &&
         <Route path={"/feed/:id"} exact={true}>
           <Modal active={popupOrderInfo} onClose={() => onCloseOrder()}>
-            <OrderInfo popupOrder={orders} />
+            <OrderInfo />
           </Modal>
         </Route>
       }
       {popupOrderInfo && background &&
         <Route path={"/profile/orders/:id"} exact={true}>
           <Modal active={popupOrderInfo} onClose={() => onCloseOrder()}>
-            <OrderInfo popupOrder={myOrders} />
+            <OrderInfo />
           </Modal>
         </Route>
       }

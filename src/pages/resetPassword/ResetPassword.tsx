@@ -24,7 +24,7 @@ const ResetPassword: FC = () => {
   const codeRef = React.useRef(null);
 
   const onIconPasswordClick = () => {
-    setTimeout(() => passwordRef.current.focus(), 0);
+    setTimeout((passwordRef: any) => passwordRef.current.focus(), 0);
   }
 
   const newPassword = useCallback((e: FormEvent<HTMLFormElement>) => {

@@ -32,7 +32,7 @@ export const ProfileForm: FC = () => {
 
 
 
-  const onIconClick = (ref: TRefCurrent) => { console.log(ref); ref.current?.focus() };
+  const onIconClick = (ref: TRefCurrent) => { ref.current?.focus() };
 
   const onShowPassword = () => { setShowPassword(showPassword ? showPassword = false : showPassword = true) };
 

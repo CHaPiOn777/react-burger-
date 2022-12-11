@@ -18,7 +18,6 @@ interface IGetFeedFailed {
 }
 interface IGetFeedReqest {
   readonly type: typeof GET_FEED;
-  feed: Array<TIngredient>; 
 }
 
 export const fetchIngredients: AppThunk  = () => {

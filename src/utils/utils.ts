@@ -53,7 +53,7 @@ function setDay(day: number) {
   }
  return `${day} дней назад`
 }
-export function setDate(date: string) {
+export function setDate(date: any) {
   const dateTime = date?.slice(11, 16);
   const dateYearMonthDay = date?.slice(0, 10);
   const dateNew: any = new Date;

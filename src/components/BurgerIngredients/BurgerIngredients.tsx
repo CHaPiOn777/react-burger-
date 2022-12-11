@@ -4,27 +4,27 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from './CardIngredients/CardIngredients';
-import { useSelector } from 'react-redux';
 import { TIngredient } from '../../services/types/types';
+import { useSelector } from '../../utils/hooks/useForm';
 
 type TRef = {
 	current: any;
 }
 
 const BurgerIngredients: FC = () => {
-  const [current, setCurrent] = React.useState('one');
+  const [current, setCurrent] = React.useState<string>('one');
   const state = useSelector(store => store.listIgredients.feed);
 
   const bun = useMemo(() => state.filter((item: TIngredient) => item.type === 'bun'), [state]);
   const sauce = useMemo(() => state.filter((item: TIngredient) => item.type === 'sauce'), [state]);
   const main = useMemo(() => state.filter((item: TIngredient) => item.type === 'main'), [state]);
 
-  const tabRef = useRef(current);
+  const tabRef = useRef<any>(current);
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
 
-  const scrollMenu = () => {
+  const scrollMenu = (bunRef:TRef, sauceRef:TRef ) => {
     if (bunRef.current.getBoundingClientRect().top >= 0) {
       setCurrent('one')
     } else if (sauceRef.current.getBoundingClientRect().top >= 0) {
@@ -48,17 +48,17 @@ const BurgerIngredients: FC = () => {
       <nav>
         <ul className={stylesIngredients.list} >
           <li>
-            <Tab value="one" active={current === 'one'} onClick={() => { buttonHandler(bunRef); setCurrent() }}>
+            <Tab value="one" active={current === 'one'} onClick={() => { buttonHandler(bunRef) }}>
               Булки
             </Tab>
           </li>
           <li>
-            <Tab value="two" active={current === 'two'} onClick={() => { buttonHandler(sauceRef); setCurrent() }}>
+            <Tab value="two" active={current === 'two'} onClick={() => { buttonHandler(sauceRef) }}>
               Соусы
             </Tab>
           </li>
           <li>
-            <Tab value="three" active={current === 'three'} onClick={() => { buttonHandler(mainRef); setCurrent() }}>
+            <Tab value="three" active={current === 'three'} onClick={() => { buttonHandler(mainRef) }}>
               Начинки
             </Tab>
           </li>

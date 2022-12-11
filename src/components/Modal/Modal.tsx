@@ -5,10 +5,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesModalDetails from './Modal.module.css';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { LoaderAuth, LoaderIngredients } from '../../utils/Loader/Loader';
 import { TModal } from '../../services/types/types';
+import { useSelector } from '../../utils/hooks/useForm';
 const modalRoot = document.querySelector('#modal') as HTMLElement;
 
 const Modal: FC<TModal> = ({ active, onClose, children }) => {

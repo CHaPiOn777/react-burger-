@@ -85,7 +85,7 @@ export type TFeedResponce = {
     success: boolean;
     total: number;
     totalToday: number;
-    orders: Array<TFeed>;
+    orders: Array<TOrder1>;
 }
 
 export type TWsSocketMiddlewareActions = {

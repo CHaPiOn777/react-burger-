@@ -3,11 +3,11 @@ import { ItemNumberOrder } from './ItemNumberOrder/ItemNumberOrder';
 import style from './NumberOrder.module.css';
 import PropTypes from 'prop-types';
 import {FC} from 'react';
-import { TFeed } from '../../../services/types/types';
+import { TFeed, TOrder1 } from '../../../services/types/types';
 
 export type TNumberOrder = {
-	orderNumber: TFeed[],
-  orderNumberRest: TFeed[]
+	orderNumber: TOrder1[],
+  orderNumberRest: TOrder1[]
 };
 
 

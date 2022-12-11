@@ -1,5 +1,5 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useMemo, FC } from 'react';
+import React, { useCallback, useMemo, FC, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { POPUP_ITEM } from '../../../services/action/IngredientDetailsAction';
 import { POPUP_ORDER_ITEM_INFO } from '../../../services/action/popupAction';
@@ -36,9 +36,16 @@ export const CardOrder: FC<TOrdersInfoDetails> = React.memo(function CardOrder({
   //создали новый массив заказа с измененными данными иконок
   const conformityIngredients = [{ ...order, ingredients: conformityIngredientsIcon }];
   const bunOrder = useMemo(() => conformityIngredientsIcon?.find(item => item?.type === 'bun'), [conformityIngredientsIcon]);
-  const priceOrder = useMemo(() => conformityIngredientsIcon?.reduce((sum, item) => +sum + item?.price, [bunOrder?.price]), [conformityIngredientsIcon, bunOrder]);
+  const price = useMemo(() => {
+    return conformityIngredientsIcon?.reduce((sum, item) => {
+        if (item?.type === 'bun') {
+            return sum += item.price * 2
+        }
+        return sum += (item ? item.price : 0);
+    }, 0);
+}, [conformityIngredientsIcon])
 
-  const getItemInfo = useCallback((item: TOrderImage[], priceOrder: TIngredient | undefined) => {
+  const getItemInfo = useCallback((item: TOrderImage[], priceOrder: any) => {
     dispatch({
       type: POPUP_ITEM,
       item: item,
@@ -47,7 +54,7 @@ export const CardOrder: FC<TOrdersInfoDetails> = React.memo(function CardOrder({
   }, [dispatch])
 
   const openPopup = useCallback(() => {
-    getItemInfo(conformityIngredients, priceOrder);
+    getItemInfo(conformityIngredients, price);
     dispatch({
       type: POPUP_ORDER_ITEM_INFO
     })
@@ -111,7 +118,7 @@ export const CardOrder: FC<TOrdersInfoDetails> = React.memo(function CardOrder({
         <h2 className={`${style.nameBurger} text text_type_main-medium mt-6`}>{order.name}</h2>
         {drawIconsItems()}
         <div className={`${style.price} mt-6 ml-6`}>
-          <p className={`${style.priceNumber} text text_type_digits-default`}>{priceOrder}</p>
+          <p className={`${style.priceNumber} text text_type_digits-default`}>{price}</p>
           <CurrencyIcon type="primary" />
         </div>
       </li>
@@ -119,8 +126,3 @@ export const CardOrder: FC<TOrdersInfoDetails> = React.memo(function CardOrder({
 
   );
 });
-
-
-CardOrder.propTypes = {
-  order: PropTypes.object
-}
