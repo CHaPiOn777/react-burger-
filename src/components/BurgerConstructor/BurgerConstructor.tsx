@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { POPUP_ORDER } from '../../services/action/popupAction';
 import { TLocation } from '../App/App';
 import { TIngredient, TIngredientConstructor } from '../../services/types/types';
-import { useDispatch, useSelector } from '../../utils/hooks/useForm';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
 
 
 interface IDropItem {

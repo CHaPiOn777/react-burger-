@@ -1,7 +1,8 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {FC} from 'react';
 import { changeUserInfoAction } from '../../services/action/authAction';
-import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
+import { useForm} from '../../utils/hooks/useForm';
 
 import style from './ProfileForm.module.css';
 

@@ -8,8 +8,8 @@ import { setDate } from '../../../utils/utils';
 import style from './CardOrder.module.css'
 import { IconIngredients, IconIngredientsHiden } from './IconIngredients/IconIngredients';
 import { TLocation } from '../../App/App';
-import { TIngredient, TOrder, TOrder1, TOrderImage } from '../../../services/types/types';
-import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
+import { TIngredient, TOrder1, TOrderImage } from '../../../services/types/types';
+import { useDispatch, useSelector } from '../../../utils/hooks/reduxHooks';
 
 
 type TOrdersInfoDetails = {
@@ -35,7 +35,6 @@ export const CardOrder: FC<TOrdersInfoDetails> = React.memo(function CardOrder({
 
   //создали новый массив заказа с измененными данными иконок
   const conformityIngredients = [{ ...order, ingredients: conformityIngredientsIcon }];
-  const bunOrder = useMemo(() => conformityIngredientsIcon?.find(item => item?.type === 'bun'), [conformityIngredientsIcon]);
   const price = useMemo(() => {
     return conformityIngredientsIcon?.reduce((sum, item) => {
         if (item?.type === 'bun') {

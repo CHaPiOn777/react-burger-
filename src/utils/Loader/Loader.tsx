@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
+import { FC } from 'react';
+import { TLoader } from '../../services/types/types';
 import stylesLoader from './Loader.module.css'
-export const LoaderAuth = ({ children, loader }) => {
- 
 
+export const LoaderAuth: FC<TLoader> = ({ children, loader }) => {
   return (
     <>
-      {
+     {
         !loader ?
           children :
           <div className={`${stylesLoader.loader}`}></div>

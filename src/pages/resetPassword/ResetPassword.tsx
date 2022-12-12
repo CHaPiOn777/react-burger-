@@ -4,8 +4,9 @@ import style from './ResetPassword.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { resetPasswordAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
-import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
+import { useForm } from '../../utils/hooks/useForm';
 import { TLocation } from '../../components/App/App';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
 
 const ResetPassword: FC = () => {
   const inLogin = useSelector(store => store.authReducer.inLogin);

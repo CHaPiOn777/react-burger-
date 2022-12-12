@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Middleware, MiddlewareAPI } from "redux";
 import { getCookie } from "../../utils/utils";
 import { TWsSocketMiddlewareActions } from "../types/types";

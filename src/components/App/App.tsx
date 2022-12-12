@@ -23,8 +23,7 @@ import { getCookie } from '../../utils/utils';
 import { Feed } from '../../pages/feed/feed';
 import { OrderInfo } from '../Orders/OrderInfo/OrderInfo';
 import { POPUP_CLOSE } from '../../services/action/popupAction';
-import { WS_CONNECTION_START } from '../../services/action/wsActions';
-import { useDispatch, useSelector } from '../../utils/hooks/useForm';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
 declare module 'react' {
   interface FunctionComponent<P = {}> {
     (props: PropsWithChildren<P>, context?: any,  ): ReactElement<any, any> | null;
@@ -44,9 +43,7 @@ export type TLocation = {
 };
 
 const App: FC = () => {
-  const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser);
-  const orders = useSelector(store => store.wsReduser.orders);
-  const myOrders = useSelector(store => store.wsReduser.myOrders);  
+  const { popupCard, popupOrder, popupOrderInfo } = useSelector(store => store.popupReduser); 
   const orderState = useSelector(store => store.orderDetailsReduser.feedFailed);
   
   const token = getCookie('token');

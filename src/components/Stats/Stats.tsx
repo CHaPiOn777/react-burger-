@@ -3,7 +3,7 @@
 import React, { useMemo, FC } from 'react';
 import style from './Stats.module.css'
 import { NumberOrder } from './NumberOrder/NumberOrder';
-import { useSelector } from '../../utils/hooks/useForm';
+import { useSelector } from '../../utils/hooks/reduxHooks';
 
 export const Stats: FC = React.memo(function Stats() {
   const { total, totalToday, orders } = useSelector(store => store.wsReduser);

@@ -1,20 +1,12 @@
-import { AppDispatch, AppThunk, RootState } from './../../services/types/index';
-import { useState } from "react";
-import {
-  TypedUseSelectorHook,
-  useDispatch as dispatchHook,
-  useSelector as selectorHook
-} from 'react-redux';
 
-export function useForm(inputValues: any) {
+import { useState, ChangeEvent } from "react";
+
+export function useForm(inputValues: {[name: string]: string}) {
   const [values, setValues] = useState(inputValues);
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement> ) => {
     const {value, name} = event.target;
     setValues({...values, [name]: value});
   };
   return {values, handleChange, setValues};
 }
-
-export const useSelector: TypedUseSelectorHook<RootState> = selectorHook; 
-export const useDispatch = () => dispatchHook<AppDispatch & AppThunk>(); 

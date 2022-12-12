@@ -7,7 +7,7 @@ import stylesModalDetails from './Modal.module.css';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
 import { LoaderAuth, LoaderIngredients } from '../../utils/Loader/Loader';
 import { TModal } from '../../services/types/types';
-import { useSelector } from '../../utils/hooks/useForm';
+import { useSelector } from '../../utils/hooks/reduxHooks';
 const modalRoot = document.querySelector('#modal') as HTMLElement;
 
 const Modal: FC<TModal> = ({ active, onClose, children }) => {

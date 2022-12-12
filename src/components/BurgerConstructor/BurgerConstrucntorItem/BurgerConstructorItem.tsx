@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CHANGE_ITEM, DELETE_ITEM } from '../../../services/action/constructorAction';
 import { TIngredient } from '../../../services/types/types';
-import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
+import { useDispatch, useSelector } from '../../../utils/hooks/reduxHooks';
 
 type TConstructorItems = {
   type?:  "main" | "bun" | "sauce";

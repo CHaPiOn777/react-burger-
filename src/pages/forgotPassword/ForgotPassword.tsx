@@ -4,8 +4,9 @@ import style from './ForgotPassword.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { resetPasswordEmailAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
-import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
+import { useForm} from '../../utils/hooks/useForm';
 import { TLocation } from '../../components/App/App';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
 
 const ForgotPassword: FC = () => {
   const resetEmailSuccess = useSelector(store => store.authReducer.resetEmailSuccess);

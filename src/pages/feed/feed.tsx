@@ -3,7 +3,7 @@ import { useEffect, FC } from 'react';
 import { Orders } from '../../components/Orders/Orders';
 import { Stats } from '../../components/Stats/Stats';
 import { wsConnectionClosed, wsConnectionOpen, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/action/wsActions';
-import { useDispatch, useSelector } from '../../utils/hooks/useForm';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
 import style from './feed.module.css';
 
 export const Feed: FC = () => {

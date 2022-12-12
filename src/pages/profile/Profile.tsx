@@ -4,11 +4,11 @@ import style from './Profile.module.css'
 import { NavLink } from 'react-router-dom';
 import { changeUserInfoAction, logoutUserAction } from '../../services/action/authAction';
 import { LoaderAuth } from '../../utils/Loader/Loader';
-import { useDispatch, useForm, useSelector } from '../../utils/hooks/useForm';
 import { ProfileForm } from '../../components/ProfileForm/ProfileForm';
 import { ProtectedRoute } from '../../components/protectedRoute/protectedRoute';
 import { Orders } from '../../components/Orders/Orders';
 import { wsConnectionClosedAuth, wsConnectionOpen, wsConnectionStartAuth, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_START, WS_CONNECTION_START_AUTH } from '../../services/action/wsActions';
+import { useDispatch, useSelector } from '../../utils/hooks/reduxHooks';
 
 type TReverceOrders = {
   number: number

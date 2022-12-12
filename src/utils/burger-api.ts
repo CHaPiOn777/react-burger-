@@ -1,4 +1,4 @@
-import { TIngredientResponse, TOrderDetailsResponse, TUserLogoutResponse, TUserResponce } from "../services/types/types";
+import { TIngredientResponse } from "../services/types/types";
 import { deleteCookie, getCookie, setCookie } from "./utils";
 
 const baseURL = 'https://norma.nomoreparties.space/api/'
@@ -24,13 +24,23 @@ export const checkReponse = <T> (res: Response): Promise<T> => {
       });
 };
 
+type TOptions = {
+  method?: string;
+  body?: BodyInit | null | undefined;
+  headers?: HeadersInit | undefined;
+}
+
+function request(url: string, options: TOptions) {
+  // принимает два аргумента: урл и объект опций, как и `fetch`
+  return fetch(url, options).then(res => checkReponse<TIngredientResponse>(res))
+}
+
 export function getIngredients() {
-  return fetch(`${baseURL}ingredients`)
-    .then(res => checkReponse<TIngredientResponse>(res))
+  return request(`${baseURL}ingredients`, {})
 }
 
 export function getOrder(id: string) {
-  return fetch(`${baseURL}orders`, {
+  return request(`${baseURL}orders`, {
     method: 'POST',
     body: JSON.stringify({
       ingredients: id
@@ -40,11 +50,10 @@ export function getOrder(id: string) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse<TOrderDetailsResponse>(res))
 }
 
 export function resetPasswordEmail(email:string) {
-  return fetch(`${baseURL}password-reset`, {
+  return request(`${baseURL}password-reset`, {
     method: 'POST',
     body: JSON.stringify({
       email: email
@@ -53,11 +62,10 @@ export function resetPasswordEmail(email:string) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 }
 
 export function resetPassword(password:string, code:string | any) {
-  return fetch(`${baseURL}password-reset/reset`, {
+  return request(`${baseURL}password-reset/reset`, {
     method: 'POST',
     body: JSON.stringify({
       password: password,
@@ -67,11 +75,10 @@ export function resetPassword(password:string, code:string | any) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 }
 
 export function registerUser(email:string, password:string, userName:string) {
-  return fetch(`${baseURL}auth/register`, {
+  return request(`${baseURL}auth/register`, {
     method: 'POST',
     body: JSON.stringify({
       email: email,
@@ -82,11 +89,10 @@ export function registerUser(email:string, password:string, userName:string) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 }
 
 export function authUser(email:string, password:string) {
-  return fetch(`${baseURL}auth/login`, {
+  return request(`${baseURL}auth/login`, {
     method: 'POST',
     body: JSON.stringify({
       email: email,
@@ -96,24 +102,22 @@ export function authUser(email:string, password:string) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 
 }
 
 export function getUserInfo() {
-  return fetch(`${baseURL}auth/user`, {
+  return request(`${baseURL}auth/user`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 
 }
 
 export function changeUserInfo(email:string, name:string, password:string) {
-  return fetch(`${baseURL}auth/user`, {
+  return request(`${baseURL}auth/user`, {
     method: 'PATCH',
     body: JSON.stringify({
       email: email,
@@ -125,10 +129,9 @@ export function changeUserInfo(email:string, name:string, password:string) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 }
 export function logoutUser(refreshToken:string | null) {
-  return fetch(`${baseURL}auth/logout`, {
+  return request(`${baseURL}auth/logout`, {
     method: 'POST',
     body: JSON.stringify({
       token: refreshToken
@@ -137,10 +140,9 @@ export function logoutUser(refreshToken:string | null) {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => checkReponse<TUserLogoutResponse>(res))
 }
 export function updateToken(refreshToken:string | null) {
-  return fetch(`${baseURL}auth/token`, {
+  return request(`${baseURL}auth/token`, {
     method: 'POST',
     body: JSON.stringify({
       token: refreshToken
@@ -150,6 +152,5 @@ export function updateToken(refreshToken:string | null) {
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-    .then(res => checkReponse<TUserResponce>(res))
 }
 

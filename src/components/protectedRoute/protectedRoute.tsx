@@ -1,8 +1,8 @@
 
 
 import React, {FC, ReactNode} from 'react';
-import { Redirect, Route, useLocation } from 'react-router-dom';
-import { useSelector } from '../../utils/hooks/useForm';
+import { Redirect, Route, useLocation, RouteProps } from 'react-router-dom';
+import { useSelector } from '../../utils/hooks/reduxHooks';
 import { LoaderAuth } from '../../utils/Loader/Loader';
 import { getCookie } from '../../utils/utils';
 
@@ -12,7 +12,7 @@ export type TProtectedRoute = {
 	exact?: boolean;
 };
 
-export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {
+export const ProtectedRoute: FC<RouteProps & {children?: React.ReactNode}> = ({ children, ...rest }) => {
   const cookie = getCookie('token');
   const location = useLocation();
   const loader = useSelector(store => store.authReducer.loader);

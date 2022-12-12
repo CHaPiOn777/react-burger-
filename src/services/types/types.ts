@@ -103,10 +103,17 @@ export type TOrderDetailsResponse = {
     order: TOrder;
     success: boolean;
 }
-
+export type TOrderResponse = {
+    number: number;
+}
 export type TIngredientResponse = {
     data: Array<TIngredient>;
+    accessToken: string;
+    refreshToken: string;
     success: boolean;
+    user: TUser;
+    message?: string;
+    order: TOrderResponse;
 }
 
 export type TUserResponce = {
@@ -127,6 +134,11 @@ export type TModal = {
     active: boolean;
     onClose: () => void;
     children: ReactNode;
+    
+}
+export type TLoader = {
+    children: React.ReactNode;
+    loader: boolean;
 }
 
 export type TModalOverlay = {

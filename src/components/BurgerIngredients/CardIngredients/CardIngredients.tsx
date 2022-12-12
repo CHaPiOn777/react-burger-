@@ -9,8 +9,8 @@ import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { POPUP_ITEM_INFO } from '../../../services/action/popupAction';
 import { TIngredient } from '../../../services/types/types';
-import { useDispatch, useSelector } from '../../../utils/hooks/useForm';
 import { TLocation } from '../../App/App';
+import { useDispatch, useSelector } from '../../../utils/hooks/reduxHooks';
 
 type TCard = {
 	card: TIngredient;
