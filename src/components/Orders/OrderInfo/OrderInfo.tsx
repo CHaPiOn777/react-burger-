@@ -18,7 +18,7 @@ export const OrderInfo: FC = () => {
 
   const dispatch = useDispatch();
   const ingredients = useSelector(store => store.listIgredients.feed);
-  const { id } = useParams<any>();
+  const { id }: { id: string } = useParams();
 
   const match = useRouteMatch();
 

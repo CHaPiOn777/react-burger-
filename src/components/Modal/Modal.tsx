@@ -15,7 +15,7 @@ const Modal: FC<TModal> = ({ active, onClose, children }) => {
   const load = useSelector(store => store.orderDetailsReduser.loader);
 
   React.useEffect(() => {
-    const close = (e: {key: string}) => {
+    const close = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }

@@ -21,9 +21,23 @@ const BurgerIngredients: FC = () => {
   const main = useMemo(() => state.filter((item: TIngredient) => item.type === 'main'), [state]);
 
   const tabRef = useRef<any>(current);
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const bunRef = useRef<any>(null);
+  const sauceRef = useRef<any>(null);
+  const mainRef = useRef<any>(null);
+
+  const scrollMenu = () => {
+    if (bunRef.current.getBoundingClientRect().top >= 0) {
+      setCurrent('one')
+    } else if (sauceRef.current.getBoundingClientRect().top >= 0) {
+      setCurrent('two')
+    } else {
+      setCurrent('three')
+    }
+  }
+
+  useEffect(() => {
+    tabRef.current.addEventListener('scroll', scrollMenu)
+  }, [])
 
   const buttonHandler = (ref:TRef) => {
     ref.current.scrollIntoView();

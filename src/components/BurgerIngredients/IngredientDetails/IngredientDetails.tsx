@@ -6,7 +6,7 @@ import { useSelector } from '../../../utils/hooks/reduxHooks';
 const IngredientDetails = () => {
   const ingredients = useSelector(store => store.listIgredients.feed);
 
-  const { id } = useParams<any>();
+  const { id }: { id: string } = useParams();
   const ingredient = ingredients.find(ingredient => ingredient._id === id);
   return (
     <>

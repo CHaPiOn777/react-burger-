@@ -1,5 +1,5 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, FC } from 'react';
+import React, { useCallback, FC, FormEvent } from 'react';
 import style from './Registration.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { LoaderAuth } from '../../utils/Loader/Loader';
@@ -20,7 +20,7 @@ const Registration: FC = () => {
   const { values, handleChange, setValues } = useForm({});
   const { email, password, name} = values;
 
-  const newUser = useCallback((e: any, email: string, password: string, name: string) => {
+  const newUser = useCallback((e: FormEvent, email: string, password: string, name: string) => {
     e.preventDefault();
     setValues({});
     dispatch(registerUserAction(email, password, name));
