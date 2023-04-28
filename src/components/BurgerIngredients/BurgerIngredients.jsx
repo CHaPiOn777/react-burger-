@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesIngredients from './BurgerIngredients.module.css';
 import CardIngredients from '../CardIngredients/CardIngredients';
 import PropTypes from 'prop-types';
-
+import { IngredientsContext } from '../utils/IngredientsContext';
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
+  const {state} = useContext(IngredientsContext);
 
   return (
     <section className={stylesIngredients.section}>
@@ -36,7 +37,7 @@ const BurgerIngredients = (props) => {
       <div className={stylesIngredients.cards}>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Булки</h2>
         <div className={`${`${stylesIngredients.cardsItem} pl-4 pr-2`} pl-4 pr-2`}>
-          {props.state.data.map((card) => {
+          {state.data.map((card) => {
             if (card.type === 'bun') {
               return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
             }
@@ -44,7 +45,7 @@ const BurgerIngredients = (props) => {
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`} >
-          {props.state.data.map((card) => {
+          {state.data.map((card) => {
             if (card.type === 'sauce') {
               return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
             }
@@ -52,7 +53,7 @@ const BurgerIngredients = (props) => {
         </div>
         <h2 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h2>
         <div className={`${stylesIngredients.cardsItem} pl-4 pr-2`}>
-          {props.state.data.map((card) => {
+          {state.data.map((card) => {
             if (card.type === 'main') {
               return <CardIngredients card={card} key={card._id} active={props.active} setActive={props.setActive} setData={props.setCard} />
             }
@@ -67,7 +68,7 @@ BurgerIngredients.propTypes = {
     state: PropTypes.object,
     active: PropTypes.bool,
     setActive: PropTypes.func,
-    setData: PropTypes.func,
+    setState: PropTypes.func,
     key: PropTypes.string
 }
 export default BurgerIngredients;
