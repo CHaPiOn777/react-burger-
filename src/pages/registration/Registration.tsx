@@ -30,6 +30,7 @@ const Registration: FC = () => {
     return (
       <Redirect to={location.state?.from || '/'} />
     );
+    
   }
   return (
     <LoaderAuth loader={loader}>
