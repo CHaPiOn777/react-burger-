@@ -1,16 +1,19 @@
-import React from 'react';
+
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
   DragIcon,
   Button,
   CurrencyIcon
-
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
 
-let summa = 0;
-const BurgerConstructor = (props) => {
+
+
+
+const BurgerConstructor  = (props) => {
+  let summa = 0;
+
   return (
     <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -23,17 +26,19 @@ const BurgerConstructor = (props) => {
         />
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {props.data.map((el) => {
-          summa = summa + el.price;
-          return (
-            <div className={`${stylesConstructor.ingredient}`} key={el._id}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={el.name}
-                price={el.price}
-                thumbnail={el.image}
-              />
-            </div>)
+        {props.state.data.map((el) => {
+          if (el.type === "main" || el.type === "sauce") {
+            summa = summa + el.price;
+            return (
+              <div className={`${stylesConstructor.ingredient}`} key={el._id}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  text={el.name}
+                  price={el.price}
+                  thumbnail={el.image}
+                />
+              </div>)
+          }
         })}
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
@@ -50,7 +55,7 @@ const BurgerConstructor = (props) => {
           {`${summa / 2 + 400}`}
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={() => {props.setActive(true)}}>
           Оформить заказ
         </Button>
       </div>
@@ -58,6 +63,7 @@ const BurgerConstructor = (props) => {
   )
 }
 BurgerConstructor.propTypes = {
-  data: PropTypes.array.isRequired
+    state: PropTypes.object,
+    setActive: PropTypes.func
 }
 export default BurgerConstructor;
