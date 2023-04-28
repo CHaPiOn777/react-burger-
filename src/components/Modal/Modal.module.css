@@ -14,12 +14,15 @@
   z-index: 100;
   visibility: hidden;
   opacity: 0;
-  transition: all .3s ease-in-out;
+  transition: visibility .5s, opacity .5s ease-in-out;
 }
+
 .container.active {
   visibility: visible;
   opacity: 1;
+  transition: visibility .5s, opacity .5s ease-in-out;
 }
+
 .close {
   position: absolute;
   background-color: #ffffff00;
@@ -33,5 +36,5 @@
 }
 
 .close:hover {
-  opacity: .8;
+  opacity: .6;
 }

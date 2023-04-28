@@ -1,84 +1,118 @@
-import { useEffect, useContext, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
-  DragIcon,
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesConstructor from './BurgerConstructor.module.css';
-import { IngredientsContext } from '../utils/IngredientsContext';
-
-function reducer(data, action) {
-  console.log(data)
-  switch (action.type) {
-    case'price': 
-      return console.log(data)
-    default:
-      return data
-  }
-
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { ADD_INGREDIENT } from '../../services/action/constructorAction';
+import BurgerConstructorItem from './BurgerConstrucntorItem/BurgerConstructorItem';
+import { getOrderAction } from '../../services/action/orderDetailsAction';
+import { useHistory } from 'react-router-dom';
 
 
-const BurgerConstructor = (props) => {
-  const { state } = useContext(IngredientsContext);
+const BurgerConstructor = ({ setActive }) => {
+  const dispatch = useDispatch();
+  const ingredients = useSelector(store => store.constructorReducer.feed);
+  const allIngredients = useSelector(store => store.constructorReducer.ingredients);
+  const bun = useSelector(store => store.constructorReducer.bun);
+  const inLogin = useSelector(store => store.authReducer.inLogin);
   const [total, setTotal] = useState(0);
-  let burgerId = useMemo(() => state.data.map((item) => item._id), [state.data]);
+  const history = useHistory();
 
-  const filling = useMemo(() => state.data.filter((item) => item.type !=='bun'), [state.data]);
-  const bunFilter = useMemo(
-    () => state.data.find((item) => item.type === 'bun')
-  );
+  const [, dropTarget] = useDrop({
+    accept: 'ingredients',
+    drop(item) {
+      dispatch({
+        type: ADD_INGREDIENT,
+        data: { ...item, id: Date.now() }
+      })
+    },
+  })
+
+
+  let burgerId = useMemo(() => allIngredients.map((item) => item.card._id), [allIngredients]);
+
+  
+  const orderDispatch = useCallback((id) => {
+    dispatch(getOrderAction(id))
+  }, [dispatch])
 
   useEffect(() => {
-    const totalPrice = filling.reduce((sum, item) => sum + item.price, bunFilter ? (bunFilter.price * 2) : 0)
+    const ingredientsPrice = ingredients.reduce((sum, item) => +sum + item.card.price, []);
+    const bunPrice = bun[0] ? bun[0].card.price * 2 : 0;
+    const totalPrice = bunPrice + ingredientsPrice;
     setTotal(totalPrice)
-  }, [bunFilter, filling])
+  }, [ingredients, bun])
+
+  const checkAuthUser = () => {
+    if (!inLogin) {
+      history.push('/login')
+    } else {
+      orderDispatch(burgerId);
+      setActive(true);
+    }
+  }
+
   return (
-    <section className={`${stylesConstructor.constructor} mt-25 ml-10`}>
+    <section className={`${stylesConstructor.constructor} mt-25 ml-10`} ref={dropTarget}>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        {bunFilter && <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${bunFilter.name} (вверх)`}
-          price={bunFilter.price}
-          thumbnail={bunFilter.image}
-        />}
+        {bun.length !== 0
+          ? (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${bun[0].card.name} (вверх)`}
+              price={bun[0].card.price}
+              thumbnail={bun[0].card.image}
+            />
+          )
+          : (
+            <p className={`${stylesConstructor.bun}`}>Выберите булочку для бургера</p>
+          )}
       </div>
       <div className={`${stylesConstructor.topings}`}>
-        {state.data.map((el) => {
-          if (el.type === "main" || el.type === "sauce") {
-            return (
-              <div className={`${stylesConstructor.ingredient}`} key={el._id}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={el.name}
-                  price={el.price}
-                  thumbnail={el.image}
-                />
-              </div>)
-          }
+        {ingredients.map((item, index) => {
+          return (
+            <BurgerConstructorItem
+              key={item.id}
+              id={item.id}
+              type={item.card.type}
+              name={item.card.name}
+              price={item.card.price}
+              image={item.card.image}
+              index={index} />
+          )
         })}
+
       </div>
       <div className={`${stylesConstructor.ingredient} ml-8`}>
-        {bunFilter && <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${bunFilter.name} (низ)`}
-          price={bunFilter.price}
-          thumbnail={bunFilter.image}
-        />}
+        {bun.length !== 0 && (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${bun[0].card.name} (низ)`}
+            price={bun[0].card.price}
+            thumbnail={bun[0].card.image}
+          />
+        )}
       </div>
       <div className={`${stylesConstructor.order} mt-6`}>
         <p className={`text text_type_digits-medium`}>
           {total}
           <span className='ml-2'><CurrencyIcon type="primary" /></span>
         </p>
-        <Button type="primary" size="large" onClick={() => {
-          props.setActive(true);
-          props.getOrder(burgerId)
-        }}>
+        <Button
+          type="primary"
+          size="large"
+          disabled={bun.length === 0}
+          onClick={() => {
+            checkAuthUser();
+          }}>
           Оформить заказ
         </Button>
       </div>
@@ -86,8 +120,6 @@ const BurgerConstructor = (props) => {
   )
 }
 BurgerConstructor.propTypes = {
-  total: PropTypes.number,
-  state: PropTypes.object,
   setActive: PropTypes.func
 }
-export default BurgerConstructor;
+export default React.memo(BurgerConstructor);
