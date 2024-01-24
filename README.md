@@ -3,7 +3,8 @@
 ## Обзор
 **Проект в рамках изучения React&Redux&DnD TS&&WebSocket**
 * [Ссылка на сайт](https://chapion777.github.io/react-burger-/)
-Функционал:
+*
+* Функционал:
  * Redux
  
    - Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients;
